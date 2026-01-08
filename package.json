@@ -1,0 +1,14 @@
+{
+  "name": "fastwill-qa",
+  "scripts": {
+    "test": "playwright test",
+    "test:headless": "PLAYWRIGHT_HEADLESS=true playwright test",
+    "test:headed": "PLAYWRIGHT_HEADLESS=false playwright test",
+    "test:ui": "playwright test --ui",
+    "allure:report": "allure generate allure-results --clean && allure open"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.57.0",
+    "allure-playwright": "^3.4.4"
+  }
+}

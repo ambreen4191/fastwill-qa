@@ -1,0 +1,28 @@
+# Node modules
+node_modules/
+
+# Playwright-related
+/.vscode/
+playwright-report/
+allure-report/
+allure-results/
+
+# Logs
+*.log
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# IDE-specific files
+.idea/
+*.sublime-workspace
+*.sublime-project
+
+# Test-specific artifacts
+test-results/
+coverage/
+
+# Package-lock and yarn.lock files
+package-lock.json
+yarn.lock
