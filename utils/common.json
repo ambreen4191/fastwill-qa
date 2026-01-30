@@ -1,7 +1,12 @@
 {
-    "baseURL": "https://dev.fastwill.com/",
+    "baseURLStaging": "https://staging.fastwill.com/",
+    "baseURLDev": "https://dev.fastwill.com/",
+    "baseURL": "https://staging.fastwill.com/",
     "facebookPageURL": "https://www.facebook.com/p/FastWill-100087386434462/",
     "instagramPageURL": "https://www.instagram.com/fast.will/",
     "email501": "ambreeny.qat123+9412501@gmail.com",
-    "password": "Test@123"
+    "babytrust": "babycu11@mailinator.com",
+    "emailForgetPassword": "ambreeny.qat123@gmail.com",
+    "password": "Test@123",
+    "newPassword": "Test@1234"
 }

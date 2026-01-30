@@ -26,3 +26,12 @@ coverage/
 # Package-lock and yarn.lock files
 package-lock.json
 yarn.lock
+
+# Local Netlify folder
+.netlify
+
+netlify.toml
+credentials.json
+generateToken.js
+token.json
+fastwillFiles

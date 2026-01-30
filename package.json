@@ -5,10 +5,16 @@
     "test:headless": "playwright test",
     "test:headed": "playwright test --headed",
     "test:ui": "playwright test --ui",
-    "allure:report": "allure generate allure-results --clean && allure open"
+    "allure:generate": "allure generate allure-results --clean -o allure-report",
+    "allure:open": "allure open allure-report",
+    "report:deploy": "npm run allure:generate && netlify deploy --prod"
   },
   "devDependencies": {
     "@playwright/test": "^1.57.0",
+    "allure-commandline": "^2.36.0",
     "allure-playwright": "^3.4.4"
+  },
+  "dependencies": {
+    "gmail-tester": "^1.4.0"
   }
 }

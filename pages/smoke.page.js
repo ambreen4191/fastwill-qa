@@ -10,7 +10,7 @@ export const smokePage = {
     trustTxt: 'Trust',
     learnTxt: 'Learn',
     professionalsTxt: 'Professionals',
-    log_inTxt: 'Log In',
+    logInTxt: 'Log In',
     startTodayTxt: 'Start Today',
     privacyPolicyTxt: "Privacy Policy",
     termsServiceTxt: "Terms of Service",
@@ -26,13 +26,138 @@ export const smokePage = {
     headingFirstNameTxt: "First, what's your name?", 
     namePlaceholderTxt: 'Enter your name',
     continueTxt: "Continue", 
-    emailId: '#email', 
-    passwordId: '#password', 
     logoutTxt: 'Logout', 
     xPathProfile: 'a[aria-label="Settings"]+div>button', 
     xpathAccountDropdown: 'a[aria-label="Settings"]+div>div', 
-    statPlaceHolderText: 'Search for your state...'
+    statPlaceHolderText: 'Search for your state...',
+    avoidProbateYes: "Yes, I'd like my estate to avoid probate.",
+    avoidProbateNo: "No, I'm ok with my estate going through probate.",
+    continueWithEmailTxt: 'Continue with email', 
+    createAccountTxt: 'Create Account',
+    selectThisBundleTxt: 'Select This Bundle',
+    selectWillBundleTxt: "Select Will Bundle",
+    paymentTxt: 'Payment',     
+    termsCheckboxId: '#terms-checkbox',
+    confirmAndPayBtnTxt: 'Confirm & Pay',
+    thanksforPurchaseTxt: "Thank you for your purchase!",
+    postalCodePlaceHolder: 'M5T 1T4',
+    cvcPlacholder: 'CVC',
+    expireyPlaceholder: 'MM / YY',
+    cardNumberPlaceholder: "1234 1234 1234 1234",
+    whatYourAddressTxt: "What is your address?",
+    whatisYourbirthdayTxt: "Great! Now, what is your birthday?",
+    doYouHaveChildTxt: "Do you have children?",
+    haveChildrenTxt: "have children?",
+    guardianNominationTxt: "Do you want to name a guardian for your children?",
+    whatIsSpousenameTxt: "What's your spouse's name?",
+    whoLookAfterYourChilderenTxt: "Who would you like to look after",
+    wouldYouLikeNameConservatorChild: "Would you like to name a conservator for your children?",
+    whoWouldYouLiketoNameAsConservator: "Who would you like to name as the conservator?",
+    futureAdoptionChildrenWillTxt: "Would you like to include any future or adopted children in your Will?",
+    testLivingTrustTxt: "Perfect. Would you like the Trust to be called the “Test Living Trust”?",
+    whenWouldYouBeginTrust: "When would you like your Trust to begin?",
+    wouldYouMainPersonToManageTrustTxt: "Will you be the main person managing this Trust while you're alive?",
+    areYouAsGrantorTxt: "Are you, as a Grantor, also the lifetime beneficiary?",
+    wholWillLifetimeBeneficiaryTxt: "Who will be the lifetime beneficiary of the Trust?",
+    whoShouldTrusteeIncapacitatedTxt: "Who should take over if the Trustee is incapacitated?",
+    whoWouldTakeOverPassAwayTxt: "Who should take over if the Trustee passes away?",
+    doYouHavePetTxt: "Do you have any pets?",
+    doYouWantChoosePetGuardianTxt: "Do you want to choose guardians for any of your pets?", 
+    listOfPetsDescTxt: "Okay, let's list each of your pets you'd like to nominate guardians for:",
+    petGuardianAssignmentTxt: "Who would you like to look after ",
+    setAsideMoenyToCaringPersonHelp:"Would you like to set aside some money to help the person caring for your pets?",
+    beneficairyReceiveInheritanceTxt: "Should your beneficiaries receive their inheritance right away?",
+    wantExludeFromWill: "Do you want to exclude anyone from your Will?",
+    shouldExecutorRequiredBond:"Should the executor be required to get a bond?",
+    wantBackupExecutor: "Do you want to name a backup executor?",
+    whoWillbeExecutorTxt: "Who will be your executor?",
+    whoWillbeBackupExecutorTxt: "Who will be your backup executor?",
+    wouldYouLikeProtectWillFromPotentialDesputeTxt:"Would you like to protect your Will from potential disputes?",
+    wantNameBackupHealthAgentTxt: "Do you want to name a backup healthcare agent?",
+    whoWillBackupAgentTxt: "Who will be your backup healthcare agent?",
+    wantToMonitorTxt:"Do you want to name a monitor?",
+    whoWouldLikeNameasMonitorTxt: "Who would you like to name as the Monitor?",
+    wantNameConservatorEstateTxt: "Do you want to name a conservator for your estate?",
+    wantNominateGuardianForSelfTxt: "Do you want to nominate a guardian for yourself?",
+    whoWillMakeMedicalDecision: "Who will make medical decisions for you if you can't?",
+    haveSpecialRequestforCremony: "Do you have any special requests or instructions for your ceremony?",
+    willSpousebeMainManaingTrustTxt: "Will you and your spouse be the main people managing this Trust while you're alive?",
+    questionSymbol: "?",
+    resetPasswordTxt: "Reset password",
+    acceptCookiesTxt: "Accept Cookies", 
+    notary9To5AmTxt: "Notary sessions can only be created between 9 AM and 5 PM in your timezone.",
+    notaryCreateSessionTxt: "Create Notary Session",
+    addressLine1Placeholder: "123 Main St",
+    addressLine2Placeholder: "Apt 4B",
+    cityPlaceholder: "San Francisco",
+    zipCodePlaceholder: "94102",
+    countryPlaceholder: "United States",
+    selecteDatePlaceholder: "Select date", 
+    childNamePlaceholder: "e.g. Charles Edison", 
+    yesTxt: "Yes",
+    addChildTxt: "Add a Child",
+    meTxt: "Me",
+    selectBirthdayFieldPlaceholder: "Select date of birth",
+    saveTxt: "Save", 
+    forgetPasswordTxt: "Forgot password?",
+    newYorkTxt: "New York",
+    addContactTxt: "Add Contact",
+    addConservator: "Add a Conservator",
+    addPetTxt: "Add a Pet",
+    addAddress: "Add Address",
+    addPropertyTxt: "Add Property",
+    addAccountTxt: 'Add Account',
+    businessTypePlaceHolderTxt: "e.g., Solo Proprietorship",
+    privacyTypePlaceHolderTxt: 'e.g., Term Life',
+    calculatingTxt: "Calculating...",
+    totalTxt: 'Total',
+    totalNotarizationTxt: 'Notarization Total',
+    deedTranserTotalTxt: "Deed Transfer Total",
+    subtotalTxt: "Subtotal",
+    spouseInputPlaceHolder: "e.g. Thomas Edison",
+    whenWas:`When was `,
+    parentRatioBtnTxt: (name) => `${name} and Me`,
 
+    /** ids path */
+    contactNameId: "#contactName",
+    contactEmailId: "#deliverTo",
+    emailId: '#email', 
+    passwordId: '#password', 
+    confirmPasswordId: "#password_confirmation",
+
+    /** xpaths */
+    datePickerYearXpath: "//button[contains(@id,'datepicker_') and contains(@id,'_year_btn')]",
+    datePickerMonthXpath: "//button[contains(@id,'datepicker_') and contains(@id,'_month_btn')]",
+    xpathAddPrimaryGuardianButton: "//span[normalize-space()='Primary Guardian']/following-sibling::button",
+    xpathBackupGuardianButton: "//span[normalize-space()='Backup Guardian']/following-sibling::button",
+    xpathAddContactPrimaryGuardianButton: "(//h2[normalize-space()='Add a contact']/following-sibling::button)[1]",
+    xpathAddContactBackupGuardianButton: "(//h2[normalize-space()='Add a contact']/following-sibling::button)[2]",
+    modelCrossIcon: "//a[contains(@href, 'estate-checklist')]/following-sibling::button[img[@alt='Close']]",
+    assetsTab: "//button[normalize-space()= 'Summary']/following-sibling::button[normalize-space()='Assets']",
+    previewDocumentModelCloseIco: "//a[contains(@href, 'download/user')]/following-sibling::button[img[@alt='Close']]",
+    basicXPath: "(//span[normalize-space()='Basic'])[2]",
+    closeIcon: "(//div[a[contains(@href, 'dashboard/user')]])[1]/following-sibling::div/button",
+    closeInviteModel: "//div[h2[contains(text(), 'Refer a friend')]]/following-sibling::button",
+    previewHipaDocumentXpath: "//div[div[h3[normalize-space()='HIPAA']]]/following-sibling::div/button[normalize-space()='Preview']",
+    manageAccessHipaXPath: "//div[div[h3[normalize-space()='HIPAA']]]/following-sibling::div/button[normalize-space()='Manage Access']",
+    downloadHipaaDocumentXpath: "//div[div[h3[normalize-space()='HIPAA']]]/following-sibling::div/a[normalize-space()='Download']",
+    removeAccessModelBtnXpath: "//div[h2[normalize-space()='Remove Legacy Contact']]/following-sibling::div/button[normalize-space()='Remove Access']",
+    feeItemsXpath: "(//div[h3[normalize-space()='Recording Fees']/following-sibling::div])/div",
+    totalFeeAmountXpath: "xpath=//span[normalize-space()='Total Recording Fees']/following::span[2]",
+    deedTransferNotFeeXpath: "//span[normalize-space()='Amount']/following-sibling::span", 
+    recordingFeeItemsCountXpath: "xpath=./div",
+    recordingFeeRowXpath: "(//span[normalize-space()='Recording Fees'])/following-sibling::div",
+    totalPriceXpath:"(//div[span[normalize-space()='Total']])[2]/following-sibling::span",
+    recordingFeeRowPriceItemXpath:(index)=> `(//span[normalize-space()='Recording Fees'])[${index}]/following-sibling::div/span[last()]`,
+    propertyAmountXpath: "//div[div[div[div[div[contains(text(), 'Property Address')]]]]]//div[starts-with(normalize-space(text()), '$')]",
+    sideDeedTransferXPath: "//aside[contains(@class, 'lg:block')]/nav/div/ul/li/a[./span[normalize-space()='Deed Transfer']]",
+    dropdownXpath: '//div[@x-show="open" and not(contains(@style, "display=none"))]',
+    byLableInputXpath: 'xpath=following-sibling::div//input[not(contains(@type, "hidden"))]',
+    addPropertyBtnXpath: "//div[div[h2[normalize-space()='Add a property' ]]]//button[normalize-space()='Add Property']",
+    recordingFeeItemXpath:(index) => `(//div[h3[normalize-space()='Recording Fees']/following-sibling::div])[${index}]/div/div[1]/div/div[contains(@class,'items-end')]/span[2]`,
+    amountByLabelXpath: (label) => `(//span[normalize-space()='${label}'])[2]/following-sibling::span`,
+    selectStateFromDropdown:(state) => `xpath=.//div[span[normalize-space()="${state}"]]`,
+    valueByDivLabelXpath:(label) => `//div[normalize-space()='${label}']/following-sibling::div`
 }
 
 export function getLocator(value) {
@@ -40,8 +165,22 @@ export function getLocator(value) {
     switch (value) {
         case 'Alabama':
             return smokePage.statPlaceHolderText;
+        case 'Florida':
+            return smokePage.statPlaceHolderText;
+        case 'New York':
+            return smokePage.statPlaceHolderText;
+        case 'Colorado':
+            return smokePage.statPlaceHolderText;
+        case 'Washington':
+            return smokePage.statPlaceHolderText;
+        case 'United States':
+            return smokePage.countryPlaceholder;
         case 'Alaska':
-            return smokePage.anotherLocator; // example
+            return smokePage.statPlaceHolderText;
+        case 'Solo Proprietorship':
+            return smokePage.businessTypePlaceHolderTxt;
+        case 'Term Life':
+            return smokePage.privacyTypePlaceHolderTxt;
         default:
             throw new Error(`Locator for "${value}" not defined`);
     }

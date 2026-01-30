@@ -2,19 +2,22 @@ import { defineConfig } from '@playwright/test';
 
 export default defineConfig({
     testDir: './tests',
-    timeout: 3 * 60 * 1000,
+    timeout: 60 * 60 * 1000,
     expect: {
-        timeout: 35000 // Assertion timeout
+        timeout: 35000 
     },
     reporter: [
         ['list'],
         ['allure-playwright']
     ],
     use: {
-        baseURL: 'https://example.com',
+        baseURL: "https://staging.fastwill.com/",
         headless: true,
         screenshot: 'only-on-failure',
         video: 'retain-on-failure',
-        trace: 'on-first-retry'
+        trace: 'on-first-retry', 
+        launchOptions: {
+            slowMo: 320,
+        }
     }
 });
