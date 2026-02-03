@@ -75,7 +75,7 @@ export const smokeSteps = (page) => {
                 assert.ok(page.url() === COMMON.baseURL + smokePage.learnPageURL, `Navigation failed! Expected URL: ${COMMON.baseURL + smokePage.learnPageURL}, but got: ${page.url()}`);
                 console.log(`Navigation success! Learn URL is correct: ${page.url()}`);
                 await page.goBack();
-                
+
                 const privacyFooter = page.locator(smokePage.homeFooter).getByRole("link", { name: smokePage.privacyPolicyTxt, exact: true });
                 await privacyFooter.scrollIntoViewIfNeeded();
                 await expect(privacyFooter).toBeVisible();
@@ -168,15 +168,23 @@ export const smokeSteps = (page) => {
         async enterUserEmail(email) {
             await allure.step(`Enter user email: ${email}`, async () => {
                 const enterEmail = page.locator(smokePage.emailId);
-                await enterEmail.clear()
+                await expect(enterEmail).toBeVisible();
                 await enterEmail.fill(email)
                 await expect(enterEmail).not.toHaveValue('');
+            })
+        },
+        async enterCreateAccountPassword(password) {
+            await allure.step(`Enter user password: ${password}`, async () => {
+                const enterPassword = page.locator(smokePage.accountPasswordId);
+                await expect(enterPassword).toBeVisible();
+                await enterPassword.fill(password)
+                await expect(enterPassword).not.toHaveValue('');
             })
         },
         async enterUserPassword(password) {
             await allure.step(`Enter user password: ${password}`, async () => {
                 const enterPassword = page.locator(smokePage.passwordId);
-                await enterPassword.clear()
+                await expect(enterPassword).toBeVisible();
                 await enterPassword.fill(password)
                 await expect(enterPassword).not.toHaveValue('');
             })
@@ -184,6 +192,7 @@ export const smokeSteps = (page) => {
         async enterUserConfirmPassword(password) {
             await allure.step(`Enter user confirm password: ${password}`, async () => {
                 const enterPassword = page.locator(smokePage.confirmPasswordId);
+                await expect(enterPassword).toBeVisible();
                 await enterPassword.fill(password)
                 await expect(enterPassword).not.toHaveValue('');
             })
@@ -323,7 +332,7 @@ export const smokeSteps = (page) => {
                 const locator = page.getByText(locatorTxt, { exact: true });
                 await expect(locator.first()).toBeVisible();
             });
-        }, 
+        },
         async verifyWithTextByLabelScreenIsVisible(label, expectedValue) {
             await allure.step(`Verify value '${expectedValue}' is visible for label '${label}'`, async () => {
                 await page.waitForLoadState("load");
@@ -384,7 +393,7 @@ export const smokeSteps = (page) => {
                 await expect(page.getByText(smokePage.calculatingTxt)).toHaveCount(1);
                 const feeItemsCount = await feeItemsLocator.count();
                 let sum = 0;
-                for (let i = 2; i <= feeItemsCount; i+=2) {
+                for (let i = 2; i <= feeItemsCount; i += 2) {
                     const itemLocator = page.locator(smokePage.recordingFeeItemXpath(i));
                     const amountText = (await itemLocator.textContent())?.trim()
                     expect(amountText && amountText !== 'Calculating...', `Amount did not resolve for item ${i + 1}`).toBeTruthy();
@@ -444,6 +453,14 @@ export const smokeSteps = (page) => {
                 await expect(locator).toBeVisible();
             });
         },
+        async verifyDocumentNameIsVisible(titleTxt, nameTxt) {
+            await allure.step(`Verify '${titleTxt}' screen is visible`, async () => {
+                await page.waitForLoadState("load");
+                const locator = page.locator(smokePage.documentTitleXpath(titleTxt))
+                    .filter({ has: page.locator("span", { hasText: nameTxt }) });
+                await expect(locator).toBeVisible();
+            });
+        },
         async verifyFullNameField() {
             await allure.step(`Verify 'Full name' on Contact informarion is valid`, async () => {
                 const fullNameInput = page.locator(smokePage.contactNameId);
@@ -486,9 +503,7 @@ export const smokeSteps = (page) => {
         },
         async clickConfirmAndPayButton() {
             await allure.step("Click on Confirm & Pay button", async () => {
-                const confirmPayButton = page.getByRole('button', {
-                    name: smokePage.confirmAndPayBtnTxt,
-                });
+                const confirmPayButton = page.getByRole('button', { name: smokePage.confirmAndPayBtnTxt });
                 await clickElement(confirmPayButton);
             });
         },
@@ -530,7 +545,7 @@ export const smokeSteps = (page) => {
         },
         async clickSelectContactWithEmail(email) {
             await allure.step(`Click on ${email} to select it.`, async () => {
-                const locator = page.locator(`//div[./button[normalize-space()='Save Changes']]/preceding-sibling::div/div/label/div[./div[text()='${email}']]`);
+                const locator = page.locator(smokePage.selectContactEmailXpath(email));
                 await clickElement(locator);
             })
         },
@@ -560,13 +575,15 @@ export const smokeSteps = (page) => {
         },
         async clickSidBarAnchor(title) {
             await allure.step(`Click on ${title} from side bar`, async () => {
-                const locator = page.locator(`//aside[contains(@class, 'lg:block')]/nav/div/ul/li/a[./span[normalize-space()='${title}']]`);
+                const locator = page.locator(smokePage.sideBarLinkXpath(title));
                 await clickElement(locator);
             })
         },
-        async clickPreviewHipaDocumentButton() {
-            await allure.step(`Click on Preview button to view document`, async () => {
-                const locator = page.locator(smokePage.previewHipaDocumentXpath);
+        async clickDocumentButtonByName(titleTxt, nameTxt, btnTxt) {
+            await allure.step(`Click on ${titleTxt}'s ${nameTxt}'s ${btnTxt} button`, async () => {
+                const locator = page.locator(smokePage.documentTitleXpath(titleTxt))
+                    .filter({ has: page.locator("span", { hasText: nameTxt }) })
+                    .locator("button, a", { hasText: btnTxt });
                 await clickElement(locator);
             })
         },
@@ -578,7 +595,7 @@ export const smokeSteps = (page) => {
         },
         async clickManageAccessForContactsButtonWithEmail(email) {
             await allure.step(`Click on Manage Access for this email contact: ${email}`, async () => {
-                const locator = page.locator(`//div[div[span[normalize-space()='${email}']]]/following-sibling::div/button[normalize-space()='Manage Access']`);
+                const locator = page.locator(smokePage.manageAccessBtnUsingEmailXpath(email));
                 await clickElement(locator);
             })
         },
@@ -590,13 +607,13 @@ export const smokeSteps = (page) => {
         },
         async clickRemoveAccessForContactsButtonWithEmail(email) {
             await allure.step(`Click on Manage Access for this email contact: ${email}`, async () => {
-                const locator = page.locator(`//div[div[span[normalize-space()='${email}']]]/following-sibling::div/button[normalize-space()='Remove Access']`);
+                const locator = page.locator(smokePage.removeAccessForContactsUsingEmailXpath(email));
                 await clickElement(locator);
             })
         },
-        async clickOnTextByPath(text) {
+        async clickTabUsingTxtByBasicTabPath(text) {
             await allure.step(`Click on ${text} to move in tab`, async () => {
-                const locator = page.locator(`(//span[normalize-space()='Basic'])[2]/following::span[normalize-space()='${text}']`);
+                const locator = page.locator(smokePage.tabsUsingBaiscTabXpath(text));
                 await clickElement(locator);
             })
         },
@@ -712,7 +729,7 @@ export const smokeSteps = (page) => {
                     .locator("div", {
                         has: page.locator("label", { hasText: labelText })
                     })
-                    .locator("input");
+                    .locator(smokePage.inputTxt);
                 await locator.fill(value);
             })
         },
@@ -856,7 +873,7 @@ export const smokeSteps = (page) => {
             await allure.step(`Enter your ${labelText}: ${value}`, async () => {
                 const index = guardianType === 'Primary' ? 1 : 1
                 const locator = page.locator('label', { hasText: labelText })
-                    .locator('xpath=following-sibling::div//input').nth(index - 1);
+                    .locator(smokePage.inputTxtByLabelXpath).nth(index - 1);
                 await expect(locator).toBeVisible();
                 await locator.fill(value);
             });
@@ -865,7 +882,7 @@ export const smokeSteps = (page) => {
             await allure.step(`Enter your: ${labelText} and select from dropdown: ${value}`, async () => {
                 const locator = page.locator('label', { hasText: labelText })
                     .locator(smokePage.byLableInputXpath);
-                await expect(locator).toBeVisible();
+                await clickElement(locator)
                 await locator.fill(value);
                 const dropdownContainer = page.locator(smokePage.dropdownXpath);
                 const selectFromDropDown = dropdownContainer.locator(smokePage.selectStateFromDropdown(value));
@@ -876,14 +893,13 @@ export const smokeSteps = (page) => {
             await allure.step(`Enter your ${labelText}: ${value}`, async () => {
                 const index = guardianType === 'Primary' ? 1 : 1
                 const locator = page.locator('label', { hasText: labelText })
-                    .locator('xpath=following-sibling::textarea').nth(index - 1);
+                    .locator(smokePage.textAreaXpath).nth(index - 1);
                 await expect(locator).toBeVisible();
                 await locator.fill(value);
             });
         },
         async selectFromDropdownByGuardian(enterValue, selectValue, guardianType) {
             const index = guardianType === 'Primary' ? 1 : 1;
-
             await allure.step(`Select ${enterValue} from dropdown with placeholder ${selectValue}`, async () => {
                 const dropdownLocator = page.getByPlaceholder(getLocator(selectValue)).nth(index - 1);
                 await expect(dropdownLocator).toBeVisible();
@@ -897,16 +913,16 @@ export const smokeSteps = (page) => {
         async addGuardian(data, guardianType) {
             await allure.step(`Add a ${guardianType ? guardianType : 'Backup'} guardian`, async () => {
                 await this.addContactGuardianButton(guardianType)
-                await this.fillInputByLabel("First Name", data.firstName, guardianType);
-                await this.fillInputByLabel("Last Name", data.lastName, guardianType);
-                await this.fillInputByLabel("Email", data.email, guardianType);
-                await this.fillInputByLabel("Phone", data.phone, guardianType);
-                await this.fillInputByLabel("Address line 1", data.addressLine1, guardianType);
-                await this.fillInputByLabel("Address line 2", data.addressLine2, guardianType);
-                await this.fillInputByLabel("City", data.city, guardianType);
+                await this.fillInputByLabel(smokePage.firstName, data.firstName, guardianType);
+                await this.fillInputByLabel(smokePage.lastName, data.lastName, guardianType);
+                await this.fillInputByLabel(smokePage.email, data.email, guardianType);
+                await this.fillInputByLabel(smokePage.phone, data.phone, guardianType);
+                await this.fillInputByLabel(smokePage.addressLine1, data.addressLine1, guardianType);
+                await this.fillInputByLabel(smokePage.addressLine2, data.addressLine2, guardianType);
+                await this.fillInputByLabel(smokePage.city, data.city, guardianType);
                 await this.selectFromDropdownByGuardian(data.state.substring(0, 5), data.state, guardianType);
-                await this.fillInputByLabel("Zip Code", data.zipCode, guardianType);
-                await this.selectFromDropdownByGuardian("United St", data.country, guardianType);
+                await this.fillInputByLabel(smokePage.zipCode, data.zipCode, guardianType);
+                await this.selectFromDropdownByGuardian(data.country.substring(0, 7), data.country, guardianType);
                 await this.clickOnAddContactButtonByIndex(guardianType);
                 await this.clickGuardianToAssignToChildByIndex(`${data.firstName} ${data.lastName}`, guardianType);
                 await this.clickOnAddContactButtonByIndex(guardianType);
@@ -914,13 +930,13 @@ export const smokeSteps = (page) => {
         },
         async addPropertyData(data, guardianType) {
             await allure.step(`Add a Property Data for ${guardianType ? guardianType : 'Backup'} guardian`, async () => {
-                await this.fillInputByLabel("Address line 1", data.addressLine1, guardianType);
-                await this.fillInputByLabel("Address line 2 (apt, floor, ste, etc)", data.addressLine2, guardianType);
-                await this.fillInputByLabel("City", data.city, guardianType);
+                await this.fillInputByLabel(smokePage.addressLine1, data.addressLine1, guardianType);
+                await this.fillInputByLabel(smokePage.addressLine2Property, data.addressLine2, guardianType);
+                await this.fillInputByLabel(smokePage.city, data.city, guardianType);
                 await this.selectFromDropdownByGuardian(data.state.substring(0, 5), data.state, guardianType);
-                await this.fillInputByLabel("Zip/Postal code", data.zipCode, guardianType);
-                await this.selectFromDropdownByGuardian("United St", data.country, guardianType);
-                await this.fillInputByLabel("Approximate value (optional)", "200000", guardianType);
+                await this.fillInputByLabel(smokePage.zipPostalCode, data.zipCode, guardianType);
+                await this.selectFromDropdownByGuardian(data.country.substring(0.7), data.country, guardianType);
+                await this.fillInputByLabel(smokePage.approximateValue, data.propertyPrice, guardianType);
                 await this.clickOnAddPropertyPopupButton();
             });
         },
@@ -946,7 +962,7 @@ export const smokeSteps = (page) => {
                 await this.selectRelationshipStatus(constants.singleRelationshipStatus);
                 await this.selectAvoidProbateYes();
                 await this.enterUserEmail(email);
-                await this.enterUserPassword(constants.password);
+                await this.enterCreateAccountPassword(constants.password);
                 await this.clickOnCreateAccountButton();
                 await this.verifyPlanSectionPageAndSelectPlan(smokePage.selectThisBundleTxt);
                 await this.verifyUserIsOnPaymentPage();
@@ -970,7 +986,7 @@ export const smokeSteps = (page) => {
                 await this.selectRelationshipStatus(relationStatus);
                 await this.selectAvoidProbateNo();
                 await this.enterUserEmail(email);
-                await this.enterUserPassword(constants.password);
+                await this.enterCreateAccountPassword(constants.password);
                 await this.clickOnCreateAccountButton();
                 await this.verifyPlanSectionPageAndSelectPlan(smokePage.selectWillBundleTxt);
                 await this.verifyUserIsOnPaymentPage();
@@ -996,7 +1012,7 @@ export const smokeSteps = (page) => {
                 await this.clickRadioButtonByText(constants.bothOfUsTxt)
                 await this.selectAvoidProbateNo();
                 await this.enterUserEmail(email);
-                await this.enterUserPassword(constants.password);
+                await this.enterCreateAccountPassword(constants.password);
                 await this.clickOnCreateAccountButton();
                 await this.verifyPlanSectionPageAndSelectPlan(smokePage.selectWillBundleTxt);
                 await this.verifyUserIsOnPaymentPage();
@@ -1022,7 +1038,7 @@ export const smokeSteps = (page) => {
                 await this.clickRadioButtonByText(constants.bothOfUsTxt)
                 await this.selectAvoidProbateYes();
                 await this.enterUserEmail(email);
-                await this.enterUserPassword(constants.password);
+                await this.enterCreateAccountPassword(constants.password);
                 await this.clickOnCreateAccountButton();
                 await this.verifyPlanSectionPageAndSelectPlan(smokePage.selectThisBundleTxt);
                 await this.verifyUserIsOnPaymentPage();
@@ -1075,17 +1091,17 @@ export const smokeSteps = (page) => {
                 await this.verifyWithHeadingScreenIsVisible(smokePage.wouldYouMainPersonToManageTrustTxt);
                 await this.clickYesRadioButton();
                 await this.verifyWithHeadingScreenIsVisible(smokePage.areYouAsGrantorTxt);
-                await this.clickRadioButtonByText("No");
+                await this.clickRadioButtonByText(smokePage.noTxt);
                 await this.verifyWithHeadingScreenIsVisible(smokePage.wholWillLifetimeBeneficiaryTxt);
-                await this.clickOnButtonByText("Add a Contact")
+                await this.clickOnButtonByText(smokePage.addAContactTxt)
                 await this.addGuardian(constants.executorData, constants.guardianType)
                 await this.clickOnContinueButton()
                 await this.verifyWithHeadingScreenIsVisible(smokePage.whoShouldTrusteeIncapacitatedTxt);
-                await this.clickOnButtonByText("Add a Contact");
+                await this.clickOnButtonByText(smokePage.addAContactTxt);
                 await this.addGuardian(constants.monitorData, constants.guardianType);
                 await this.clickOnContinueButton();
                 await this.verifyWithHeadingScreenIsVisible(smokePage.whoWouldTakeOverPassAwayTxt);
-                await this.clickOnButtonByText("Add a Contact");
+                await this.clickOnButtonByText(smokePage.addAContactTxt);
                 await this.addGuardian(constants.successorData, constants.guardianType);
                 await this.clickOnContinueButton();
                 await this.verifyWithHeadingScreenIsVisible(smokePage.doYouHavePetTxt);
@@ -1094,7 +1110,7 @@ export const smokeSteps = (page) => {
                 await this.clickYesRadioButton();
                 await this.verifyWithHeadingScreenIsVisible(smokePage.listOfPetsDescTxt);
                 await this.clickOnAddPetByIndex(1);
-                await this.fillInputByLabel("Pet's Name", constants.petName, "");
+                await this.fillInputByLabel(smokePage.petsNameLabel, constants.petName, "");
                 await this.clickOnAddPetByIndex(2);
                 await this.clickOnContinueButton();
                 await this.verifyPetGuardianAssignmentScreenIsVisible(constants.petName);
@@ -1105,7 +1121,7 @@ export const smokeSteps = (page) => {
                 await this.clickOnContinueButton();
                 await this.verifyWithHeadingScreenIsVisible(smokePage.setAsideMoenyToCaringPersonHelp);
                 await this.clickYesRadioButton();
-                await this.inputByLabel("Amount", constants.caringPersonAmount)
+                await this.inputByLabel(smokePage.amountLabel, constants.caringPersonAmount)
                 await this.clickOnContinueButton();
             })
         },
@@ -1157,17 +1173,17 @@ export const smokeSteps = (page) => {
                 await this.verifyWithHeadingScreenIsVisible(smokePage.willSpousebeMainManaingTrustTxt);
                 await this.clickYesRadioButton();
                 await this.verifyWithHeadingScreenIsVisible(smokePage.areYouAsGrantorTxt);
-                await this.clickRadioButtonByText("No");
+                await this.clickRadioButtonByText(smokePage.noTxt);
                 await this.verifyWithHeadingScreenIsVisible(smokePage.wholWillLifetimeBeneficiaryTxt);
-                await this.clickOnButtonByText("Add a Contact")
+                await this.clickOnButtonByText(smokePage.addAContactTxt)
                 await this.addGuardian(constants.executorData, constants.guardianType)
                 await this.clickOnContinueButton()
                 await this.verifyWithHeadingScreenIsVisible(smokePage.whoShouldTrusteeIncapacitatedTxt);
-                await this.clickOnButtonByText("Add a Contact");
+                await this.clickOnButtonByText(smokePage.addAContactTxt);
                 await this.addGuardian(constants.monitorData, constants.guardianType);
                 await this.clickOnContinueButton();
                 await this.verifyWithHeadingScreenIsVisible(smokePage.whoWouldTakeOverPassAwayTxt);
-                await this.clickOnButtonByText("Add a Contact");
+                await this.clickOnButtonByText(smokePage.addAContactTxt);
                 await this.addGuardian(constants.successorData, constants.guardianType);
                 await this.clickOnContinueButton();
                 await this.verifyWithHeadingScreenIsVisible(smokePage.doYouHavePetTxt);
@@ -1176,7 +1192,7 @@ export const smokeSteps = (page) => {
                 await this.clickYesRadioButton();
                 await this.verifyWithHeadingScreenIsVisible(smokePage.listOfPetsDescTxt);
                 await this.clickOnAddPetByIndex(1);
-                await this.fillInputByLabel("Pet's Name", constants.petName, "");
+                await this.fillInputByLabel(smokePage.petsNameLabel, constants.petName, "");
                 await this.clickOnAddPetByIndex(2);
                 await this.clickOnContinueButton();
                 await this.verifyPetGuardianAssignmentScreenIsVisible(constants.petName);
@@ -1187,7 +1203,7 @@ export const smokeSteps = (page) => {
                 await this.clickOnContinueButton();
                 await this.verifyWithHeadingScreenIsVisible(smokePage.setAsideMoenyToCaringPersonHelp);
                 await this.clickYesRadioButton();
-                await this.inputByLabel("Amount", constants.caringPersonAmount)
+                await this.inputByLabel(smokePage.amountLabel, constants.caringPersonAmount)
                 await this.clickOnContinueButton();
             })
         },
@@ -1231,7 +1247,7 @@ export const smokeSteps = (page) => {
                 await this.clickYesRadioButton();
                 await this.verifyWithHeadingScreenIsVisible(smokePage.listOfPetsDescTxt);
                 await this.clickOnAddPetByIndex(1);
-                await this.fillInputByLabel("Pet's Name", constants.petName, "");
+                await this.fillInputByLabel(smokePage.petsNameLabel, constants.petName, "");
                 await this.clickOnAddPetByIndex(2);
                 await this.clickOnContinueButton();
                 await this.verifyPetGuardianAssignmentScreenIsVisible(constants.petName);
@@ -1242,7 +1258,7 @@ export const smokeSteps = (page) => {
                 await this.clickOnContinueButton();
                 await this.verifyWithHeadingScreenIsVisible(smokePage.setAsideMoenyToCaringPersonHelp);
                 await this.clickYesRadioButton();
-                await this.inputByLabel("Amount", constants.caringPersonAmount)
+                await this.inputByLabel(smokePage.amountLabel, constants.caringPersonAmount)
                 await this.clickOnContinueButton();
             })
         },
@@ -1293,7 +1309,7 @@ export const smokeSteps = (page) => {
                 await this.clickYesRadioButton();
                 await this.verifyWithHeadingScreenIsVisible(smokePage.listOfPetsDescTxt);
                 await this.clickOnAddPetByIndex(1);
-                await this.fillInputByLabel("Pet's Name", constants.petName, "");
+                await this.fillInputByLabel(smokePage.petsNameLabel, constants.petName, "");
                 await this.clickOnAddPetByIndex(2);
                 await this.clickOnContinueButton();
                 await this.verifyPetGuardianAssignmentScreenIsVisible(constants.petName);
@@ -1304,7 +1320,7 @@ export const smokeSteps = (page) => {
                 await this.clickOnContinueButton();
                 await this.verifyWithHeadingScreenIsVisible(smokePage.setAsideMoenyToCaringPersonHelp);
                 await this.clickYesRadioButton();
-                await this.inputByLabel("Amount", constants.caringPersonAmount)
+                await this.inputByLabel(smokePage.amountLabel, constants.caringPersonAmount)
                 await this.clickOnContinueButton();
             })
         },
@@ -1349,7 +1365,7 @@ export const smokeSteps = (page) => {
                 await this.clickYesRadioButton();
                 await this.verifyWithHeadingScreenIsVisible(smokePage.listOfPetsDescTxt);
                 await this.clickOnAddPetByIndex(1);
-                await this.fillInputByLabel("Pet's Name", constants.petName, "");
+                await this.fillInputByLabel(smokePage.petsNameLabel, constants.petName, "");
                 await this.clickOnAddPetByIndex(2);
                 await this.clickOnContinueButton();
                 await this.verifyPetGuardianAssignmentScreenIsVisible(constants.petName);
@@ -1360,65 +1376,66 @@ export const smokeSteps = (page) => {
                 await this.clickOnContinueButton();
                 await this.verifyWithHeadingScreenIsVisible(smokePage.setAsideMoenyToCaringPersonHelp);
                 await this.clickYesRadioButton();
-                await this.inputByLabel("Amount", constants.caringPersonAmount)
+                await this.inputByLabel(smokePage.amountLabel, constants.caringPersonAmount)
                 await this.clickOnContinueButton();
             })
         },
         async coupleWillUserAssetSetup(constants) {
             await allure.step("Will Creation – Asset – Verify complete Assets section flow in Will Creation (Smoke Test)", async () => {
-                await this.clickRadioButtonByText(constants.valueOfAllAsset)
+                await this.clickRadioButtonByText(smokePage.valueOfAllAsset)
                 await this.clickYesRadioButton();
                 await this.clickOnAddPropertyButton();
                 await this.addPropertyData(constants.primaryPetGuardianData);
-                await this.fillInputByLabelAndSelectFromDropdown("Full name", `${constants.primaryPetGuardianData.firstName} ${constants.primaryPetGuardianData.lastName}`, "");
+                await this.fillInputByLabelAndSelectFromDropdown(smokePage.fullNameLabel, `${constants.primaryPetGuardianData.firstName} ${constants.primaryPetGuardianData.lastName}`, "");
                 await this.clickOnSaveButton();
                 await this.clickOnContinueButton();
                 await this.clickYesRadioButton()
-                await this.clickOnButtonByText("Add Account");
-                await this.fillInputByLabel("Financial institution", constants.financialInstitution, "");
-                await this.fillInputByLabel("Approximate account value (optional)", constants.approximateAccountValue, "");
-                await this.clickRadioButtonByText(constants.radioButtonChecking)
+                await this.clickOnButtonByText(smokePage.addAccountTxt);
+                await this.fillInputByLabel(smokePage.financialInstitutionLabel, constants.financialInstitution, "");
+                await this.fillInputByLabel(smokePage.approxmateAccountValue, constants.approximateAccountValue, "");
+                await this.clickRadioButtonByText(smokePage.radioButtonChecking)
                 await this.clickOnContinueButton();
-                await this.fillInputByLabelAndSelectFromDropdown("Full name", `${constants.primaryPetGuardianData.firstName} ${constants.primaryPetGuardianData.lastName}`);
+                await this.fillInputByLabelAndSelectFromDropdown(smokePage.fullNameLabel, `${constants.primaryPetGuardianData.firstName} ${constants.primaryPetGuardianData.lastName}`);
                 await this.clickOnSaveButton();
                 await this.clickOnContinueButton();
                 await this.clickYesRadioButton()
-                await this.clickOnButtonByText("Add Policy");
-                await this.fillInputByLabel("Policy carrier", constants.policyCarrier, "");
+                await this.clickOnButtonByText(smokePage.addPolicyTxt);
+                await this.fillInputByLabel(smokePage.policyCarrierTxt, constants.policyCarrier, "");
                 await this.selectItemFromDropDown(constants.policyType.substring(0, 6), constants.policyType);
-                await this.fillInputByLabel("Value of policy (optional)", constants.policyValue, "");
+                await this.fillInputByLabel(smokePage.valuePolicyLabel, constants.policyValue, "");
                 await this.clickOnContinueButton();
-                await this.fillInputByLabelAndSelectFromDropdown("Full name", `${constants.primaryPetGuardianData.firstName} ${constants.primaryPetGuardianData.lastName}`);
+                await this.fillInputByLabelAndSelectFromDropdown(smokePage.fullNameLabel, `${constants.primaryPetGuardianData.firstName} ${constants.primaryPetGuardianData.lastName}`);
                 await this.clickOnSaveButton();
                 await this.clickOnContinueButton();
                 await this.clickYesRadioButton()
-                await this.clickOnButtonByText("Add Interest");
-                await this.fillInputByLabel("Business name", constants.businessName, "");
+                await this.clickOnButtonByText(smokePage.addIntrestTxt);
+                await this.fillInputByLabel(smokePage.businessNameLabel, constants.businessName, "");
                 await this.selectItemFromDropDown(constants.businessType.substring(0, 6), constants.businessType);
-                await this.fillInputByLabel("Value of ownership (optional)", constants.businessOwnershipValue, "");
+                // await this.selectItemFromDropDown("Relationship to business (optional)", "Owner"); uncomment and fix after issue resolved
+                await this.fillInputByLabel(smokePage.valueOfOwnershipLabel, constants.businessOwnershipValue, "");
                 await this.clickOnContinueButton();
-                await this.fillInputByLabelAndSelectFromDropdown("Full name", `${constants.primaryPetGuardianData.firstName} ${constants.primaryPetGuardianData.lastName}`);
+                await this.fillInputByLabelAndSelectFromDropdown(smokePage.fullNameLabel, `${constants.primaryPetGuardianData.firstName} ${constants.primaryPetGuardianData.lastName}`);
                 await this.clickOnSaveButton();
                 await this.clickOnContinueButton();
                 await this.clickYesRadioButton()
-                await this.clickOnButtonByText("Add Item");
-                await this.fillInputByLabel("Item name", constants.itemData.name, "");
-                await this.fillInputByLabel("Brief description", constants.itemData.description, "");
-                await this.fillInputByLabel("Estimated value (optional)", constants.itemData.estimatedValue, "");
+                await this.clickOnButtonByText(smokePage.addItemTxt);
+                await this.fillInputByLabel(smokePage.itemNameLabel, constants.itemData.name, "");
+                await this.fillInputByLabel(smokePage.briefDescriptionLabel, constants.itemData.description, "");
+                await this.fillInputByLabel(smokePage.estimateValueLabel, constants.itemData.estimatedValue, "");
                 await this.clickOnContinueButton();
-                await this.fillInputByLabelAndSelectFromDropdown("Full name", `${constants.primaryPetGuardianData.firstName} ${constants.primaryPetGuardianData.lastName}`);
+                await this.fillInputByLabelAndSelectFromDropdown(smokePage.fullNameLabel, `${constants.primaryPetGuardianData.firstName} ${constants.primaryPetGuardianData.lastName}`);
                 await this.clickOnSaveButton();
                 await this.clickOnContinueButton();
-                await this.clickRadioButtonByText("Children");
+                await this.clickRadioButtonByText(smokePage.childrenTxt);
                 await this.clickOnContinueButton();
                 await this.verifyWithHeadingScreenIsVisible(smokePage.beneficairyReceiveInheritanceTxt);
                 await this.clickYesRadioButton()
-                await this.fillInputByLabel("Number of Days", "30", "");
+                await this.fillInputByLabel(smokePage.numberOfDaysLabel,constants.thirty, "");
                 await this.clickOnContinueButton();
-                await this.clickRadioButtonByText("Children");
+                await this.clickRadioButtonByText(smokePage.childrenTxt);
                 await this.clickOnContinueButton();
-                await this.clickRadioButtonByText("My Descendants");
-                await this.clickRadioButtonByText("Per Stirpes");
+                await this.clickRadioButtonByText(smokePage.myDecendentsTxt);
+                await this.clickRadioButtonByText(smokePage.perStirpesTxt);
                 await this.clickOnContinueButton();
             })
         },
@@ -1463,7 +1480,7 @@ export const smokeSteps = (page) => {
                 await this.clickYesRadioButton();
                 await this.verifyWithHeadingScreenIsVisible(smokePage.listOfPetsDescTxt);
                 await this.clickOnAddPetByIndex(1);
-                await this.fillInputByLabel("Pet's Name", constants.petName, "");
+                await this.fillInputByLabel(smokePage.petsNameLabel, constants.petName, "");
                 await this.clickOnAddPetByIndex(2);
                 await this.clickOnContinueButton();
                 await this.verifyPetGuardianAssignmentScreenIsVisible(constants.petName);
@@ -1474,159 +1491,161 @@ export const smokeSteps = (page) => {
                 await this.clickOnContinueButton();
                 await this.verifyWithHeadingScreenIsVisible(smokePage.setAsideMoenyToCaringPersonHelp);
                 await this.clickYesRadioButton();
-                await this.inputByLabel("Amount", constants.caringPersonAmount)
+                await this.inputByLabel(smokePage.amountLabel, constants.caringPersonAmount)
                 await this.clickOnContinueButton();
             })
         },
         async individualTrustUserAssetSetup(constants) {
             await allure.step("Verify complete Assets section end-to-end flow", async () => {
-                await this.clickRadioButtonByText(constants.valueOfAllAsset)
+                await this.clickRadioButtonByText(smokePage.valueOfAllAsset)
                 await this.clickYesRadioButton()
                 await this.clickOnAddPropertyButton();
                 await this.addPropertyData(constants.primaryPetGuardianData);
-                await this.fillInputByLabelAndSelectFromDropdown("Full name", `${constants.primaryPetGuardianData.firstName} ${constants.primaryPetGuardianData.lastName}`, "");
+                await this.fillInputByLabelAndSelectFromDropdown(smokePage.fullNameLabel, `${constants.primaryPetGuardianData.firstName} ${constants.primaryPetGuardianData.lastName}`, "");
                 await this.clickOnSaveButton();
                 await this.clickOnContinueButton();
                 await this.clickYesRadioButton()
-                await this.clickOnButtonByText("Add Account");
-                await this.fillInputByLabel("Financial institution", constants.financialInstitution, "");
-                await this.fillInputByLabel("Approximate account value (optional)", constants.approximateAccountValue, "");
-                await this.clickRadioButtonByText(constants.radioButtonChecking)
+                await this.clickOnButtonByText(smokePage.addAccountTxt);
+                await this.fillInputByLabel(smokePage.financialInstitutionLabel, constants.financialInstitution, "");
+                await this.fillInputByLabel(smokePage.approxmateAccountValue, constants.approximateAccountValue, "");
+                await this.clickRadioButtonByText(smokePage.radioButtonChecking)
                 await this.clickOnContinueButton();
-                await this.fillInputByLabelAndSelectFromDropdown("Full name", `${constants.primaryPetGuardianData.firstName} ${constants.primaryPetGuardianData.lastName}`, "");
+                await this.fillInputByLabelAndSelectFromDropdown(smokePage.fullNameLabel, `${constants.primaryPetGuardianData.firstName} ${constants.primaryPetGuardianData.lastName}`, "");
                 await this.clickOnSaveButton();
                 await this.clickOnContinueButton();
                 await this.clickYesRadioButton()
-                await this.clickOnButtonByText("Add Policy");
-                await this.fillInputByLabel("Policy carrier", constants.policyCarrier, "");
+                await this.clickOnButtonByText(smokePage.addPolicyTxt);
+                await this.fillInputByLabel(smokePage.policyCarrierTxt, constants.policyCarrier, "");
                 await this.selectItemFromDropDown(constants.policyType.substring(0, 6), constants.policyType);
-                await this.fillInputByLabel("Value of policy (optional)", constants.policyValue, "");
+                await this.fillInputByLabel(smokePage.valuePolicyLabel, constants.policyValue, "");
                 await this.clickOnContinueButton();
-                await this.fillInputByLabelAndSelectFromDropdown("Full name", `${constants.primaryPetGuardianData.firstName} ${constants.primaryPetGuardianData.lastName}`, "");
+                await this.fillInputByLabelAndSelectFromDropdown(smokePage.fullNameLabel, `${constants.primaryPetGuardianData.firstName} ${constants.primaryPetGuardianData.lastName}`, "");
                 await this.clickOnSaveButton();
                 await this.clickOnContinueButton();
                 await this.clickYesRadioButton()
-                await this.clickOnButtonByText("Add Interest");
-                await this.fillInputByLabel("Business name", constants.businessName, "");
+                await this.clickOnButtonByText(smokePage.addIntrestTxt);
+                await this.fillInputByLabel(smokePage.businessNameLabel, constants.businessName, "");
                 await this.selectItemFromDropDown(constants.businessType.substring(0, 6), constants.businessType);
-                await this.fillInputByLabel("Value of ownership (optional)", constants.businessOwnershipValue, "");
+                // await this.selectItemFromDropDown("Relationship to business (optional)", "Owner"); uncomment and fix after issue resolved
+                await this.fillInputByLabel(smokePage.valueOfOwnershipLabel, constants.businessOwnershipValue, "");
                 await this.clickOnContinueButton();
-                await this.fillInputByLabelAndSelectFromDropdown("Full name", `${constants.primaryPetGuardianData.firstName} ${constants.primaryPetGuardianData.lastName}`, "");
+                await this.fillInputByLabelAndSelectFromDropdown(smokePage.fullNameLabel, `${constants.primaryPetGuardianData.firstName} ${constants.primaryPetGuardianData.lastName}`, "");
                 await this.clickOnSaveButton();
                 await this.clickOnContinueButton();
                 await this.clickYesRadioButton()
-                await this.clickOnButtonByText("Add Item");
-                await this.fillInputByLabel("Item name", constants.itemData.name, "");
-                await this.fillInputByLabel("Brief description", constants.itemData.description, "");
-                await this.fillInputByLabel("Estimated value (optional)", constants.itemData.estimatedValue, "");
+                await this.clickOnButtonByText(smokePage.addItemTxt);
+                await this.fillInputByLabel(smokePage.itemNameLabel, constants.itemData.name, "");
+                await this.fillInputByLabel(smokePage.briefDescriptionLabel, constants.itemData.description, "");
+                await this.fillInputByLabel(smokePage.estimateValueLabel, constants.itemData.estimatedValue, "");
                 await this.clickOnContinueButton();
-                 await this.fillInputByLabelAndSelectFromDropdown("Full name", `${constants.primaryPetGuardianData.firstName} ${constants.primaryPetGuardianData.lastName}`, "");
+                await this.fillInputByLabelAndSelectFromDropdown(smokePage.fullNameLabel, `${constants.primaryPetGuardianData.firstName} ${constants.primaryPetGuardianData.lastName}`, "");
                 await this.clickOnSaveButton();
                 await this.clickOnContinueButton();
-                await this.clickRadioButtonByText("Children");
+                await this.clickRadioButtonByText(smokePage.childrenTxt);
                 await this.clickOnContinueButton();
                 await this.verifyWithHeadingScreenIsVisible(smokePage.beneficairyReceiveInheritanceTxt);
                 await this.clickYesRadioButton()
-                await this.fillInputByLabel("Number of Days", "30", "");
+                await this.fillInputByLabel(smokePage.numberOfDaysLabel, constants.thirty, "");
                 await this.clickOnContinueButton();
-                await this.clickRadioButtonByText("Children");
+                await this.clickRadioButtonByText(smokePage.childrenTxt);
                 await this.clickOnContinueButton();
-                await this.clickRadioButtonByText("My Descendants");
-                await this.clickRadioButtonByText("Per Stirpes");
+                await this.clickRadioButtonByText(smokePage.myDecendentsTxt);
+                await this.clickRadioButtonByText(smokePage.perStirpesTxt);
                 await this.clickOnContinueButton();
             })
         },
         async individualWillUserAssetSetup(constants) {
             await allure.step("Will Creation – Asset – Verify complete Assets section flow in Will Creation (Smoke Test)", async () => {
-                 await this.clickRadioButtonByText(constants.valueOfAllAsset)
+                await this.clickRadioButtonByText(smokePage.valueOfAllAsset)
                 await this.clickYesRadioButton();
                 await this.clickOnAddPropertyButton();
                 await this.addPropertyData(constants.primaryPetGuardianData);
-                await this.fillInputByLabelAndSelectFromDropdown("Full name", `${constants.primaryPetGuardianData.firstName} ${constants.primaryPetGuardianData.lastName}`, "");
+                await this.fillInputByLabelAndSelectFromDropdown(smokePage.fullNameLabel, `${constants.primaryPetGuardianData.firstName} ${constants.primaryPetGuardianData.lastName}`, "");
                 await this.clickOnSaveButton();
                 await this.clickOnContinueButton();
                 await this.clickYesRadioButton()
-                await this.clickOnButtonByText("Add Account");
-                await this.fillInputByLabel("Financial institution", constants.financialInstitution, "");
-                await this.fillInputByLabel("Approximate account value (optional)", constants.approximateAccountValue, "");
-                await this.clickRadioButtonByText(constants.radioButtonChecking)
+                await this.clickOnButtonByText(smokePage.addAccountTxt);
+                await this.fillInputByLabel(smokePage.financialInstitutionLabel, constants.financialInstitution, "");
+                await this.fillInputByLabel(smokePage.approxmateAccountValue, constants.approximateAccountValue, "");
+                await this.clickRadioButtonByText(smokePage.radioButtonChecking)
                 await this.clickOnContinueButton();
-                await this.fillInputByLabelAndSelectFromDropdown("Full name", `${constants.primaryPetGuardianData.firstName} ${constants.primaryPetGuardianData.lastName}`);
+                await this.fillInputByLabelAndSelectFromDropdown(smokePage.fullNameLabel, `${constants.primaryPetGuardianData.firstName} ${constants.primaryPetGuardianData.lastName}`);
                 await this.clickOnSaveButton();
                 await this.clickOnContinueButton();
                 await this.clickYesRadioButton()
-                await this.clickOnButtonByText("Add Policy");
-                await this.fillInputByLabel("Policy carrier", constants.policyCarrier, "");
+                await this.clickOnButtonByText(smokePage.addPolicyTxt);
+                await this.fillInputByLabel(smokePage.policyCarrierTxt, constants.policyCarrier, "");
                 await this.selectItemFromDropDown(constants.policyType.substring(0, 6), constants.policyType);
-                await this.fillInputByLabel("Value of policy (optional)", constants.policyValue, "");
+                await this.fillInputByLabel(smokePage.valuePolicyLabel, constants.policyValue, "");
                 await this.clickOnContinueButton();
-                await this.fillInputByLabelAndSelectFromDropdown("Full name", `${constants.primaryPetGuardianData.firstName} ${constants.primaryPetGuardianData.lastName}`);
+                await this.fillInputByLabelAndSelectFromDropdown(smokePage.fullNameLabel, `${constants.primaryPetGuardianData.firstName} ${constants.primaryPetGuardianData.lastName}`);
                 await this.clickOnSaveButton();
                 await this.clickOnContinueButton();
                 await this.clickYesRadioButton()
-                await this.clickOnButtonByText("Add Interest");
-                await this.fillInputByLabel("Business name", constants.businessName, "");
+                await this.clickOnButtonByText(smokePage.addIntrestTxt);
+                await this.fillInputByLabel(smokePage.businessNameLabel, constants.businessName, "");
                 await this.selectItemFromDropDown(constants.businessType.substring(0, 6), constants.businessType);
-                await this.fillInputByLabel("Value of ownership (optional)", constants.businessOwnershipValue, "");
+                // await this.selectItemFromDropDown("Relationship to business (optional)", "Owner"); uncomment and fix after issue resolved
+                await this.fillInputByLabel(smokePage.valueOfOwnershipLabel, constants.businessOwnershipValue, "");
                 await this.clickOnContinueButton();
-                await this.fillInputByLabelAndSelectFromDropdown("Full name", `${constants.primaryPetGuardianData.firstName} ${constants.primaryPetGuardianData.lastName}`);
+                await this.fillInputByLabelAndSelectFromDropdown(smokePage.fullNameLabel, `${constants.primaryPetGuardianData.firstName} ${constants.primaryPetGuardianData.lastName}`);
                 await this.clickOnSaveButton();
                 await this.clickOnContinueButton();
                 await this.clickYesRadioButton()
-                await this.clickOnButtonByText("Add Item");
-                await this.fillInputByLabel("Item name", constants.itemData.name, "");
-                await this.fillInputByLabel("Brief description", constants.itemData.description, "");
-                await this.fillInputByLabel("Estimated value (optional)", constants.itemData.estimatedValue, "");
+                await this.clickOnButtonByText(smokePage.addItemTxt);
+                await this.fillInputByLabel(smokePage.itemNameLabel, constants.itemData.name, "");
+                await this.fillInputByLabel(smokePage.briefDescriptionLabel, constants.itemData.description, "");
+                await this.fillInputByLabel(smokePage.estimateValueLabel, constants.itemData.estimatedValue, "");
                 await this.clickOnContinueButton();
-                await this.fillInputByLabelAndSelectFromDropdown("Full name", `${constants.primaryPetGuardianData.firstName} ${constants.primaryPetGuardianData.lastName}`);
+                await this.fillInputByLabelAndSelectFromDropdown(smokePage.fullNameLabel, `${constants.primaryPetGuardianData.firstName} ${constants.primaryPetGuardianData.lastName}`);
                 await this.clickOnSaveButton();
                 await this.clickOnContinueButton();
-                await this.clickRadioButtonByText("Children");
+                await this.clickRadioButtonByText(smokePage.childrenTxt);
                 await this.clickOnContinueButton();
                 await this.verifyWithHeadingScreenIsVisible(smokePage.beneficairyReceiveInheritanceTxt);
                 await this.clickYesRadioButton()
-                await this.fillInputByLabel("Number of Days", "30", "");
+                await this.fillInputByLabel(smokePage.numberOfDaysLabel, constants.thirty, "");
                 await this.clickOnContinueButton();
-                await this.clickRadioButtonByText("Children");
+                await this.clickRadioButtonByText(smokePage.childrenTxt);
                 await this.clickOnContinueButton();
-                await this.clickRadioButtonByText("My Descendants");
-                await this.clickRadioButtonByText("Per Stirpes");
+                await this.clickRadioButtonByText(smokePage.myDecendentsTxt);
+                await this.clickRadioButtonByText(smokePage.perStirpesTxt);
                 await this.clickOnContinueButton();
             })
         },
         async individualWillUserArrangmentSetup(constants) {
             await allure.step("Arragement – Verify complete Arrangement section flow", async () => {
                 await this.verifyWithHeadingScreenIsVisible(smokePage.whoWillbeExecutorTxt)
-                await this.clickOnButtonByText("Add a Contact")
+                await this.clickOnButtonByText(smokePage.addAContactTxt)
                 await this.addGuardian(constants.executorData, constants.guardianType);
                 await this.clickOnContinueButton()
                 await this.verifyWithHeadingScreenIsVisible(smokePage.wantBackupExecutor);
                 await this.clickYesRadioButton()
                 await this.verifyWithHeadingScreenIsVisible(smokePage.whoWillbeBackupExecutorTxt);
-                await this.clickOnButtonByText("Add a Contact")
+                await this.clickOnButtonByText(smokePage.addAContactTxt)
                 await this.addGuardian(constants.backupExecutorData, constants.guardianType)
                 await this.clickOnContinueButton()
                 await this.verifyWithHeadingScreenIsVisible(smokePage.shouldExecutorRequiredBond)
-                await this.clickRadioButtonByText("No")
+                await this.clickRadioButtonByText(smokePage.noTxt)
                 await this.verifyWithHeadingScreenIsVisible(smokePage.wantToMonitorTxt)
                 await this.clickYesRadioButton();
                 await this.verifyWithHeadingScreenIsVisible(smokePage.whoWouldLikeNameasMonitorTxt)
-                await this.clickOnButtonByText("Add a Contact")
+                await this.clickOnButtonByText(smokePage.addAContactTxt)
                 await this.addGuardian(constants.monitorData, constants.guardianType);
                 await this.clickOnContinueButton()
                 await this.verifyWithHeadingScreenIsVisible(smokePage.wantNameConservatorEstateTxt)
-                await this.clickRadioButtonByText("No");
+                await this.clickRadioButtonByText(smokePage.noTxt);
                 await this.verifyWithHeadingScreenIsVisible(smokePage.wantNominateGuardianForSelfTxt)
-                await this.clickRadioButtonByText("No");
+                await this.clickRadioButtonByText(smokePage.noTxt);
                 await this.verifyWithHeadingScreenIsVisible(smokePage.wantExludeFromWill)
                 await this.clickYesRadioButton()
-                await this.fillInputByLabel("Name of the person or organization", constants.policyHolderName, "");
+                await this.fillInputByLabel(smokePage.nameOfPersonOrOrganizationLabel, constants.policyHolderName, "");
                 await this.clickOnContinueButton()
-                await this.clickRadioButtonByText("Cremation")
-                await this.clickRadioButtonByText("Memorial Service")
+                await this.clickRadioButtonByText(smokePage.cremationTxt)
+                await this.clickRadioButtonByText(smokePage.memorialServiceTxt)
                 await this.verifyWithHeadingScreenIsVisible(smokePage.haveSpecialRequestforCremony)
                 await this.clickYesRadioButton()
-                await this.fillInTextAreaByLabel("My request", constants.cremondyRequest, "");
+                await this.fillInTextAreaByLabel(smokePage.myRequestLabel, constants.cremondyRequest, "");
                 await this.clickOnContinueButton()
                 await this.verifyWithHeadingScreenIsVisible(smokePage.wouldYouLikeProtectWillFromPotentialDesputeTxt)
                 await this.clickYesRadioButton()
@@ -1635,129 +1654,129 @@ export const smokeSteps = (page) => {
         async individualWillUserHealthCareSetup(constants) {
             await allure.step("Verify user can complete entire Health Care section successfully", async () => {
                 await this.verifyWithHeadingScreenIsVisible(smokePage.whoWillMakeMedicalDecision);
-                await this.clickOnButtonByText("Add a Healthcare Agent")
+                await this.clickOnButtonByText(smokePage.addHealthCareAgentTxt)
                 await this.addGuardian(constants.healthCareAgentData, constants.guardianType);
                 await this.clickOnContinueButton();
                 await this.verifyWithHeadingScreenIsVisible(smokePage.wantNameBackupHealthAgentTxt);
                 await this.clickYesRadioButton();
                 await this.verifyWithHeadingScreenIsVisible(smokePage.whoWillBackupAgentTxt);
-                await this.clickOnButtonByText("Add a Contact")
+                await this.clickOnButtonByText(smokePage.addAContactTxt)
                 await this.addGuardian(constants.backupHealthCareAgentData, constants.guardianType);
                 await this.clickOnContinueButton();
-                await this.verifyWithHeadingScreenIsVisible(constants.leaveMedicalCarforAgentTxt)
-                await this.clickRadioButtonByText("No");
-                await this.verifyWithHeadingScreenIsVisible(constants.anyLimitForHealthTxt)
-                await this.clickRadioButtonByText("No");
-                await this.verifyWithHeadingScreenIsVisible(constants.wantDonateOrganTxt)
+                await this.verifyWithHeadingScreenIsVisible(smokePage.leaveMedicalCarforAgentTxt)
+                await this.clickRadioButtonByText(smokePage.noTxt);
+                await this.verifyWithHeadingScreenIsVisible(smokePage.anyLimitForHealthTxt)
+                await this.clickRadioButtonByText(smokePage.noTxt);
+                await this.verifyWithHeadingScreenIsVisible(smokePage.wantDonateOrganTxt)
                 await this.clickYesRadioButton();
-                await this.clickRadioButtonByText("Any needed organs, eyes and/or tissues");
+                await this.clickRadioButtonByText(smokePage.organsNeededEyesTissuesTxt);
                 await this.clickOnContinueButton()
-                await this.verifyWithHeadingScreenIsVisible(constants.wouldLikeGivePermissionViewMedicalRecordsTxt)
+                await this.verifyWithHeadingScreenIsVisible(smokePage.wouldLikeGivePermissionViewMedicalRecordsTxt)
                 await this.clickYesRadioButton();
-                await this.clickRadioButtonByText("Authorized Person")
+                await this.clickRadioButtonByText(smokePage.authorizedPersonTxt)
                 await this.addGuardian(constants.primaryParentData, constants.guardianType);
                 await this.clickOnContinueButton()
-                await this.verifyWithHeadingScreenIsVisible(constants.wantWhenHealthProxyNoLongerEffectTxt)
-                await this.clickRadioButtonByText("Yes, I'd like to choose");
-                await this.fillInputByLabel("This proxy shall expire (specific date or conditions)", constants.healthCareProxyExpiryMessage, "");
+                await this.verifyWithHeadingScreenIsVisible(smokePage.wantWhenHealthProxyNoLongerEffectTxt)
+                await this.clickRadioButtonByText(smokePage.yesIwouldLikeToChooseTxt);
+                await this.fillInputByLabel(smokePage.thisProxyShallExpireLabel, constants.healthCareProxyExpiryMessage, "");
                 await this.clickOnContinueButton()
             });
         },
         async individualWillUserFinanceCareSectionSetup(constants) {
             await allure.step("Finance Care section – Verify complete Finance Care section flow", async () => {
-                await this.verifyWithHeadingScreenIsVisible(constants.previousPowerofAttorneyDocumentTxt)
+                await this.verifyWithHeadingScreenIsVisible(smokePage.previousPowerofAttorneyDocumentTxt)
                 await this.clickYesRadioButton();
-                await this.verifyWithHeadingScreenIsVisible(constants.screenOfFinancialAgentTxt)
-                await this.clickOnButtonByText("Add a Financial Agent")
+                await this.verifyWithHeadingScreenIsVisible(smokePage.screenOfFinancialAgentTxt)
+                await this.clickOnButtonByText(smokePage.addFinancialAgentTxt)
                 await this.addGuardian(constants.financialAgentData, constants.guardianType);
                 await this.clickOnContinueButton();
-                await this.verifyWithHeadingScreenIsVisible(constants.wantNameBackupFinancialAgenTxt);
+                await this.verifyWithHeadingScreenIsVisible(smokePage.wantNameBackupFinancialAgenTxt);
                 await this.clickYesRadioButton();
-                await this.verifyWithHeadingScreenIsVisible(constants.successorAgenScreenDisplayed)
-                await this.clickOnButtonByText("Add Backup Agent")
+                await this.verifyWithHeadingScreenIsVisible(smokePage.successorAgenScreenDisplayed)
+                await this.clickOnButtonByText(smokePage.addBackupAgentTxt)
                 await this.addGuardian(constants.backupAgentData, constants.guardianType);
                 await this.clickOnContinueButton();
-                await this.verifyWithHeadingScreenIsVisible(constants.wouldLikeBackRuleForBackAgetntxt);
+                await this.verifyWithHeadingScreenIsVisible(smokePage.wouldLikeBackRuleForBackAgetntxt);
                 await this.clickYesRadioButton();
-                await this.fillInTextAreaByLabel("Describe your backup rules", constants.backupRuleTxt, "");
+                await this.fillInTextAreaByLabel(smokePage.describeBackupRuleLabel, constants.backupRuleTxt, "");
                 await this.clickOnContinueButton();
-                await this.verifyWithHeadingScreenIsVisible(constants.whatTypeDecisionsAthorityToAgent)
-                await this.clickSwitchButtonByText("Real Property")
-                await this.clickSwitchButtonByText("Taxes")
+                await this.verifyWithHeadingScreenIsVisible(smokePage.whatTypeDecisionsAthorityToAgent)
+                await this.clickSwitchButtonByText(smokePage.realPropertyTxt)
+                await this.clickSwitchButtonByText(smokePage.taxesTxt)
                 await this.clickOnContinueButton()
-                await this.verifyWithHeadingScreenIsVisible(constants.modifyStandardPowerAttorneyTxt)
-                await this.clickSwitchButtonByText("HIPAA Authorization")
-                await this.clickSwitchButtonByText("Guardian")
+                await this.verifyWithHeadingScreenIsVisible(smokePage.modifyStandardPowerAttorneyTxt)
+                await this.clickSwitchButtonByText(smokePage.hipaaAuthorizationTxt)
+                await this.clickSwitchButtonByText(smokePage.guardianTxt)
                 await this.clickOnContinueButton()
-                await this.verifyWithHeadingScreenIsVisible(constants.shouldAgentGiveGiftsTxt)
-                await this.clickRadioButtonByText("No");
-                await this.fillInTextAreaByLabel("Any specific restrictions?", constants.specificRestriction, "");
+                await this.verifyWithHeadingScreenIsVisible(smokePage.shouldAgentGiveGiftsTxt)
+                await this.clickRadioButtonByText(smokePage.noTxt);
+                await this.fillInTextAreaByLabel(smokePage.anySpecificRestrictionLabel, constants.specificRestriction, "");
                 await this.clickOnContinueButton()
-                await this.verifyWithHeadingScreenIsVisible(constants.leaveOutGiftingIntentionaly)
-                await this.clickRadioButtonByText("No");
-                await this.verifyWithHeadingScreenIsVisible(constants.leaveAnySpecialInstructions)
+                await this.verifyWithHeadingScreenIsVisible(smokePage.leaveOutGiftingIntentionaly)
+                await this.clickRadioButtonByText(smokePage.noTxt);
+                await this.verifyWithHeadingScreenIsVisible(smokePage.leaveAnySpecialInstructions)
                 await this.clickYesRadioButton();
-                await this.fillInTextAreaByLabel("Your special instructions", constants.specialInstruction, "");
-                await this.clickOnContinueButton()
-                await this.verifyWithHeadingScreenIsVisible(constants.pwrAtteroneyExpire);
+                await this.fillInTextAreaByLabel(smokePage.yourSpecialInstructionsLabel, constants.specialInstruction, "");
+                await this.clickOnContinueButton();
+                await this.verifyWithHeadingScreenIsVisible(smokePage.pwrAtteroneyExpire);
                 await this.clickYesRadioButton();
-                await this.fillInTextAreaByLabel("Provide event or date", constants.specialInstruction, "");
+                await this.fillInTextAreaByLabel(smokePage.provideEvenOrDateLabel, constants.specialInstruction, "");
                 await this.clickOnContinueButton()
             });
         },
         async dashboarOverViewdFlow(constants, isTrustIndex = 0) {
             await allure.step("Dashboard – Verify complete Dashboard end-to-end flow (Overview, Summary, Assets – Smoke)", async () => {
-                await this.verifyWithHeadingScreenIsVisible(constants.welcomeAmbreenTxt)
-                await this.verifyWithTextScreenIsVisible(constants.overviewTxt)
-                await this.verifyWithTextScreenIsVisible(constants.summaryTxt)
+                await this.verifyWithHeadingScreenIsVisible(smokePage.welcomeAmbreenTxt)
+                await this.verifyWithTextScreenIsVisible(smokePage.overviewTxt)
+                await this.verifyWithTextScreenIsVisible(smokePage.summaryTxt)
                 await this.verifyAssetTabIsVisible();
-                await this.verifyWithTextScreenIsVisible(constants.nextStepCardsTxt);
-                await this.clickOnButtonByText("Notarize Now");
-                await this.verifyWithHeadingScreenIsVisible("It's time to make your plan official in Alabama!")
+                await this.verifyWithTextScreenIsVisible(smokePage.nextStepCardsTxt);
+                await this.clickOnButtonByText(smokePage.notarizeNowTxt);
+                await this.verifyWithHeadingScreenIsVisible(smokePage.timeToMakeYourPlanOfficialTxt)
                 await this.clickOnGoBack();
-                await this.clickOnButtonByText("Add Now");
-                await this.fillInputByLabel("Enter your contact's full name", constants.legacyContactFullname, "");
-                await this.fillInputByLabel("Enter your contact's email", constants.legacyContactEmail, "");
-                await this.clickOnButtonByText("Send Invite");
+                await this.clickOnButtonByText(smokePage.addNowTxt);
+                await this.fillInputByLabel(smokePage.legacyContactFullnameLabel, constants.legacyContactFullname, "");
+                await this.fillInputByLabel(smokePage.legacyContactEmailLabel, constants.legacyContactEmail, "");
+                await this.clickOnButtonByText(smokePage.sendInviteTxt);
                 await this.clickOnGoBack();
-                await this.clickOnButtonByText("Summary");
-                await this.verifyWithTextByLabelScreenIsVisible("Name", "Ambreen Test");
-                await this.verifyWithTextScreenIsVisible("Oliver Bennett");
-                await this.clickOnTextByPath("Assets")
-                await this.verifyWithTextScreenIsVisible("1111 Brickell Avenue");
-                await this.verifyWithTextScreenIsVisible("MetLife Insurance");
-                await this.clickOnTextByPath("Arrangements")
-                await this.verifyWithTextScreenIsVisibleByIndex("Michael Anderson", isTrustIndex);
-                await this.verifyWithTextScreenIsVisible("memorial-service");
-                await this.clickOnTextByPath("Healthcare")
-                await this.verifyWithTextScreenIsVisible("Sarah Williams");
-                await this.verifyWithTextScreenIsVisible("Yes - Any");
-                await this.clickOnTextByPath("Financials")
-                await this.verifyWithTextScreenIsVisible("David Miller");
+                await this.clickOnButtonByText(smokePage.summaryTxt);
+                await this.verifyWithTextByLabelScreenIsVisible(smokePage.nameLabel, smokePage.ambreenTestName);
+                await this.verifyWithTextScreenIsVisible(smokePage.oliverBennettName);
+                await this.clickTabUsingTxtByBasicTabPath(smokePage.assetTxt)
+                await this.verifyWithTextScreenIsVisible(smokePage.brickellAvenueTxt);
+                await this.verifyWithTextScreenIsVisible(smokePage.metLifeInsuranceTxt);
+                await this.clickTabUsingTxtByBasicTabPath(smokePage.arrangementsTxt)
+                await this.verifyWithTextScreenIsVisibleByIndex(smokePage.michealAndersonName, isTrustIndex);
+                await this.verifyWithTextScreenIsVisible(smokePage.memorialServicesTxt);
+                await this.clickTabUsingTxtByBasicTabPath(smokePage.healthCareTxt)
+                await this.verifyWithTextScreenIsVisible(smokePage.sarahWilliamName);
+                await this.verifyWithTextScreenIsVisible(smokePage.yesAnyTxt);
+                await this.clickTabUsingTxtByBasicTabPath(smokePage.financialsTxt)
+                await this.verifyWithTextScreenIsVisible(smokePage.davidMillerName);
                 await this.clickOnBasicByPath();
-                await this.clickOnAnchorByText("Edit")
-                await this.verifyWithHeadingScreenIsVisible("First, what's your name?");
-                await this.enterUserFullName("Ambreen Test 124")
+                await this.clickOnAnchorByText(smokePage.editTxt)
+                await this.verifyWithHeadingScreenIsVisible(smokePage.headingFirstNameTxt);
+                await this.enterUserFullName(constants.ambreenText124Name)
                 await this.clickOnContinueButton();
                 await this.clickCloseIconToSaveChanges()
-                await this.clickOnAnchorByText("Exit")
-                await this.clickOnButtonByText("Summary");
-                await this.verifyWithTextByLabelScreenIsVisible("Name", "Ambreen Test 124");
+                await this.clickOnAnchorByText(smokePage.exitTxt)
+                await this.clickOnButtonByText(smokePage.summaryTxt);
+                await this.verifyWithTextByLabelScreenIsVisible(smokePage.nameLabel, constants.ambreenText124Name);
                 await this.clickOnAssetTab();
-                await this.verifyWithButtonScreenTitleIsVisible("Properties");
-                await this.verifyWithButtonScreenTitleIsVisible("Financial Accounts");
-                await this.verifyWithButtonScreenTitleIsVisible("Businesses");
-                await this.verifyWithButtonScreenTitleIsVisible("Other");
-                await this.clickOnAnchorByText("Edit Assets");
-                await this.clickRadioButtonByText(constants.valueOfAllAsset)
-                await this.clickYesRadioButton()                
+                await this.verifyWithButtonScreenTitleIsVisible(smokePage.propertiesTxt);
+                await this.verifyWithButtonScreenTitleIsVisible(smokePage.financialAccountsTxt);
+                await this.verifyWithButtonScreenTitleIsVisible(smokePage.businessesTxt);
+                await this.verifyWithButtonScreenTitleIsVisible(smokePage.otherTxt);
+                await this.clickOnAnchorByText(smokePage.editAssetsTxt);
+                await this.clickRadioButtonByText(smokePage.valueOfAllAsset)
+                await this.clickYesRadioButton()
                 await this.clickOnAddPropertyButton();
                 await this.addPropertyData(constants.primaryPetGuardianData);
-                await this.fillInputByLabelAndSelectFromDropdown("Full name", `${constants.primaryPetGuardianData.firstName} ${constants.primaryPetGuardianData.lastName}`, "");
+                await this.fillInputByLabelAndSelectFromDropdown(smokePage.fullNameLabel, `${constants.primaryPetGuardianData.firstName} ${constants.primaryPetGuardianData.lastName}`, "");
                 await this.clickOnSaveButton();
                 await this.clickOnContinueButton();
                 await this.clickCloseIconToSaveChanges();
-                await this.clickOnAnchorByText("Exit")
+                await this.clickOnAnchorByText(smokePage.exitTxt)
                 await this.clickOnAssetTab();
                 await this.verifyTheAssetProperties();
 
@@ -1772,7 +1791,7 @@ export const smokeSteps = (page) => {
                 await this.fillInputByLabel("Enter your loved one's email", constants.iEmail, "");
                 await this.clickOnButtonByText("Send Invite");
                 await this.verifyWithTextScreenIsVisible(`Your referral invitation has been sent to ${constants.iEmail}.`)
-                await this.clickCloseInviteModel()
+                await this.clickCloseInviteModel();
                 await this.clickOnProfile();
                 await this.clickAnchorFromProfileDropdown("Settings");
                 await this.verifyWithTextScreenIsVisible(`Update your profile information and manage your account settings.`)
@@ -1787,7 +1806,7 @@ export const smokeSteps = (page) => {
                 await this.verifyWithTextScreenIsVisible(`Password updated successfully!`)
                 await this.clickOnProfile();
                 await this.clickAnchorFromProfileDropdown("Dashboard");
-                await this.verifyWithHeadingScreenIsVisible(constants.welcomeAmbreenTxt);
+                await this.verifyWithHeadingScreenIsVisible(smokePage.welcomeAmbreenTxt);
                 await this.clickOnGoBack();
                 await this.clickOnProfile();
                 await this.clickAnchorFromProfileDropdown("Documents");
@@ -1817,14 +1836,16 @@ export const smokeSteps = (page) => {
                 await this.clickOnButtonByText("Confirm");
                 await this.verifyWithHeadingScreenIsVisible("Invitations Sent!");
                 await this.clickOnButtonByText("Done");
-                await this.verifyWithHeadingByIndex("HIPAA");
-                await this.verifyWithHeadingByIndex("Last Will & Testament");
-                await this.verifyWithHeadingByIndex("Advance Care Directive");
-                await this.verifyWithHeadingByIndex("Power of Attorney");
-                await this.clickPreviewHipaDocumentButton();
+                await this.verifyDocumentNameIsVisible("HIPAA", "Ambreen Test 124");
+                await this.verifyDocumentNameIsVisible("Last Will & Testament", "Ambreen Test 124");
+                await this.verifyDocumentNameIsVisible("Advance Care Directive", "Ambreen Test 124");
+                await this.verifyDocumentNameIsVisible("Power of Attorney", "Ambreen Test 124");
+                await this.clickDocumentButtonByName("HIPAA", "Ambreen Test 124", "Preview");
                 await this.clickPreviewDocumentCloseModel();
                 await prepareDownloadFolder();
-                const download = page.locator(constants.downloadHipaaDocumentXpath)
+                const download = page.locator(smokePage.documentTitleXpath("HIPAA"))
+                    .filter({ has: page.locator("span", { hasText: "Ambreen Test 124" }) })
+                    .locator("button, a", { hasText: "Download" });
                 await downloadAndVerifyFile(page, download);
                 await prepareDownloadFolder();
                 const downloadAll = page.getByRole("link", { name: "Download All" })
@@ -1854,24 +1875,122 @@ export const smokeSteps = (page) => {
                 await this.clickOnButtonByText("Share Plan");
                 await this.clickOnButtonByText("Confirm");
                 await this.verifyWithHeadingScreenIsVisible("Invitations Sent!");
-                await this.clickOnButtonByText("Done");
-                await this.verifyWithHeadingByIndex("HIPAA");
-                await this.verifyWithHeadingByIndex("Pour Over Will");
-                await this.verifyWithHeadingByIndex("Advance Care Directive");
-                await this.verifyWithHeadingByIndex("Power of Attorney");
-                await this.verifyWithHeadingByIndex("Revocable Living Trust");
-                await this.verifyWithHeadingByIndex("Schedule of Assets");
-                await this.verifyWithHeadingByIndex("Funding Instructions");
-                await this.verifyWithHeadingByIndex("Certification of Trust");
-                await this.clickPreviewHipaDocumentButton();
+                await this.clickOnButtonByText("Done");                
+                await this.verifyDocumentNameIsVisible("HIPAA", "Ambreen Test 124");
+                await this.verifyDocumentNameIsVisible("Pour Over Will", "Ambreen Test 124");
+                await this.verifyDocumentNameIsVisible("Advance Care Directive", "Ambreen Test 124");
+                await this.verifyDocumentNameIsVisible("Power of Attorney", "Ambreen Test 124");
+                await this.verifyDocumentNameIsVisible("Revocable Living Trust", "Ambreen Test 124");
+                await this.verifyDocumentNameIsVisible("Schedule of Assets", "Ambreen Test 124");
+                await this.verifyDocumentNameIsVisible("Funding Instructions", "Ambreen Test 124");
+                await this.verifyDocumentNameIsVisible("Certification of Trust", "Ambreen Test 124");
+                await this.clickDocumentButtonByName("HIPAA", "Ambreen Test 124", "Preview");
                 await this.clickPreviewDocumentCloseModel();
                 await prepareDownloadFolder();
-                const download = page.locator(constants.downloadHipaaDocumentXpath)
+                const download = page.locator(smokePage.documentTitleXpath("HIPAA"))
+                    .filter({ has: page.locator("span", { hasText: "Ambreen Test 124" }) })
+                    .locator("button, a", { hasText: "Download" });
                 await downloadAndVerifyFile(page, download);
                 await prepareDownloadFolder();
                 const downloadAll = page.getByRole("link", { name: "Download All" })
                 await downloadAndVerifyFile(page, downloadAll);
                 await this.clickManageAccessHipaButton()
+                await this.verifyWithHeadingScreenIsVisible("Manage Sharing Access");
+                await this.clickSelectContactWithEmail(contactEmail);
+                await this.clickOnButtonByText("Save Changes");
+                await this.verifyWithTextContainsIsVisible("Successfully updated access for");
+                await this.clickOnButtonByText("Cancel");
+                await this.clickOnButtonByText("Magic Add Annual Subscription");
+                await this.verifyWithTextScreenIsVisible("Subscription allows you to edit your documents anytime.");
+                await this.clickOnButtonByText("Cancel");
+
+            });
+        },
+        async couplesDocumentsFlow(constants) {
+            await allure.step("Documents – Verify complete Documents page end-to-end flow", async () => {
+                await this.clickSidBarAnchor("Documents");
+                await this.verifyWithHeadingScreenIsVisible("MY DOCUMENTS");
+                await this.verifyWithHeadingScreenIsVisible("Share Your Plan With Someone You Trust");
+                await this.clickOnButtonByText("Share My Plan");
+                const contactEmail = getRandomEmail();
+                await this.inputByPlaceholder("Contact Name", constants.iName);
+                await this.inputByPlaceholder("Email Address", contactEmail);
+                await this.clickOnButtonByText("Add");
+                await this.clickOnButtonByText("Share Plan");
+                await this.clickOnButtonByText("Confirm");
+                await this.verifyWithHeadingScreenIsVisible("Invitations Sent!");
+                await this.clickOnButtonByText("Done");
+                await this.verifyDocumentNameIsVisible("HIPAA", "Ambreen Test 124");
+                await this.verifyDocumentNameIsVisible("HIPAA", "Thomas Edison");
+                await this.verifyDocumentNameIsVisible("Last Will & Testament", "Ambreen Test 124");
+                await this.verifyDocumentNameIsVisible("Last Will & Testament", "Thomas Edison");
+                await this.verifyDocumentNameIsVisible("Advance Care Directive", "Ambreen Test 124");
+                await this.verifyDocumentNameIsVisible("Advance Care Directive", "Thomas Edison");
+                await this.verifyDocumentNameIsVisible("Power of Attorney", "Ambreen Test 124");
+                await this.verifyDocumentNameIsVisible("Power of Attorney", "Thomas Edison");
+                await this.clickDocumentButtonByName("HIPAA", "Ambreen Test 124", "Preview");
+                await this.clickPreviewDocumentCloseModel();
+                await prepareDownloadFolder();
+                const download = page.locator(smokePage.documentTitleXpath("HIPAA"))
+                    .filter({ has: page.locator("span", { hasText: "Ambreen Test 124" }) })
+                    .locator("button, a", { hasText: "Download" });
+                await downloadAndVerifyFile(page, download);
+                await prepareDownloadFolder();
+                const downloadAll = page.getByRole("link", { name: "Download All" })
+                await downloadAndVerifyFile(page, downloadAll);
+                await this.clickDocumentButtonByName("HIPAA", "Ambreen Test 124", "Manage Access");
+                await this.verifyWithHeadingScreenIsVisible("Manage Sharing Access");
+                await this.clickSelectContactWithEmail(contactEmail);
+                await this.clickOnButtonByText("Save Changes");
+                await this.verifyWithTextContainsIsVisible("Successfully updated access for");
+                await this.clickOnButtonByText("Cancel");
+                await this.clickOnButtonByText("Magic Add Annual Subscription");
+                await this.verifyWithTextScreenIsVisible("Subscription allows you to edit your documents anytime.");
+                await this.clickOnButtonByText("Cancel");
+
+            });
+        },
+        async couplesDocumentsTrustFlow(constants) {
+            await allure.step("Documents – Verify complete Documents page end-to-end flow", async () => {
+                await this.clickSidBarAnchor("Documents");
+                await this.verifyWithHeadingScreenIsVisible("MY DOCUMENTS");
+                await this.verifyWithHeadingScreenIsVisible("Share Your Plan With Someone You Trust");
+                await this.clickOnButtonByText("Share My Plan");
+                const contactEmail = getRandomEmail();
+                await this.inputByPlaceholder("Contact Name", constants.iName);
+                await this.inputByPlaceholder("Email Address", contactEmail);
+                await this.clickOnButtonByText("Add");
+                await this.clickOnButtonByText("Share Plan");
+                await this.clickOnButtonByText("Confirm");
+                await this.verifyWithHeadingScreenIsVisible("Invitations Sent!");
+                await this.clickOnButtonByText("Done");                
+                await this.verifyDocumentNameIsVisible("HIPAA", "Ambreen Test 124");
+                await this.verifyDocumentNameIsVisible("HIPAA", "Thomas Edison");
+                await this.verifyDocumentNameIsVisible("Pour Over Will", "Ambreen Test 124");
+                await this.verifyDocumentNameIsVisible("Pour Over Will", "Thomas Edison");
+                await this.verifyDocumentNameIsVisible("Advance Care Directive", "Ambreen Test 124");
+                await this.verifyDocumentNameIsVisible("Advance Care Directive", "Thomas Edison");
+                await this.verifyDocumentNameIsVisible("Power of Attorney", "Ambreen Test 124");
+                await this.verifyDocumentNameIsVisible("Power of Attorney", "Thomas Edison");
+                await this.verifyDocumentNameIsVisible("Revocable Living Trust", "Ambreen Test 124");
+                await this.verifyDocumentNameIsVisible("Revocable Living Trust", "Thomas Edison");
+                await this.verifyDocumentNameIsVisible("Schedule of Assets", "Ambreen Test 124");
+                await this.verifyDocumentNameIsVisible("Schedule of Assets", "Thomas Edison");
+                await this.verifyDocumentNameIsVisible("Funding Instructions", "Ambreen Test 124");
+                await this.verifyDocumentNameIsVisible("Funding Instructions", "Thomas Edison");
+                await this.verifyDocumentNameIsVisible("Certification of Trust", "Ambreen Test 124");
+                await this.verifyDocumentNameIsVisible("Certification of Trust", "Thomas Edison");
+                await this.clickDocumentButtonByName("HIPAA", "Ambreen Test 124", "Preview");
+                await this.clickPreviewDocumentCloseModel();
+                await prepareDownloadFolder();
+                const download = page.locator(smokePage.documentTitleXpath("HIPAA"))
+                    .filter({ has: page.locator("span", { hasText: "Ambreen Test 124" }) })
+                    .locator("button, a", { hasText: "Download" });
+                await downloadAndVerifyFile(page, download);
+                await prepareDownloadFolder();
+                const downloadAll = page.getByRole("link", { name: "Download All" })
+                await downloadAndVerifyFile(page, downloadAll);
+                await this.clickDocumentButtonByName("HIPAA", "Ambreen Test 124", "Manage Access");
                 await this.verifyWithHeadingScreenIsVisible("Manage Sharing Access");
                 await this.clickSelectContactWithEmail(contactEmail);
                 await this.clickOnButtonByText("Save Changes");
@@ -1938,13 +2057,5 @@ export const smokeSteps = (page) => {
 
             });
         },
-        async individualDashboard1WillFlow(constants) {
-            await allure.step("Dashboard Will – Verify complete Dashboard end-to-end flow (Overview, Summary, Assets – Smoke)", async () => {
-
-
-            });
-        },
-
-
     };
 };

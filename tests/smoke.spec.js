@@ -1,7 +1,7 @@
-import { test, expect, describe } from '@playwright/test';
+import { test, describe } from '@playwright/test';
 import { smokeSteps } from '../steps/smoke.steps';
 const COMMON = require('../utils/common.json');
-const { getRandomEmail, prepareDownloadFolder, downloadAndVerifyFile, createContextWithMockTime, getRandomForDeedEmail } = require('../utils/helper');
+const { getRandomEmail } = require('../utils/helper');
 import { constants } from '../utils/Constants';
 import { getPasswordResetLink } from '../utils/resetPasswordLink';
 
@@ -48,7 +48,7 @@ describe('Smoke Tests', () => {
         await smokeStep.clickOnLogoutFromProfileDropdown("Logout");
 
     });
-    test.only('TC_005 - Forgot - Verify complete Forgot Password end-to-end flow', async ({ page }) => {
+    test('TC_005 - Forgot - Verify complete Forgot Password end-to-end flow', async ({ page }) => {
         const email = COMMON.emailForgetPassword;
         const password = COMMON.password;
         const startTime = new Date();
@@ -110,8 +110,6 @@ describe('Smoke Tests', () => {
         await smokeStep.trustDeedTransferFlow(constants);
 
     });
-
-
     test('TC_08 - Couple Will Complete Flow – Verify complete flow for couple will account', async ({ page }) => {
         const email = getRandomEmail();
         const smokeStep = smokeSteps(page);
@@ -134,7 +132,7 @@ describe('Smoke Tests', () => {
         await smokeStep.dashboarOverViewdFlow(constants);
         await smokeStep.clickSidBarAnchor("Dashboard");
         await smokeStep.dashboardProfileFlow(constants);
-        await smokeStep.documentsFlow(constants)
+        await smokeStep.couplesDocumentsFlow(constants)
         await smokeStep.legacyContactsFlow(constants);
         await smokeStep.verifyDeedTransferTxtIsNotVisible();
 
@@ -161,7 +159,7 @@ describe('Smoke Tests', () => {
         await smokeStep.dashboarOverViewdFlow(constants, 1);
         await smokeStep.clickSidBarAnchor("Dashboard");
         await smokeStep.dashboardProfileFlow(constants);
-        await smokeStep.documentsTrustFlow(constants)
+        await smokeStep.couplesDocumentsTrustFlow(constants)
         await smokeStep.legacyContactsFlow(constants);
         await smokeStep.trustDeedTransferFlow(constants);
 
