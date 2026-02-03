@@ -1,7 +1,7 @@
 import { allure, expect } from 'allure-playwright';
 import { getLocator, smokePage } from '../pages/smoke.page';
 const COMMON = require('../utils/common.json');
-const { clickElement, isValidEmail, extractNumericString } = require('../utils/helper');
+const { clickElement, isValidEmail, extractNumericString, isWithinNotaryHours } = require('../utils/helper');
 const { getRandomEmail, prepareDownloadFolder, downloadAndVerifyFile, getRandomForDeedEmail } = require('../utils/helper');
 
 import assert from 'assert';
@@ -55,7 +55,6 @@ export const smokeSteps = (page) => {
                 await trustFooter.click();
                 await page.waitForLoadState('load');
                 assert.ok(page.url() === COMMON.baseURL + smokePage.trustPageURL, `Navigation failed! Expected URL: ${COMMON.baseURL + smokePage.trustPageURL}, but got: ${page.url()}`);
-                console.log(`Navigation success! Trust URL is correct: ${page.url()}`);
                 await page.goBack();
 
                 const willFooter = page.locator(smokePage.homeFooter).getByRole("link", { name: smokePage.willTxt, exact: true });
@@ -64,7 +63,6 @@ export const smokeSteps = (page) => {
                 await willFooter.click();
                 await page.waitForLoadState('load');
                 assert.ok(page.url() === COMMON.baseURL + smokePage.willPageURL, `Navigation failed! Expected URL: ${COMMON.baseURL + smokePage.willPageURL}, but got: ${page.url()}`);
-                console.log(`Navigation success! Will URL is correct: ${page.url()}`);
                 await page.goBack();
 
                 const learnFooter = page.locator(smokePage.homeFooter).getByRole("link", { name: smokePage.learnTxt, exact: true });
@@ -73,7 +71,6 @@ export const smokeSteps = (page) => {
                 await clickElement(learnFooter);
                 await page.waitForLoadState('load');
                 assert.ok(page.url() === COMMON.baseURL + smokePage.learnPageURL, `Navigation failed! Expected URL: ${COMMON.baseURL + smokePage.learnPageURL}, but got: ${page.url()}`);
-                console.log(`Navigation success! Learn URL is correct: ${page.url()}`);
                 await page.goBack();
 
                 const privacyFooter = page.locator(smokePage.homeFooter).getByRole("link", { name: smokePage.privacyPolicyTxt, exact: true });
@@ -82,7 +79,6 @@ export const smokeSteps = (page) => {
                 await privacyFooter.click();
                 await page.waitForLoadState('load');
                 assert.ok(page.url() === COMMON.baseURL + smokePage.privacyPolicyPageURL, `Navigation failed! Expected URL: ${COMMON.baseURL + smokePage.privacyPolicyPageURL}, but got: ${page.url()}`);
-                console.log(`Navigation success! Privacy Policy URL is correct: ${page.url()}`);
                 await page.goBack();
 
                 const termsFooter = page.locator(smokePage.homeFooter).getByRole("link", { name: smokePage.termsServiceTxt, exact: true });
@@ -91,7 +87,6 @@ export const smokeSteps = (page) => {
                 await termsFooter.click();
                 await page.waitForLoadState('load');
                 assert.ok(page.url() === COMMON.baseURL + smokePage.termsServicesPageURL, `Navigation failed! Expected URL: ${COMMON.baseURL + smokePage.termsServicesPageURL}, but got: ${page.url()}`);
-                console.log(`Navigation success! Terms of Service URL is correct: ${page.url()}`);
                 await page.goBack();
 
                 const facebookLink = page.getByRole('link', { name: smokePage.facebookLable, exact: true });
@@ -100,7 +95,6 @@ export const smokeSteps = (page) => {
                 await facebookLink.click();
                 await page.waitForLoadState('load');
                 assert.ok(page.url() === COMMON.facebookPageURL, `Navigation failed! Expected URL: ${COMMON.facebookPageURL}, but got: ${page.url()}`);
-                console.log(`Navigation success! Facebook URL is correct: ${page.url()}`);
                 await page.goBack();
 
                 const instagramLink = page.getByRole('link', { name: smokePage.instagramLable, exact: true });
@@ -109,7 +103,6 @@ export const smokeSteps = (page) => {
                 await instagramLink.click();
                 await page.waitForLoadState('load');
                 assert.ok(page.url() === COMMON.instagramPageURL, `Navigation failed! Expected URL: ${COMMON.instagramPageURL}, but got: ${page.url()}`);
-                console.log(`Navigation success! Instagram URL is correct: ${page.url()}`);
                 await page.goBack();
 
                 const linkedInLink = page.getByRole('link', { name: smokePage.linkedInLable, exact: true });
@@ -118,7 +111,6 @@ export const smokeSteps = (page) => {
                 await linkedInLink.click();
                 await page.waitForLoadState('load');
                 assert.ok(page.url().includes(smokePage.linkedInPage), `Navigation failed! Expected URL: ${smokePage.linkedInPage}, but got: ${page.url()}`);
-                console.log(`Navigation success! LinkedIn URL is correct: ${page.url()}`);
                 await page.goBack();
             });
         },
@@ -137,10 +129,8 @@ export const smokeSteps = (page) => {
                 await expect(firstNameQuestionHeading).toBeVisible();
                 const enterName = page.getByRole('textbox', { name: smokePage.namePlaceholderTxt, exact: true });
                 await expect(enterName).toBeVisible();
-
                 const continueButton = page.getByRole('button', { name: smokePage.continueTxt, exact: true });
                 await expect(continueButton).toBeVisible();
-
                 await this.enterUserFullName(fullName);
                 await expect(continueButton).toBeEnabled();
             })
@@ -199,11 +189,7 @@ export const smokeSteps = (page) => {
         },
         async verifyUserIsOnPaymentPage() {
             await allure.step("Verify user is redirected to Payment page", async () => {
-                const paymentHeading = page.getByRole('heading', {
-                    name: smokePage.paymentTxt,
-                    level: 1,
-                });
-
+                const paymentHeading = page.getByRole('heading', { name: smokePage.paymentTxt, level: 1 });
                 await expect(paymentHeading).toBeVisible();
             });
         },
@@ -234,7 +220,6 @@ export const smokeSteps = (page) => {
         async acceptTermsAndConditions() {
             await allure.step("Accept Terms and Conditions", async () => {
                 const termsCheckbox = page.locator(smokePage.termsCheckboxId);
-
                 await termsCheckbox.check();
                 await expect(termsCheckbox).toBeChecked();
             });
@@ -249,9 +234,7 @@ export const smokeSteps = (page) => {
         },
         async verifyAnchorIsEnabled(btnTxt) {
             await allure.step(`Verify${btnTxt} button is enabled`, async () => {
-                const locator = page.getByRole('link', {
-                    name: btnTxt,
-                });
+                const locator = page.getByRole('link', { name: btnTxt });
                 await expect(locator).toBeEnabled();
             });
         },
@@ -291,31 +274,29 @@ export const smokeSteps = (page) => {
             await page.waitForLoadState("load");
             const locator = page.getByText(smokePage.notary9To5AmTxt, { exact: true });
             const isVisible = await locator.isVisible().catch(() => false);
-            await allure.step(
-                `Notary 9–5 AM text is ${isVisible ? 'VISIBLE' : 'NOT VISIBLE'}`, async () => {
-
-                    await expect(locator).toBeVisible();
-
-                });
+            await allure.step(`Notary 9–5 AM text is ${isVisible ? 'VISIBLE' : 'NOT VISIBLE'}`, async () => { });
+        },
+        async verifyCreateNotarySessionButtonIsDisabled() {
+            await allure.step(`Create Notary Session button is disabled`, async () => {
+                const locator = page.getByRole('button', { name: smokePage.notaryCreateSessionTxt, exact: true });
+                await expect(locator).toBeDisabled();
+            });
         },
         async verifyDeedTransferTxtIsVisible() {
-            await allure.step(
-                `Deed Transfer text is from left sidebar is 'VISIBLE' '}`, async () => {
+            await allure.step(`Deed Transfer text is from left sidebar is 'VISIBLE' '}`, async () => {
                     await page.waitForLoadState("load");
                     const locator = page.locator(smokePage.sideDeedTransferXPath);
                     await expect(locator).toBeVisible();
 
-                });
+            });
         },
         async verifyDeedTransferTxtIsNotVisible() {
-            ;
-            await allure.step(
-                `Deed Transfer text is from left sidebar 'NOT VISIBLE'}`, async () => {
+            await allure.step( `Deed Transfer text is from left sidebar 'NOT VISIBLE'}`, async () => {
                     await page.waitForLoadState("load");
                     const locator = page.locator(smokePage.sideDeedTransferXPath);
                     await expect(locator).not.toBeVisible();
 
-                });
+            });
         },
         async verifyCreateNotarySessionButtonIsEnable() {
             const locator = page.getByRole('button', { name: smokePage.notaryCreateSessionTxt, exact: true });
@@ -483,7 +464,7 @@ export const smokeSteps = (page) => {
         async checkValueForLabel(labelText) {
             await allure.step(`Check value for "${labelText}"`, async () => {
                 const label = page.locator('span', { hasText: labelText }).nth(1);
-                const sibling = label.locator('xpath=following-sibling::*[1]');
+                const sibling = label.locator(smokePage.checkValueForLabelXpath);
                 const value = (await sibling.textContent())?.trim();
                 expect(value, `No sibling value found for "${labelText}"`).toBeTruthy();
                 await allure.step(`Value for "${labelText}"`, () => { });
@@ -636,7 +617,7 @@ export const smokeSteps = (page) => {
             })
         },
         async clickOnAddAChild(enterchildName, parentsRadioTxt = smokePage.meTxt) {
-            await allure.step("Add a child", async () => {
+            await allure.step(`Click and add a child: ${enterchildName} for ${parentsRadioTxt}`, async () => {
                 const addChildButton = page.getByRole('button', { name: smokePage.addChildTxt, exact: true });
                 await clickElement(addChildButton)
 
@@ -748,7 +729,7 @@ export const smokeSteps = (page) => {
         async clickOnAddContactButtonByIndex(guardianType) {
             const index = guardianType === 'Primary' ? 1 : 1;
             await allure.step(`Click on Add Contact button for ${guardianType} guardian`, async () => {
-                const addContactButton = page.getByRole('button', { name: smokePage.addContactTxt, exact: true }).nth(index - 1);
+                const addContactButton = page.getByRole('button', { name: smokePage.confirmTxt, exact: true }).nth(index - 1);
                 await clickElement(addContactButton);
             });
         },
@@ -943,8 +924,7 @@ export const smokeSteps = (page) => {
         async clickGuardianToAssignToChildByIndex(guardianName, guardianType) {
             const index = guardianType === 'Primary' ? 1 : 2;
             await allure.step(`Click on child ${guardianName} to assign ${guardianType} guardian`, async () => {
-                const childLocator = page.getByText(guardianName).nth(index - 1);
-
+                const childLocator = page.locator(smokePage.selectContactXpath(guardianName)).nth(index - 1);
                 await clickElement(childLocator);
             });
         },
@@ -964,7 +944,7 @@ export const smokeSteps = (page) => {
                 await this.enterUserEmail(email);
                 await this.enterCreateAccountPassword(constants.password);
                 await this.clickOnCreateAccountButton();
-                await this.verifyPlanSectionPageAndSelectPlan(smokePage.selectThisBundleTxt);
+                await this.verifyPlanSectionPageAndSelectPlan(smokePage.selectOnlyTrustPlanTxt);
                 await this.verifyUserIsOnPaymentPage();
                 await this.enterPaymentCardDetails();
                 await this.acceptTermsAndConditions();
@@ -988,7 +968,7 @@ export const smokeSteps = (page) => {
                 await this.enterUserEmail(email);
                 await this.enterCreateAccountPassword(constants.password);
                 await this.clickOnCreateAccountButton();
-                await this.verifyPlanSectionPageAndSelectPlan(smokePage.selectWillBundleTxt);
+                await this.verifyPlanSectionPageAndSelectPlan(smokePage.selectWillTxt);
                 await this.verifyUserIsOnPaymentPage();
                 await this.enterPaymentCardDetails();
                 await this.acceptTermsAndConditions();
@@ -1014,7 +994,7 @@ export const smokeSteps = (page) => {
                 await this.enterUserEmail(email);
                 await this.enterCreateAccountPassword(constants.password);
                 await this.clickOnCreateAccountButton();
-                await this.verifyPlanSectionPageAndSelectPlan(smokePage.selectWillBundleTxt);
+                await this.verifyPlanSectionPageAndSelectPlan(smokePage.selectWillTxt);
                 await this.verifyUserIsOnPaymentPage();
                 await this.enterPaymentCardDetails();
                 await this.acceptTermsAndConditions();
@@ -1040,7 +1020,7 @@ export const smokeSteps = (page) => {
                 await this.enterUserEmail(email);
                 await this.enterCreateAccountPassword(constants.password);
                 await this.clickOnCreateAccountButton();
-                await this.verifyPlanSectionPageAndSelectPlan(smokePage.selectThisBundleTxt);
+                await this.verifyPlanSectionPageAndSelectPlan(smokePage.selectOnlyTrustPlanTxt);
                 await this.verifyUserIsOnPaymentPage();
                 await this.enterPaymentCardDetails();
                 await this.acceptTermsAndConditions();
@@ -1430,7 +1410,7 @@ export const smokeSteps = (page) => {
                 await this.clickOnContinueButton();
                 await this.verifyWithHeadingScreenIsVisible(smokePage.beneficairyReceiveInheritanceTxt);
                 await this.clickYesRadioButton()
-                await this.fillInputByLabel(smokePage.numberOfDaysLabel,constants.thirty, "");
+                await this.fillInputByLabel(smokePage.numberOfDaysLabel, constants.thirty, "");
                 await this.clickOnContinueButton();
                 await this.clickRadioButtonByText(smokePage.childrenTxt);
                 await this.clickOnContinueButton();
@@ -1784,244 +1764,299 @@ export const smokeSteps = (page) => {
         },
         async dashboardProfileFlow(constants) {
             await allure.step("Dashboard / Profile – Verify Refer a Friend, Notifications, Profile, Settings and Logout complete flow", async () => {
-                await this.clickOnButtonByText("Upgrade Gift");
-                await this.verifyWithHeadingScreenIsVisible("Refer a friend");
-                await this.verifyWithHeadingScreenIsVisible("Gift 20% Off to Your Loved Ones");
-                await this.fillInputByLabel("Enter your loved one's first name", constants.iName, "");
-                await this.fillInputByLabel("Enter your loved one's email", constants.iEmail, "");
-                await this.clickOnButtonByText("Send Invite");
-                await this.verifyWithTextScreenIsVisible(`Your referral invitation has been sent to ${constants.iEmail}.`)
+                await this.clickOnButtonByText(smokePage.upgradeGiftTxt);
+                await this.verifyWithHeadingScreenIsVisible(smokePage.referAFriendTxt);
+                await this.verifyWithHeadingScreenIsVisible(smokePage.gift20PercentOffToYourFriendTxt);
+                await this.fillInputByLabel(smokePage.enterLoveoneNameLabel, constants.iName, "");
+                await this.fillInputByLabel(smokePage.enterLoveOneEmailLabel, constants.iEmail, "");
+                await this.clickOnButtonByText(smokePage.sendInviteTxt);
+                await this.verifyWithTextScreenIsVisible(smokePage.youReferralInviteSentToEmailTxt(constants.iEmail));
                 await this.clickCloseInviteModel();
                 await this.clickOnProfile();
-                await this.clickAnchorFromProfileDropdown("Settings");
-                await this.verifyWithTextScreenIsVisible(`Update your profile information and manage your account settings.`)
-                await this.fillInputByLabel("Name", constants.iName + " Test", "");
-                await this.fillInputByLabel("Email", getRandomEmail(), "");
-                await this.clickOnButtonByText("Update Profile");
-                await this.verifyWithTextScreenIsVisible(`Profile updated successfully!`)
-                await this.fillInputByLabel("Current Password", constants.password, "");
-                await this.fillInputByLabel("New Password", constants.newPassword, "");
-                await this.fillInputByLabel("Confirm New Password", constants.newPassword, "");
-                await this.clickOnButtonByText("Update Password");
-                await this.verifyWithTextScreenIsVisible(`Password updated successfully!`)
+                await this.clickAnchorFromProfileDropdown(smokePage.settingsTxt);
+                await this.verifyWithTextScreenIsVisible(smokePage.updateProfileInfoToManageTxt)
+                await this.fillInputByLabel(smokePage.nameLabel, constants.iName + " Test", "");
+                await this.fillInputByLabel(smokePage.email, getRandomEmail(), "");
+                await this.clickOnButtonByText(smokePage.updateProfileTxt);
+                await this.verifyWithTextScreenIsVisible(smokePage.profileUpdateSuccessTxt)
+                await this.fillInputByLabel(smokePage.currentPasswordLabel, constants.password, "");
+                await this.fillInputByLabel(smokePage.newPasswordLabel, constants.newPassword, "");
+                await this.fillInputByLabel(smokePage.confirmNewPassLabel, constants.newPassword, "");
+                await this.clickOnButtonByText(smokePage.updatePasswordTxt);
+                await this.verifyWithTextScreenIsVisible(smokePage.passUpdateSuccessTxt)
                 await this.clickOnProfile();
-                await this.clickAnchorFromProfileDropdown("Dashboard");
+                await this.clickAnchorFromProfileDropdown(smokePage.dashboard);
                 await this.verifyWithHeadingScreenIsVisible(smokePage.welcomeAmbreenTxt);
                 await this.clickOnGoBack();
                 await this.clickOnProfile();
-                await this.clickAnchorFromProfileDropdown("Documents");
-                await this.verifyWithHeadingScreenIsVisible("MY DOCUMENTS");
+                await this.clickAnchorFromProfileDropdown(smokePage.documentsTxt);
+                await this.verifyWithHeadingScreenIsVisible(smokePage.myDocumentsCapTxt);
                 await this.clickOnGoBack();
                 await this.clickOnProfile();
-                await this.clickAnchorFromProfileDropdown("Legacy Contacts");
-                await this.verifyWithTextScreenIsVisible("Add a trusted Legacy Contact to your account to make sure someone you trust can access your documents in an emergency.");
+                await this.clickAnchorFromProfileDropdown(smokePage.legacyContactsTxt);
+                await this.verifyWithTextScreenIsVisible(smokePage.addTrustedLegacyContactToYourAccountTxt);
                 await this.clickOnGoBack();
                 await this.clickOnProfile();
-                await this.clickAnchorFromProfileDropdown("Notarization");
-                await this.verifyWithHeadingScreenIsVisible("It's time to make your plan official in Alabama!")
+                await this.clickAnchorFromProfileDropdown(smokePage.notarizationTxt);
+                await this.verifyWithHeadingScreenIsVisible(smokePage.timeToMakeYourPlanOfficialTxt)
 
             });
         },
         async documentsFlow(constants) {
             await allure.step("Documents – Verify complete Documents page end-to-end flow", async () => {
-                await this.clickSidBarAnchor("Documents");
-                await this.verifyWithHeadingScreenIsVisible("MY DOCUMENTS");
-                await this.verifyWithHeadingScreenIsVisible("Share Your Plan With Someone You Trust");
-                await this.clickOnButtonByText("Share My Plan");
+                await this.clickSidBarAnchor(smokePage.documentsTxt);
+                await this.verifyWithHeadingScreenIsVisible(smokePage.myDocumentsCapTxt);
+                await this.verifyWithHeadingScreenIsVisible(smokePage.sharePlanWithSomeoneYouTrustTxt);
+                await this.clickOnButtonByText(smokePage.shareMyPlanTxt);
                 const contactEmail = getRandomEmail();
-                await this.inputByPlaceholder("Contact Name", constants.iName);
-                await this.inputByPlaceholder("Email Address", contactEmail);
-                await this.clickOnButtonByText("Add");
-                await this.clickOnButtonByText("Share Plan");
-                await this.clickOnButtonByText("Confirm");
-                await this.verifyWithHeadingScreenIsVisible("Invitations Sent!");
-                await this.clickOnButtonByText("Done");
-                await this.verifyDocumentNameIsVisible("HIPAA", "Ambreen Test 124");
-                await this.verifyDocumentNameIsVisible("Last Will & Testament", "Ambreen Test 124");
-                await this.verifyDocumentNameIsVisible("Advance Care Directive", "Ambreen Test 124");
-                await this.verifyDocumentNameIsVisible("Power of Attorney", "Ambreen Test 124");
-                await this.clickDocumentButtonByName("HIPAA", "Ambreen Test 124", "Preview");
+                await this.inputByPlaceholder(smokePage.contactNameTxt, constants.iName);
+                await this.inputByPlaceholder(smokePage.emailAddressTxt, contactEmail);
+                await this.clickOnButtonByText(smokePage.addTxt);
+                await this.clickOnButtonByText(smokePage.sharePlanTxt);
+                await this.clickOnButtonByText(smokePage.confirmTxt);
+                await this.verifyWithHeadingScreenIsVisible(smokePage.invitationSentTxt);
+                await this.clickOnButtonByText(smokePage.doneTxt);
+                await this.verifyDocumentNameIsVisible(smokePage.hipaaCapTxt, smokePage.ambreenTest123Name);
+                await this.verifyDocumentNameIsVisible(smokePage.lastWillAndTestament, smokePage.ambreenTest123Name);
+                await this.verifyDocumentNameIsVisible(smokePage.advanceCareDirectiveTxt, smokePage.ambreenTest123Name);
+                await this.verifyDocumentNameIsVisible(smokePage.powerOfAttorneyTxt, smokePage.ambreenTest123Name);
+                await this.clickDocumentButtonByName(smokePage.hipaaCapTxt, smokePage.ambreenTest123Name, smokePage.previewTxt);
                 await this.clickPreviewDocumentCloseModel();
                 await prepareDownloadFolder();
-                const download = page.locator(smokePage.documentTitleXpath("HIPAA"))
-                    .filter({ has: page.locator("span", { hasText: "Ambreen Test 124" }) })
-                    .locator("button, a", { hasText: "Download" });
+                const download = page.locator(smokePage.documentTitleXpath(smokePage.hipaaCapTxt))
+                    .filter({ has: page.locator("span", { hasText: smokePage.ambreenTest123Name }) })
+                    .locator("button, a", { hasText: smokePage.downloadTxt });
                 await downloadAndVerifyFile(page, download);
                 await prepareDownloadFolder();
-                const downloadAll = page.getByRole("link", { name: "Download All" })
+                const downloadAll = page.getByRole("link", { name: smokePage.downloadAllTxt })
                 await downloadAndVerifyFile(page, downloadAll);
                 await this.clickManageAccessHipaButton()
-                await this.verifyWithHeadingScreenIsVisible("Manage Sharing Access");
+                await this.verifyWithHeadingScreenIsVisible(smokePage.manageSharingAccessTxt);
                 await this.clickSelectContactWithEmail(contactEmail);
-                await this.clickOnButtonByText("Save Changes");
-                await this.verifyWithTextContainsIsVisible("Successfully updated access for");
-                await this.clickOnButtonByText("Cancel");
-                await this.clickOnButtonByText("Magic Add Annual Subscription");
-                await this.verifyWithTextScreenIsVisible("Subscription allows you to edit your documents anytime.");
-                await this.clickOnButtonByText("Cancel");
+                await this.clickOnButtonByText(smokePage.saveChangesTxt);
+                await this.verifyWithTextContainsIsVisible(smokePage.succfullyUpdateAccessForTxt);
+                await this.clickOnButtonByText(smokePage.cancelTxt);
+                await this.clickOnButtonByText(smokePage.magicAddAnnualSubscTxt);
+                await this.verifyWithTextScreenIsVisible(smokePage.subscAllowEditDocumentTxt);
+                await this.clickOnButtonByText(smokePage.cancelTxt);
 
             });
         },
         async documentsTrustFlow(constants) {
             await allure.step("Documents – Verify complete Documents page end-to-end flow", async () => {
-                await this.clickSidBarAnchor("Documents");
-                await this.verifyWithHeadingScreenIsVisible("MY DOCUMENTS");
-                await this.verifyWithHeadingScreenIsVisible("Share Your Plan With Someone You Trust");
-                await this.clickOnButtonByText("Share My Plan");
+                await this.clickSidBarAnchor(smokePage.documentsTxt);
+                await this.verifyWithHeadingScreenIsVisible(smokePage.myDocumentsCapTxt);
+                await this.verifyWithHeadingScreenIsVisible(smokePage.sharePlanWithSomeoneYouTrustTxt);
+                await this.clickOnButtonByText(smokePage.shareMyPlanTxt);
                 const contactEmail = getRandomEmail();
-                await this.inputByPlaceholder("Contact Name", constants.iName);
-                await this.inputByPlaceholder("Email Address", contactEmail);
-                await this.clickOnButtonByText("Add");
-                await this.clickOnButtonByText("Share Plan");
-                await this.clickOnButtonByText("Confirm");
-                await this.verifyWithHeadingScreenIsVisible("Invitations Sent!");
-                await this.clickOnButtonByText("Done");                
-                await this.verifyDocumentNameIsVisible("HIPAA", "Ambreen Test 124");
-                await this.verifyDocumentNameIsVisible("Pour Over Will", "Ambreen Test 124");
-                await this.verifyDocumentNameIsVisible("Advance Care Directive", "Ambreen Test 124");
-                await this.verifyDocumentNameIsVisible("Power of Attorney", "Ambreen Test 124");
-                await this.verifyDocumentNameIsVisible("Revocable Living Trust", "Ambreen Test 124");
-                await this.verifyDocumentNameIsVisible("Schedule of Assets", "Ambreen Test 124");
-                await this.verifyDocumentNameIsVisible("Funding Instructions", "Ambreen Test 124");
-                await this.verifyDocumentNameIsVisible("Certification of Trust", "Ambreen Test 124");
-                await this.clickDocumentButtonByName("HIPAA", "Ambreen Test 124", "Preview");
+                await this.inputByPlaceholder(smokePage.contactNameTxt, constants.iName);
+                await this.inputByPlaceholder(smokePage.emailAddressTxt, contactEmail);
+                await this.clickOnButtonByText(smokePage.addTxt);
+                await this.clickOnButtonByText(smokePage.sharePlanTxt);
+                await this.clickOnButtonByText(smokePage.confirmTxt);
+                await this.verifyWithHeadingScreenIsVisible(smokePage.invitationSentTxt);
+                await this.clickOnButtonByText(smokePage.doneTxt);
+                await this.verifyDocumentNameIsVisible(smokePage.hipaaCapTxt, smokePage.ambreenTest123Name);
+                await this.verifyDocumentNameIsVisible("Pour-Over Will", smokePage.ambreenTest123Name);
+                await this.verifyDocumentNameIsVisible(smokePage.advanceCareDirectiveTxt, smokePage.ambreenTest123Name);
+                await this.verifyDocumentNameIsVisible(smokePage.powerOfAttorneyTxt, smokePage.ambreenTest123Name);
+                await this.verifyDocumentNameIsVisible("Revocable Living Trust", smokePage.ambreenTest123Name);
+                await this.verifyDocumentNameIsVisible("Schedule of Assets", smokePage.ambreenTest123Name);
+                await this.verifyDocumentNameIsVisible("Funding Instructions", smokePage.ambreenTest123Name);
+                await this.verifyDocumentNameIsVisible("Certification of Trust", smokePage.ambreenTest123Name);
+                await this.clickDocumentButtonByName(smokePage.hipaaCapTxt, smokePage.ambreenTest123Name, smokePage.previewTxt);
                 await this.clickPreviewDocumentCloseModel();
                 await prepareDownloadFolder();
-                const download = page.locator(smokePage.documentTitleXpath("HIPAA"))
-                    .filter({ has: page.locator("span", { hasText: "Ambreen Test 124" }) })
-                    .locator("button, a", { hasText: "Download" });
+                const download = page.locator(smokePage.documentTitleXpath(smokePage.hipaaCapTxt))
+                    .filter({ has: page.locator("span", { hasText: smokePage.ambreenTest123Name }) })
+                    .locator("button, a", { hasText: smokePage.downloadTxt });
                 await downloadAndVerifyFile(page, download);
                 await prepareDownloadFolder();
-                const downloadAll = page.getByRole("link", { name: "Download All" })
+                const downloadAll = page.getByRole("link", { name: smokePage.downloadAllTxt })
                 await downloadAndVerifyFile(page, downloadAll);
                 await this.clickManageAccessHipaButton()
-                await this.verifyWithHeadingScreenIsVisible("Manage Sharing Access");
+                await this.verifyWithHeadingScreenIsVisible(smokePage.manageSharingAccessTxt);
                 await this.clickSelectContactWithEmail(contactEmail);
-                await this.clickOnButtonByText("Save Changes");
-                await this.verifyWithTextContainsIsVisible("Successfully updated access for");
-                await this.clickOnButtonByText("Cancel");
-                await this.clickOnButtonByText("Magic Add Annual Subscription");
-                await this.verifyWithTextScreenIsVisible("Subscription allows you to edit your documents anytime.");
-                await this.clickOnButtonByText("Cancel");
+                await this.clickOnButtonByText(smokePage.saveChangesTxt);
+                await this.verifyWithTextContainsIsVisible(smokePage.succfullyUpdateAccessForTxt);
+                await this.clickOnButtonByText(smokePage.cancelTxt);
+                await this.clickOnButtonByText(smokePage.magicAddAnnualSubscTxt);
+                await this.verifyWithTextScreenIsVisible(smokePage.subscAllowEditDocumentTxt);
+                await this.clickOnButtonByText(smokePage.cancelTxt);
 
             });
         },
         async couplesDocumentsFlow(constants) {
             await allure.step("Documents – Verify complete Documents page end-to-end flow", async () => {
-                await this.clickSidBarAnchor("Documents");
-                await this.verifyWithHeadingScreenIsVisible("MY DOCUMENTS");
-                await this.verifyWithHeadingScreenIsVisible("Share Your Plan With Someone You Trust");
-                await this.clickOnButtonByText("Share My Plan");
+                await this.clickSidBarAnchor(smokePage.documentsTxt);
+                await this.verifyWithHeadingScreenIsVisible(smokePage.myDocumentsCapTxt);
+                await this.verifyWithHeadingScreenIsVisible(smokePage.sharePlanWithSomeoneYouTrustTxt);
+                await this.clickOnButtonByText(smokePage.shareMyPlanTxt);
                 const contactEmail = getRandomEmail();
-                await this.inputByPlaceholder("Contact Name", constants.iName);
-                await this.inputByPlaceholder("Email Address", contactEmail);
-                await this.clickOnButtonByText("Add");
-                await this.clickOnButtonByText("Share Plan");
-                await this.clickOnButtonByText("Confirm");
-                await this.verifyWithHeadingScreenIsVisible("Invitations Sent!");
-                await this.clickOnButtonByText("Done");
-                await this.verifyDocumentNameIsVisible("HIPAA", "Ambreen Test 124");
-                await this.verifyDocumentNameIsVisible("HIPAA", "Thomas Edison");
-                await this.verifyDocumentNameIsVisible("Last Will & Testament", "Ambreen Test 124");
-                await this.verifyDocumentNameIsVisible("Last Will & Testament", "Thomas Edison");
-                await this.verifyDocumentNameIsVisible("Advance Care Directive", "Ambreen Test 124");
-                await this.verifyDocumentNameIsVisible("Advance Care Directive", "Thomas Edison");
-                await this.verifyDocumentNameIsVisible("Power of Attorney", "Ambreen Test 124");
-                await this.verifyDocumentNameIsVisible("Power of Attorney", "Thomas Edison");
-                await this.clickDocumentButtonByName("HIPAA", "Ambreen Test 124", "Preview");
+                await this.inputByPlaceholder(smokePage.contactNameTxt, constants.iName);
+                await this.inputByPlaceholder(smokePage.emailAddressTxt, contactEmail);
+                await this.clickOnButtonByText(smokePage.addTxt);
+                await this.clickOnButtonByText(smokePage.sharePlanTxt);
+                await this.clickOnButtonByText(smokePage.confirmTxt);
+                await this.verifyWithHeadingScreenIsVisible(smokePage.invitationSentTxt);
+                await this.clickOnButtonByText(smokePage.doneTxt);
+                await this.verifyDocumentNameIsVisible(smokePage.hipaaCapTxt, smokePage.ambreenTest123Name);
+                await this.verifyDocumentNameIsVisible(smokePage.hipaaCapTxt, "Thomas Edison");
+                await this.verifyDocumentNameIsVisible(smokePage.lastWillAndTestament, smokePage.ambreenTest123Name);
+                await this.verifyDocumentNameIsVisible(smokePage.lastWillAndTestament, "Thomas Edison");
+                await this.verifyDocumentNameIsVisible(smokePage.advanceCareDirectiveTxt, smokePage.ambreenTest123Name);
+                await this.verifyDocumentNameIsVisible(smokePage.advanceCareDirectiveTxt, "Thomas Edison");
+                await this.verifyDocumentNameIsVisible(smokePage.powerOfAttorneyTxt, smokePage.ambreenTest123Name);
+                await this.verifyDocumentNameIsVisible(smokePage.powerOfAttorneyTxt, "Thomas Edison");
+                await this.clickDocumentButtonByName(smokePage.hipaaCapTxt, smokePage.ambreenTest123Name, smokePage.previewTxt);
                 await this.clickPreviewDocumentCloseModel();
                 await prepareDownloadFolder();
-                const download = page.locator(smokePage.documentTitleXpath("HIPAA"))
-                    .filter({ has: page.locator("span", { hasText: "Ambreen Test 124" }) })
-                    .locator("button, a", { hasText: "Download" });
+                const download = page.locator(smokePage.documentTitleXpath(smokePage.hipaaCapTxt))
+                    .filter({ has: page.locator("span", { hasText: smokePage.ambreenTest123Name }) })
+                    .locator("button, a", { hasText: smokePage.downloadTxt });
                 await downloadAndVerifyFile(page, download);
                 await prepareDownloadFolder();
-                const downloadAll = page.getByRole("link", { name: "Download All" })
+                const downloadAll = page.getByRole("link", { name: smokePage.downloadAllTxt })
                 await downloadAndVerifyFile(page, downloadAll);
-                await this.clickDocumentButtonByName("HIPAA", "Ambreen Test 124", "Manage Access");
-                await this.verifyWithHeadingScreenIsVisible("Manage Sharing Access");
+                await this.clickDocumentButtonByName(smokePage.hipaaCapTxt, smokePage.ambreenTest123Name, "Manage Access");
+                await this.verifyWithHeadingScreenIsVisible(smokePage.manageSharingAccessTxt);
                 await this.clickSelectContactWithEmail(contactEmail);
-                await this.clickOnButtonByText("Save Changes");
-                await this.verifyWithTextContainsIsVisible("Successfully updated access for");
-                await this.clickOnButtonByText("Cancel");
-                await this.clickOnButtonByText("Magic Add Annual Subscription");
-                await this.verifyWithTextScreenIsVisible("Subscription allows you to edit your documents anytime.");
-                await this.clickOnButtonByText("Cancel");
+                await this.clickOnButtonByText(smokePage.saveChangesTxt);
+                await this.verifyWithTextContainsIsVisible(smokePage.succfullyUpdateAccessForTxt);
+                await this.clickOnButtonByText(smokePage.cancelTxt);
+                await this.clickOnButtonByText(smokePage.magicAddAnnualSubscTxt);
+                await this.verifyWithTextScreenIsVisible(smokePage.subscAllowEditDocumentTxt);
+                await this.clickOnButtonByText(smokePage.cancelTxt);
 
             });
         },
         async couplesDocumentsTrustFlow(constants) {
             await allure.step("Documents – Verify complete Documents page end-to-end flow", async () => {
-                await this.clickSidBarAnchor("Documents");
-                await this.verifyWithHeadingScreenIsVisible("MY DOCUMENTS");
-                await this.verifyWithHeadingScreenIsVisible("Share Your Plan With Someone You Trust");
-                await this.clickOnButtonByText("Share My Plan");
+                await this.clickSidBarAnchor(smokePage.documentsTxt);
+                await this.verifyWithHeadingScreenIsVisible(smokePage.myDocumentsCapTxt);
+                await this.verifyWithHeadingScreenIsVisible(smokePage.sharePlanWithSomeoneYouTrustTxt);
+                await this.clickOnButtonByText(smokePage.shareMyPlanTxt);
                 const contactEmail = getRandomEmail();
-                await this.inputByPlaceholder("Contact Name", constants.iName);
-                await this.inputByPlaceholder("Email Address", contactEmail);
-                await this.clickOnButtonByText("Add");
-                await this.clickOnButtonByText("Share Plan");
-                await this.clickOnButtonByText("Confirm");
-                await this.verifyWithHeadingScreenIsVisible("Invitations Sent!");
-                await this.clickOnButtonByText("Done");                
-                await this.verifyDocumentNameIsVisible("HIPAA", "Ambreen Test 124");
-                await this.verifyDocumentNameIsVisible("HIPAA", "Thomas Edison");
-                await this.verifyDocumentNameIsVisible("Pour Over Will", "Ambreen Test 124");
-                await this.verifyDocumentNameIsVisible("Pour Over Will", "Thomas Edison");
-                await this.verifyDocumentNameIsVisible("Advance Care Directive", "Ambreen Test 124");
-                await this.verifyDocumentNameIsVisible("Advance Care Directive", "Thomas Edison");
-                await this.verifyDocumentNameIsVisible("Power of Attorney", "Ambreen Test 124");
-                await this.verifyDocumentNameIsVisible("Power of Attorney", "Thomas Edison");
-                await this.verifyDocumentNameIsVisible("Revocable Living Trust", "Ambreen Test 124");
+                await this.inputByPlaceholder(smokePage.contactNameTxt, constants.iName);
+                await this.inputByPlaceholder(smokePage.emailAddressTxt, contactEmail);
+                await this.clickOnButtonByText(smokePage.addTxt);
+                await this.clickOnButtonByText(smokePage.sharePlanTxt);
+                await this.clickOnButtonByText(smokePage.confirmTxt);
+                await this.verifyWithHeadingScreenIsVisible(smokePage.invitationSentTxt);
+                await this.clickOnButtonByText(smokePage.doneTxt);
+                await this.verifyDocumentNameIsVisible(smokePage.hipaaCapTxt, smokePage.ambreenTest123Name);
+                await this.verifyDocumentNameIsVisible(smokePage.hipaaCapTxt, "Thomas Edison");
+                await this.verifyDocumentNameIsVisible("Pour-Over Will", smokePage.ambreenTest123Name);
+                await this.verifyDocumentNameIsVisible("Pour-Over Will", "Thomas Edison");
+                await this.verifyDocumentNameIsVisible(smokePage.advanceCareDirectiveTxt, smokePage.ambreenTest123Name);
+                await this.verifyDocumentNameIsVisible(smokePage.advanceCareDirectiveTxt, "Thomas Edison");
+                await this.verifyDocumentNameIsVisible(smokePage.powerOfAttorneyTxt, smokePage.ambreenTest123Name);
+                await this.verifyDocumentNameIsVisible(smokePage.powerOfAttorneyTxt, "Thomas Edison");
+                await this.verifyDocumentNameIsVisible("Revocable Living Trust", smokePage.ambreenTest123Name);
                 await this.verifyDocumentNameIsVisible("Revocable Living Trust", "Thomas Edison");
-                await this.verifyDocumentNameIsVisible("Schedule of Assets", "Ambreen Test 124");
+                await this.verifyDocumentNameIsVisible("Schedule of Assets", smokePage.ambreenTest123Name);
                 await this.verifyDocumentNameIsVisible("Schedule of Assets", "Thomas Edison");
-                await this.verifyDocumentNameIsVisible("Funding Instructions", "Ambreen Test 124");
+                await this.verifyDocumentNameIsVisible("Funding Instructions", smokePage.ambreenTest123Name);
                 await this.verifyDocumentNameIsVisible("Funding Instructions", "Thomas Edison");
-                await this.verifyDocumentNameIsVisible("Certification of Trust", "Ambreen Test 124");
+                await this.verifyDocumentNameIsVisible("Certification of Trust", smokePage.ambreenTest123Name);
                 await this.verifyDocumentNameIsVisible("Certification of Trust", "Thomas Edison");
-                await this.clickDocumentButtonByName("HIPAA", "Ambreen Test 124", "Preview");
+                await this.clickDocumentButtonByName(smokePage.hipaaCapTxt, smokePage.ambreenTest123Name, smokePage.previewTxt);
                 await this.clickPreviewDocumentCloseModel();
                 await prepareDownloadFolder();
-                const download = page.locator(smokePage.documentTitleXpath("HIPAA"))
-                    .filter({ has: page.locator("span", { hasText: "Ambreen Test 124" }) })
-                    .locator("button, a", { hasText: "Download" });
+                const download = page.locator(smokePage.documentTitleXpath(smokePage.hipaaCapTxt))
+                    .filter({ has: page.locator("span", { hasText: smokePage.ambreenTest123Name }) })
+                    .locator("button, a", { hasText: smokePage.downloadTxt });
                 await downloadAndVerifyFile(page, download);
                 await prepareDownloadFolder();
-                const downloadAll = page.getByRole("link", { name: "Download All" })
+                const downloadAll = page.getByRole("link", { name: smokePage.downloadAllTxt })
                 await downloadAndVerifyFile(page, downloadAll);
-                await this.clickDocumentButtonByName("HIPAA", "Ambreen Test 124", "Manage Access");
-                await this.verifyWithHeadingScreenIsVisible("Manage Sharing Access");
+                await this.clickDocumentButtonByName(smokePage.hipaaCapTxt, smokePage.ambreenTest123Name, "Manage Access");
+                await this.verifyWithHeadingScreenIsVisible(smokePage.manageSharingAccessTxt);
                 await this.clickSelectContactWithEmail(contactEmail);
-                await this.clickOnButtonByText("Save Changes");
-                await this.verifyWithTextContainsIsVisible("Successfully updated access for");
-                await this.clickOnButtonByText("Cancel");
-                await this.clickOnButtonByText("Magic Add Annual Subscription");
-                await this.verifyWithTextScreenIsVisible("Subscription allows you to edit your documents anytime.");
-                await this.clickOnButtonByText("Cancel");
+                await this.clickOnButtonByText(smokePage.saveChangesTxt);
+                await this.verifyWithTextContainsIsVisible(smokePage.succfullyUpdateAccessForTxt);
+                await this.clickOnButtonByText(smokePage.cancelTxt);
+                await this.clickOnButtonByText(smokePage.magicAddAnnualSubscTxt);
+                await this.verifyWithTextScreenIsVisible(smokePage.subscAllowEditDocumentTxt);
+                await this.clickOnButtonByText(smokePage.cancelTxt);
 
             });
         },
         async legacyContactsFlow(constants) {
             await allure.step("Legacy Contacts – Verify complete Legacy Contacts end-to-end flow", async () => {
 
-                await this.clickSidBarAnchor("Legacy Contacts");
+                await this.clickSidBarAnchor(smokePage.legacyContactsTxt);
                 await this.verifyWithTextContainsIsVisible("Add a trusted Legacy Contact to your account to make sure");
                 const legacyEmail = getRandomEmail();
                 await this.fillInputByLabel("Enter your contact's full name", constants.legacyContactFullname, "");
                 await this.fillInputByLabel("Enter your contact's email", legacyEmail, "");
-                await this.clickOnButtonByText("Send Invite");
+                await this.clickOnButtonByText(smokePage.sendInviteTxt);
                 await this.verifyWithTextScreenIsVisible("Invitation sent successfully!");
                 await this.verifyWithTextScreenIsVisible(legacyEmail);
                 await this.clickManageAccessForContactsButtonWithEmail(legacyEmail);
-                await this.clickSelectContactWithEmail("Power of Attorney");
-                await this.clickOnButtonByText("Save Changes");
+                await this.clickSelectContactWithEmail(smokePage.powerOfAttorneyTxt);
+                await this.clickOnButtonByText(smokePage.saveChangesTxt);
                 await this.verifyWithTextContainsIsVisible("Successfully updated document access for");
-                await this.clickOnButtonByText("Cancel");
+                await this.clickOnButtonByText(smokePage.cancelTxt);
                 await this.clickRemoveAccessForContactsButtonWithEmail(legacyEmail);
                 await this.clickRemoveAccessModelButton();
                 await this.verifyWithTextContainsIsVisible("Access removed successfully.");
 
+            });
+        },
+        async individualNotarizationFlow() {
+            await allure.step(`Individual Notarization – Verify complete Notarization flow including payment and session creation`, async () => {
+                   await this.clickSidBarAnchor(smokePage.notarizationTxt);
+                await this.verifyWithHeadingScreenIsVisible(smokePage.howItWorksTxt);
+                await this.verifyWithHeadingScreenIsVisible(smokePage.whatYoullNeedTxt);
+                await this.verifyWithTextScreenIsVisible(smokePage.getStartedNotarizingTxt);
+                await this.clickOnButtonByText(smokePage.getStartedNotarizingTxt)
+                await this.verifyWithTextScreenIsVisible(smokePage.advanceCareDirectiveTxt);
+                await this.verifyWithTextScreenIsVisible(smokePage.powerOfAttorneyTxt);
+                await this.clickRadioButtonByText(smokePage.wouldLiktoPurchase5Each);
+                await this.verifyWithTextContainsIsVisible(smokePage.twoProfessionalWitnessesTxt)
+                await this.verifyWithTextScreenIsVisible(smokePage.estatePlanDocumenTxt);
+                await this.verifyWithTextContainsIsVisible(smokePage.notaryWitnessesTxt);
+                await this.enterPaymentCardDetails()
+                await this.verifyConfirmAndPayButtonIsEnabled();
+                await this.clickOnButtonByText(smokePage.confirmAndPayBtnTxt);
+                await this.verifyNotaryText9to5AMIsVisible();
+                if (isWithinNotaryHours()) {
+                    await this.clickOnButtonByText(smokePage.notaryCreateSessionTxt);
+                    await this.verifyWithTextScreenIsVisible(smokePage.notaryCreatedSuccessMessage);
+                    await this.verifyWithTextScreenIsVisible(smokePage.joinSessionNowTxt);
+                    await this.verifyAnchorIsEnabled(smokePage.joinSessionNowTxt);
+                } else {
+                    await this.verifyCreateNotarySessionButtonIsDisabled();
+                }
+            });
+        },
+        async coupleNotarizationFlow() {
+            await allure.step(`Individual Notarization – Verify complete Notarization flow including payment and session creation`, async () => {
+                await this.clickSidBarAnchor(smokePage.notarizationTxt);
+                await this.verifyWithHeadingScreenIsVisible(smokePage.howItWorksTxt);
+                await this.verifyWithHeadingScreenIsVisible(smokePage.whatYoullNeedTxt);
+                await this.verifyWithTextScreenIsVisible(smokePage.getStartedNotarizingTxt);
+                await this.clickOnButtonByText(smokePage.getStartedNotarizingTxt)
+                await this.verifyWithTextScreenIsVisible(smokePage.advanceCareDirectiveTxt);
+                await this.verifyWithTextScreenIsVisible(smokePage.powerOfAttorneyTxt);
+                await this.clickRadioButtonByText(smokePage.wouldLiktoPurchase5Each);
+                await this.verifyWithTextContainsIsVisible(smokePage.twoProfessionalWitnessesTxt)
+                await this.verifyWithTextScreenIsVisible(smokePage.estatePlanDocumenTxt);
+                await this.verifyWithTextContainsIsVisible(smokePage.notaryWitnessesTxt);
+                await this.enterPaymentCardDetails()
+                await this.verifyConfirmAndPayButtonIsEnabled();
+                await this.clickOnButtonByText(smokePage.confirmAndPayBtnTxt);
+                await this.verifyNotaryText9to5AMIsVisible();
+                if (isWithinNotaryHours()) {
+                    await this.inputByPlaceholder(smokePage.witnessSpouseEmailPlaceholder, getRandomEmail())
+                    await this.clickOnButtonByText(smokePage.notaryCreateSessionTxt);
+                    await this.verifyWithTextScreenIsVisible(smokePage.notaryCreatedSuccessMessage);
+                    await this.verifyWithTextScreenIsVisible(smokePage.joinSessionNowTxt);
+                    await this.verifyAnchorIsEnabled(smokePage.joinSessionNowTxt);
+                } else {
+                    await this.verifyCreateNotarySessionButtonIsDisabled();
+                }
             });
         },
         async trustDeedTransferFlow(constants) {

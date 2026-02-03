@@ -2,6 +2,7 @@ import { test, describe } from '@playwright/test';
 import { smokeSteps } from '../steps/smoke.steps';
 const COMMON = require('../utils/common.json');
 const { getRandomEmail } = require('../utils/helper');
+import { smokePage } from '../pages/smoke.page';
 import { constants } from '../utils/Constants';
 import { getPasswordResetLink } from '../utils/resetPasswordLink';
 
@@ -45,14 +46,13 @@ describe('Smoke Tests', () => {
         await smokeStep.enterUserPassword(password);
         await smokeStep.clickOnLogInButton();
         await smokeStep.clickOnProfile();
-        await smokeStep.clickOnLogoutFromProfileDropdown("Logout");
+        await smokeStep.clickOnLogoutFromProfileDropdown(smokePage.logoutTxt);
 
     });
     test('TC_005 - Forgot - Verify complete Forgot Password end-to-end flow', async ({ page }) => {
         const email = COMMON.emailForgetPassword;
         const password = COMMON.password;
         const startTime = new Date();
-        const subject = "Reset Password Notification";
         const smokeStep = smokeSteps(page);
 
         await smokeStep.openHomePage()
@@ -61,7 +61,7 @@ describe('Smoke Tests', () => {
         await smokeStep.verifyWithHeadingScreenIsVisible(constants.resetPasswordTxt);
         await smokeStep.enterUserEmail(email);
         await smokeStep.clickResetPasswordButton();
-        const resetLink = await getPasswordResetLink(email, subject, startTime);
+        const resetLink = await getPasswordResetLink(email, constants.emailSubject, startTime);
         await page.goto(resetLink);
         await smokeStep.verifyWithHeadingScreenIsVisible(constants.resetPasswordTxt)
         await smokeStep.enterUserPassword(password);
@@ -75,19 +75,20 @@ describe('Smoke Tests', () => {
     test('TC_06 - Single Will Complete Flow – Verify complete flow for single will account', async ({ page }) => {
         const email = getRandomEmail();
         const smokeStep = smokeSteps(page);
-        
+
         await smokeStep.signupIndividualWillUsers(constants, email);
         await smokeStep.individualWillUserBasicAddressToConservatorSetup(constants);
         await smokeStep.individualWillUserAssetSetup(constants);
         await smokeStep.individualWillUserArrangmentSetup(constants);
         await smokeStep.individualWillUserHealthCareSetup(constants);
         await smokeStep.individualWillUserFinanceCareSectionSetup(constants);
-        await smokeStep.clickOnButtonByText("Go to Dashboard");
+        await smokeStep.clickOnButtonByText(smokePage.gotoDashboard);
         await smokeStep.dashboarOverViewdFlow(constants);
-        await smokeStep.clickSidBarAnchor("Dashboard");
+        await smokeStep.clickSidBarAnchor(smokePage.dashboard);
         await smokeStep.dashboardProfileFlow(constants);
         await smokeStep.documentsFlow(constants)
         await smokeStep.legacyContactsFlow(constants);
+        await smokeStep.individualNotarizationFlow();
         await smokeStep.verifyDeedTransferTxtIsNotVisible();
 
     });
@@ -101,12 +102,13 @@ describe('Smoke Tests', () => {
         await smokeStep.individualWillUserArrangmentSetup(constants);
         await smokeStep.individualWillUserHealthCareSetup(constants);
         await smokeStep.individualWillUserFinanceCareSectionSetup(constants);
-        await smokeStep.clickOnButtonByText("Go to Dashboard");
+        await smokeStep.clickOnButtonByText(smokePage.gotoDashboard);
         await smokeStep.dashboarOverViewdFlow(constants, 1);
-        await smokeStep.clickSidBarAnchor("Dashboard");
+        await smokeStep.clickSidBarAnchor(smokePage.dashboard);
         await smokeStep.dashboardProfileFlow(constants);
         await smokeStep.documentsTrustFlow(constants)
         await smokeStep.legacyContactsFlow(constants);
+        await smokeStep.individualNotarizationFlow();
         await smokeStep.trustDeedTransferFlow(constants);
 
     });
@@ -128,12 +130,13 @@ describe('Smoke Tests', () => {
         await smokeStep.individualWillUserArrangmentSetup(constants);
         await smokeStep.individualWillUserHealthCareSetup(constants);
         await smokeStep.individualWillUserFinanceCareSectionSetup(constants);
-        await smokeStep.clickOnButtonByText("Back to Overview");
+        await smokeStep.clickOnButtonByText(smokePage.backToOverview);
         await smokeStep.dashboarOverViewdFlow(constants);
-        await smokeStep.clickSidBarAnchor("Dashboard");
+        await smokeStep.clickSidBarAnchor(smokePage.dashboard);
         await smokeStep.dashboardProfileFlow(constants);
         await smokeStep.couplesDocumentsFlow(constants)
         await smokeStep.legacyContactsFlow(constants);
+        await smokeStep.coupleNotarizationFlow();
         await smokeStep.verifyDeedTransferTxtIsNotVisible();
 
     });
@@ -155,12 +158,13 @@ describe('Smoke Tests', () => {
         await smokeStep.individualWillUserArrangmentSetup(constants);
         await smokeStep.individualWillUserHealthCareSetup(constants);
         await smokeStep.individualWillUserFinanceCareSectionSetup(constants);
-        await smokeStep.clickOnButtonByText("Back to Overview");
+        await smokeStep.clickOnButtonByText(smokePage.backToOverview);
         await smokeStep.dashboarOverViewdFlow(constants, 1);
-        await smokeStep.clickSidBarAnchor("Dashboard");
+        await smokeStep.clickSidBarAnchor(smokePage.dashboard);
         await smokeStep.dashboardProfileFlow(constants);
-        await smokeStep.couplesDocumentsTrustFlow(constants)
+        await smokeStep.couplesDocumentsTrustFlow(constants);
         await smokeStep.legacyContactsFlow(constants);
+        await smokeStep.coupleNotarizationFlow();
         await smokeStep.trustDeedTransferFlow(constants);
 
     });

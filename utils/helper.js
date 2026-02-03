@@ -20,6 +20,13 @@ function getRandomForDeedEmail() {
   const email = `ambreeny.qat123${timestamp}@gmail.com`;
   return email;
 }
+function isWithinNotaryHours() {
+  const now = new Date();
+  const hour = now.getHours(); // local machine time (0–23)
+
+  return hour >= 9 && hour < 17;
+}
+
 
 async function prepareDownloadFolder() {
     if (!fs.existsSync(DOWNLOAD_FOLDER)) {
@@ -91,5 +98,6 @@ module.exports = {
     FILE_PATH, 
     createContextWithMockTime, 
     isValidEmail,
-    extractNumericString
+    extractNumericString,
+    isWithinNotaryHours
 };

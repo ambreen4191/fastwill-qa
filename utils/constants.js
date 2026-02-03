@@ -195,6 +195,7 @@ export const constants = {
         country: "United States",
         approximateValue: "5000",
     },
+    emailSubject: "Reset Password Notification",
     newPassword: COMMON.newPassword,
     password: COMMON.password,
     fullName: 'Ambreen Test',
