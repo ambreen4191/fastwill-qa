@@ -3,6 +3,8 @@
   "scripts": {
     "test": "playwright test --headed",
     "test:headless": "playwright test",
+    "test:regression": "playwright test regression.spec.js --headed",
+    "test:smoke": "playwright test smoke.spec.js --headed",
     "test:headed": "playwright test --headed",
     "test:ui": "playwright test --ui",
     "allure:generate": "allure generate allure-results --clean -o allure-report",

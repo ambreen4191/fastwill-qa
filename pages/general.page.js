@@ -1,4 +1,4 @@
-export const smokePage = {
+export const generalPage = {
     homeHeader: 'nav',
     homeBody: 'main',
     homeFooter: 'footer', 
@@ -6,7 +6,13 @@ export const smokePage = {
     facebookLable: 'Facebook', 
     instagramLable: 'Instagram',
     bannerHeadingEstatePlanning: 'Estate Planning Made Simple', 
+    createTrustThatWorksTxt: "Create a Trust That Works for You",
+    createYourWillTxt: "Create Your Will In Minutes",
+    estatePlaningExpTxt: "Estate Planning Explained",
+    buildYourBusinessTxt: "Build Your Business in a",
+    modernEstatePlaningSimplePricTxt: "Modern Estate Planning, Simple Pricing",
     willTxt: 'Will',
+    pricingTxt: "Pricing",
     trustTxt: 'Trust',
     learnTxt: 'Learn',
     professionalsTxt: 'Professionals',
@@ -14,14 +20,20 @@ export const smokePage = {
     startTodayTxt: 'Start Today',
     privacyPolicyTxt: "Privacy Policy",
     termsServiceTxt: "Terms of Service",
+    pricingURL: "plans-and-pricing",
     trustPageURL: 'trust-package',
     willPageURL: 'will-package',
     learnPageURL: 'estate-planning-guide',
+    professionalsURL: "professionals",
     professionalsPageURL:'financial-advisors',
     privacyPolicyPageURL: 'privacy-policy',
     termsServicesPageURL: 'terms-of-service',
+    welcomeFastWillURL: "will-creation",
     loginPageURL: 'login', 
     linkedInPage: 'fastwill', 
+    fastWillTxt: "FastWill",
+    selectDateTxt: "Select Date",
+    pleaseLoginToAccountTxt: "Please log in to your account",
     welcomeFastwillTxt: 'Welcome to FastWill', 
     headingFirstNameTxt: "First, what's your name?", 
     namePlaceholderTxt: 'Enter your name',
@@ -336,23 +348,23 @@ export function getLocator(value) {
 
     switch (value) {
         case 'Alabama':
-            return smokePage.statPlaceHolderText;
+            return generalPage.statPlaceHolderText;
         case 'Florida':
-            return smokePage.statPlaceHolderText;
+            return generalPage.statPlaceHolderText;
         case 'New York':
-            return smokePage.statPlaceHolderText;
+            return generalPage.statPlaceHolderText;
         case 'Colorado':
-            return smokePage.statPlaceHolderText;
+            return generalPage.statPlaceHolderText;
         case 'Washington':
-            return smokePage.statPlaceHolderText;
+            return generalPage.statPlaceHolderText;
         case 'United States':
-            return smokePage.countryPlaceholder;
+            return generalPage.countryPlaceholder;
         case 'Alaska':
-            return smokePage.statPlaceHolderText;
+            return generalPage.statPlaceHolderText;
         case 'Solo Proprietorship':
-            return smokePage.businessTypePlaceHolderTxt;
+            return generalPage.businessTypePlaceHolderTxt;
         case 'Term Life':
-            return smokePage.privacyTypePlaceHolderTxt;
+            return generalPage.privacyTypePlaceHolderTxt;
         default:
             throw new Error(`Locator for "${value}" not defined`);
     }

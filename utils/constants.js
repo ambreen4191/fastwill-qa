@@ -1,6 +1,5 @@
 
 import COMMON from '../utils/common.json'
-import { getRandomEmail } from './helper'
 
 export const constants = {
     backupParentData: {
@@ -216,7 +215,7 @@ export const constants = {
     selectCountryFromDropdown: "United States",
     birthdayDate: "01/03/2006",
     spouseBirthdayDate: "01/10/2000",
-    childName: "Waheed",
+    childName: "George",
     caringPersonAmount: "300",
     guardianType: "Primary",
     propertyPersonName: "John",
