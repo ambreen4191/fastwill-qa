@@ -21,7 +21,7 @@ export const smokeSteps = (page) => {
                 await generalStep.enterUserEmail(email);
                 await generalStep.enterCreateAccountPassword(constants.password);
                 await generalStep.clickOnCreateAccountButton();
-                await generalStep.verifyPlanSectionPageAndSelectPlan(generalPage.selectOnlyTrustPlanTxt);
+                await generalStep.verifyPlanSectionPageAndSelectPlan(generalPage.selectTrustOnly);
                 await generalStep.verifyUserIsOnPaymentPage();
                 await generalStep.enterPaymentCardDetails();
                 await generalStep.acceptTermsAndConditions();
@@ -45,7 +45,7 @@ export const smokeSteps = (page) => {
                 await generalStep.enterUserEmail(email);
                 await generalStep.enterCreateAccountPassword(constants.password);
                 await generalStep.clickOnCreateAccountButton();
-                await generalStep.verifyPlanSectionPageAndSelectPlan(generalPage.selectWillTxt);
+                await generalStep.verifyPlanSectionPageAndSelectPlan(generalPage.selectWillOnlyTxt);
                 await generalStep.verifyUserIsOnPaymentPage();
                 await generalStep.enterPaymentCardDetails();
                 await generalStep.acceptTermsAndConditions();
@@ -71,7 +71,7 @@ export const smokeSteps = (page) => {
                 await generalStep.enterUserEmail(email);
                 await generalStep.enterCreateAccountPassword(constants.password);
                 await generalStep.clickOnCreateAccountButton();
-                await generalStep.verifyPlanSectionPageAndSelectPlan(generalPage.selectWillTxt);
+                await generalStep.verifyPlanSectionPageAndSelectPlan(generalPage.selectWillOnlyTxt);
                 await generalStep.verifyUserIsOnPaymentPage();
                 await generalStep.enterPaymentCardDetails();
                 await generalStep.acceptTermsAndConditions();
@@ -97,7 +97,7 @@ export const smokeSteps = (page) => {
                 await generalStep.enterUserEmail(email);
                 await generalStep.enterCreateAccountPassword(constants.password);
                 await generalStep.clickOnCreateAccountButton();
-                await generalStep.verifyPlanSectionPageAndSelectPlan(generalPage.selectOnlyTrustPlanTxt);
+                await generalStep.verifyPlanSectionPageAndSelectPlan(generalPage.selectTrustOnly);
                 await generalStep.verifyUserIsOnPaymentPage();
                 await generalStep.enterPaymentCardDetails();
                 await generalStep.acceptTermsAndConditions();
@@ -468,7 +468,7 @@ export const smokeSteps = (page) => {
                 await generalStep.clickOnButtonByText(generalPage.addIntrestTxt);
                 await generalStep.fillInputByLabel(generalPage.businessNameLabel, constants.businessName, "");
                 await generalStep.selectItemFromDropDown(constants.businessType.substring(0, 6), constants.businessType);
-                // await generalStep.selectItemFromDropDown("Relationship to business (optional)", "Owner"); uncomment and fix after issue resolved
+                // await generalStep.selectItemFromDropDown("Relationship to business (optional)", generalPage.ownerTxt); uncomment and fix after issue resolved
                 await generalStep.fillInputByLabel(generalPage.valueOfOwnershipLabel, constants.businessOwnershipValue, "");
                 await generalStep.clickOnContinueButton();
                 await generalStep.fillInputByLabelAndSelectFromDropdown(generalPage.fullNameLabel, `${constants.primaryPetGuardianData.firstName} ${constants.primaryPetGuardianData.lastName}`);
@@ -583,7 +583,7 @@ export const smokeSteps = (page) => {
                 await generalStep.clickOnButtonByText(generalPage.addIntrestTxt);
                 await generalStep.fillInputByLabel(generalPage.businessNameLabel, constants.businessName, "");
                 await generalStep.selectItemFromDropDown(constants.businessType.substring(0, 6), constants.businessType);
-                // await generalStep.selectItemFromDropDown("Relationship to business (optional)", "Owner"); uncomment and fix after issue resolved
+                // await generalStep.selectItemFromDropDown("Relationship to business (optional)", generalPage.ownerTxt); uncomment and fix after issue resolved
                 await generalStep.fillInputByLabel(generalPage.valueOfOwnershipLabel, constants.businessOwnershipValue, "");
                 await generalStep.clickOnContinueButton();
                 await generalStep.fillInputByLabelAndSelectFromDropdown(generalPage.fullNameLabel, `${constants.primaryPetGuardianData.firstName} ${constants.primaryPetGuardianData.lastName}`, "");
@@ -642,7 +642,7 @@ export const smokeSteps = (page) => {
                 await generalStep.clickOnButtonByText(generalPage.addIntrestTxt);
                 await generalStep.fillInputByLabel(generalPage.businessNameLabel, constants.businessName, "");
                 await generalStep.selectItemFromDropDown(constants.businessType.substring(0, 6), constants.businessType);
-                // await generalStep.selectItemFromDropDown("Relationship to business (optional)", "Owner"); uncomment and fix after issue resolved
+                // await generalStep.selectItemFromDropDown("Relationship to business (optional)", generalPage.ownerTxt); uncomment and fix after issue resolved
                 await generalStep.fillInputByLabel(generalPage.valueOfOwnershipLabel, constants.businessOwnershipValue, "");
                 await generalStep.clickOnContinueButton();
                 await generalStep.fillInputByLabelAndSelectFromDropdown(generalPage.fullNameLabel, `${constants.primaryPetGuardianData.firstName} ${constants.primaryPetGuardianData.lastName}`);
@@ -934,13 +934,13 @@ export const smokeSteps = (page) => {
                 await generalStep.verifyWithHeadingScreenIsVisible(generalPage.invitationSentTxt);
                 await generalStep.clickOnButtonByText(generalPage.doneTxt);
                 await generalStep.verifyDocumentNameIsVisible(generalPage.hipaaCapTxt, generalPage.ambreenTest123Name);
-                await generalStep.verifyDocumentNameIsVisible("Pour-Over Will", generalPage.ambreenTest123Name);
+                await generalStep.verifyDocumentNameIsVisible(generalPage.pourOverWillTxt, generalPage.ambreenTest123Name);
                 await generalStep.verifyDocumentNameIsVisible(generalPage.advanceCareDirectiveTxt, generalPage.ambreenTest123Name);
                 await generalStep.verifyDocumentNameIsVisible(generalPage.powerOfAttorneyTxt, generalPage.ambreenTest123Name);
-                await generalStep.verifyDocumentNameIsVisible("Revocable Living Trust", generalPage.ambreenTest123Name);
-                await generalStep.verifyDocumentNameIsVisible("Schedule of Assets", generalPage.ambreenTest123Name);
-                await generalStep.verifyDocumentNameIsVisible("Funding Instructions", generalPage.ambreenTest123Name);
-                await generalStep.verifyDocumentNameIsVisible("Certification of Trust", generalPage.ambreenTest123Name);
+                await generalStep.verifyDocumentNameIsVisible(generalPage.revocableLivingTrustTxt, generalPage.ambreenTest123Name);
+                await generalStep.verifyDocumentNameIsVisible(generalPage.scheduleOfAssetsTxt, generalPage.ambreenTest123Name);
+                await generalStep.verifyDocumentNameIsVisible(generalPage.fundingInstructionTxt, generalPage.ambreenTest123Name);
+                await generalStep.verifyDocumentNameIsVisible(generalPage.certificationOfTrustTxt, generalPage.ambreenTest123Name);
                 await generalStep.clickDocumentButtonByName(generalPage.hipaaCapTxt, generalPage.ambreenTest123Name, generalPage.previewTxt);
                 await generalStep.clickPreviewDocumentCloseModel();
                 await prepareDownloadFolder();
@@ -978,13 +978,13 @@ export const smokeSteps = (page) => {
                 await generalStep.verifyWithHeadingScreenIsVisible(generalPage.invitationSentTxt);
                 await generalStep.clickOnButtonByText(generalPage.doneTxt);
                 await generalStep.verifyDocumentNameIsVisible(generalPage.hipaaCapTxt, generalPage.ambreenTest123Name);
-                await generalStep.verifyDocumentNameIsVisible(generalPage.hipaaCapTxt, "Thomas Edison");
+                await generalStep.verifyDocumentNameIsVisible(generalPage.hipaaCapTxt, generalPage.thomasEdisonName);
                 await generalStep.verifyDocumentNameIsVisible(generalPage.lastWillAndTestament, generalPage.ambreenTest123Name);
-                await generalStep.verifyDocumentNameIsVisible(generalPage.lastWillAndTestament, "Thomas Edison");
+                await generalStep.verifyDocumentNameIsVisible(generalPage.lastWillAndTestament, generalPage.thomasEdisonName);
                 await generalStep.verifyDocumentNameIsVisible(generalPage.advanceCareDirectiveTxt, generalPage.ambreenTest123Name);
-                await generalStep.verifyDocumentNameIsVisible(generalPage.advanceCareDirectiveTxt, "Thomas Edison");
+                await generalStep.verifyDocumentNameIsVisible(generalPage.advanceCareDirectiveTxt, generalPage.thomasEdisonName);
                 await generalStep.verifyDocumentNameIsVisible(generalPage.powerOfAttorneyTxt, generalPage.ambreenTest123Name);
-                await generalStep.verifyDocumentNameIsVisible(generalPage.powerOfAttorneyTxt, "Thomas Edison");
+                await generalStep.verifyDocumentNameIsVisible(generalPage.powerOfAttorneyTxt, generalPage.thomasEdisonName);
                 await generalStep.clickDocumentButtonByName(generalPage.hipaaCapTxt, generalPage.ambreenTest123Name, generalPage.previewTxt);
                 await generalStep.clickPreviewDocumentCloseModel();
                 await prepareDownloadFolder();
@@ -995,7 +995,7 @@ export const smokeSteps = (page) => {
                 await prepareDownloadFolder();
                 const downloadAll = page.getByRole("link", { name: generalPage.downloadAllTxt })
                 await downloadAndVerifyFile(page, downloadAll);
-                await generalStep.clickDocumentButtonByName(generalPage.hipaaCapTxt, generalPage.ambreenTest123Name, "Manage Access");
+                await generalStep.clickDocumentButtonByName(generalPage.hipaaCapTxt, generalPage.ambreenTest123Name, generalPage.manageAccessTxt);
                 await generalStep.verifyWithHeadingScreenIsVisible(generalPage.manageSharingAccessTxt);
                 await generalStep.clickSelectContactWithEmail(contactEmail);
                 await generalStep.clickOnButtonByText(generalPage.saveChangesTxt);
@@ -1022,21 +1022,21 @@ export const smokeSteps = (page) => {
                 await generalStep.verifyWithHeadingScreenIsVisible(generalPage.invitationSentTxt);
                 await generalStep.clickOnButtonByText(generalPage.doneTxt);
                 await generalStep.verifyDocumentNameIsVisible(generalPage.hipaaCapTxt, generalPage.ambreenTest123Name);
-                await generalStep.verifyDocumentNameIsVisible(generalPage.hipaaCapTxt, "Thomas Edison");
-                await generalStep.verifyDocumentNameIsVisible("Pour-Over Will", generalPage.ambreenTest123Name);
-                await generalStep.verifyDocumentNameIsVisible("Pour-Over Will", "Thomas Edison");
+                await generalStep.verifyDocumentNameIsVisible(generalPage.hipaaCapTxt, generalPage.thomasEdisonName);
+                await generalStep.verifyDocumentNameIsVisible(generalPage.pourOverWillTxt, generalPage.ambreenTest123Name);
+                await generalStep.verifyDocumentNameIsVisible(generalPage.pourOverWillTxt, generalPage.thomasEdisonName);
                 await generalStep.verifyDocumentNameIsVisible(generalPage.advanceCareDirectiveTxt, generalPage.ambreenTest123Name);
-                await generalStep.verifyDocumentNameIsVisible(generalPage.advanceCareDirectiveTxt, "Thomas Edison");
+                await generalStep.verifyDocumentNameIsVisible(generalPage.advanceCareDirectiveTxt, generalPage.thomasEdisonName);
                 await generalStep.verifyDocumentNameIsVisible(generalPage.powerOfAttorneyTxt, generalPage.ambreenTest123Name);
-                await generalStep.verifyDocumentNameIsVisible(generalPage.powerOfAttorneyTxt, "Thomas Edison");
-                await generalStep.verifyDocumentNameIsVisible("Revocable Living Trust", generalPage.ambreenTest123Name);
-                await generalStep.verifyDocumentNameIsVisible("Revocable Living Trust", "Thomas Edison");
-                await generalStep.verifyDocumentNameIsVisible("Schedule of Assets", generalPage.ambreenTest123Name);
-                await generalStep.verifyDocumentNameIsVisible("Schedule of Assets", "Thomas Edison");
-                await generalStep.verifyDocumentNameIsVisible("Funding Instructions", generalPage.ambreenTest123Name);
-                await generalStep.verifyDocumentNameIsVisible("Funding Instructions", "Thomas Edison");
-                await generalStep.verifyDocumentNameIsVisible("Certification of Trust", generalPage.ambreenTest123Name);
-                await generalStep.verifyDocumentNameIsVisible("Certification of Trust", "Thomas Edison");
+                await generalStep.verifyDocumentNameIsVisible(generalPage.powerOfAttorneyTxt, generalPage.thomasEdisonName);
+                await generalStep.verifyDocumentNameIsVisible(generalPage.revocableLivingTrustTxt, generalPage.ambreenTest123Name);
+                await generalStep.verifyDocumentNameIsVisible(generalPage.revocableLivingTrustTxt, generalPage.thomasEdisonName);
+                await generalStep.verifyDocumentNameIsVisible(generalPage.scheduleOfAssetsTxt, generalPage.ambreenTest123Name);
+                await generalStep.verifyDocumentNameIsVisible(generalPage.scheduleOfAssetsTxt, generalPage.thomasEdisonName);
+                await generalStep.verifyDocumentNameIsVisible(generalPage.fundingInstructionTxt, generalPage.ambreenTest123Name);
+                await generalStep.verifyDocumentNameIsVisible(generalPage.fundingInstructionTxt, generalPage.thomasEdisonName);
+                await generalStep.verifyDocumentNameIsVisible(generalPage.certificationOfTrustTxt, generalPage.ambreenTest123Name);
+                await generalStep.verifyDocumentNameIsVisible(generalPage.certificationOfTrustTxt, generalPage.thomasEdisonName);
                 await generalStep.clickDocumentButtonByName(generalPage.hipaaCapTxt, generalPage.ambreenTest123Name, generalPage.previewTxt);
                 await generalStep.clickPreviewDocumentCloseModel();
                 await prepareDownloadFolder();
@@ -1047,7 +1047,7 @@ export const smokeSteps = (page) => {
                 await prepareDownloadFolder();
                 const downloadAll = page.getByRole("link", { name: generalPage.downloadAllTxt })
                 await downloadAndVerifyFile(page, downloadAll);
-                await generalStep.clickDocumentButtonByName(generalPage.hipaaCapTxt, generalPage.ambreenTest123Name, "Manage Access");
+                await generalStep.clickDocumentButtonByName(generalPage.hipaaCapTxt, generalPage.ambreenTest123Name, generalPage.manageAccessTxt);
                 await generalStep.verifyWithHeadingScreenIsVisible(generalPage.manageSharingAccessTxt);
                 await generalStep.clickSelectContactWithEmail(contactEmail);
                 await generalStep.clickOnButtonByText(generalPage.saveChangesTxt);
@@ -1063,21 +1063,21 @@ export const smokeSteps = (page) => {
             await allure.step("Legacy Contacts – Verify complete Legacy Contacts end-to-end flow", async () => {
 
                 await generalStep.clickSidBarAnchor(generalPage.legacyContactsTxt);
-                await generalStep.verifyWithTextContainsIsVisible("Add a trusted Legacy Contact to your account to make sure");
+                await generalStep.verifyWithTextContainsIsVisible(generalPage.addTrustedLegacyContactaccountTxt);
                 const legacyEmail = getRandomEmail();
-                await generalStep.fillInputByLabel("Enter your contact's full name", constants.legacyContactFullname, "");
-                await generalStep.fillInputByLabel("Enter your contact's email", legacyEmail, "");
+                await generalStep.fillInputByLabel(generalPage.legacyContactFullnameLabel, constants.legacyContactFullname, "");
+                await generalStep.fillInputByLabel(generalPage.legacyContactEmailLabel, legacyEmail, "");
                 await generalStep.clickOnButtonByText(generalPage.sendInviteTxt);
-                await generalStep.verifyWithTextScreenIsVisible("Invitation sent successfully!");
+                await generalStep.verifyWithTextScreenIsVisible(generalPage.invitationSentSuccessTxt);
                 await generalStep.verifyWithTextScreenIsVisible(legacyEmail);
                 await generalStep.clickManageAccessForContactsButtonWithEmail(legacyEmail);
                 await generalStep.clickSelectContactWithEmail(generalPage.powerOfAttorneyTxt);
                 await generalStep.clickOnButtonByText(generalPage.saveChangesTxt);
-                await generalStep.verifyWithTextContainsIsVisible("Successfully updated document access for");
+                await generalStep.verifyWithTextContainsIsVisible(generalPage.updatedDocumentAccessTxt);
                 await generalStep.clickOnButtonByText(generalPage.cancelTxt);
                 await generalStep.clickRemoveAccessForContactsButtonWithEmail(legacyEmail);
                 await generalStep.clickRemoveAccessModelButton();
-                await generalStep.verifyWithTextContainsIsVisible("Access removed successfully.");
+                await generalStep.verifyWithTextContainsIsVisible(generalPage.accessRemovedSuccessTxt);
 
             });
         },
@@ -1139,33 +1139,33 @@ export const smokeSteps = (page) => {
         async trustDeedTransferFlow(constants) {
             await allure.step("Deed Transfer - Verify complete Deed Transfer end-to-end flow (Trust only)", async () => {
                 await generalStep.verifyDeedTransferTxtIsVisible();
-                await generalStep.clickSidBarAnchor("Deed Transfer");
-                await generalStep.verifyWithHeadingScreenIsVisible("How it works");
-                await generalStep.verifyWithTextScreenIsVisible("Secure your payment to begin your deed transfer");
-                await generalStep.clickOnButtonIndexByText("Get Started");
-                await generalStep.verifyWithHeadingScreenIsVisible("Deed Transfer Calculation");
-                await generalStep.checkValueForLabel("Address");
-                await generalStep.checkValueForLabel("State");
-                await generalStep.checkValueForLabel("County");
-                await generalStep.checkValueForLabel("Owner");
-                await generalStep.checkValueForLabel("City");
-                await generalStep.checkValueForLabel("Zip Code");
-                await generalStep.verifyWithHeadingByIndex("Recording Fees");
+                await generalStep.clickSidBarAnchor(generalPage.deedTranserTxt);
+                await generalStep.verifyWithHeadingScreenIsVisible(generalPage.howItWorksTxt);
+                await generalStep.verifyWithTextScreenIsVisible(generalPage.securePaymentToDeedTransferTxt);
+                await generalStep.clickOnButtonIndexByText(generalPage.getStartedTxt);
+                await generalStep.verifyWithHeadingScreenIsVisible(generalPage.deedTransferCalculationTxt);
+                await generalStep.checkValueForLabel(generalPage.addressTxt);
+                await generalStep.checkValueForLabel(generalPage.state);
+                await generalStep.checkValueForLabel(generalPage.countyTxt);
+                await generalStep.checkValueForLabel(generalPage.ownerTxt);
+                await generalStep.checkValueForLabel(generalPage.city);
+                await generalStep.checkValueForLabel(generalPage.zipCode);
+                await generalStep.verifyWithHeadingByIndex(generalPage.recordingFeesTxt);
                 await generalStep.verifyRecordingFeesTotal();
                 await generalStep.clickOnContinueButton();
-                await generalStep.verifyWithTextScreenIsVisible("Summary Service");
+                await generalStep.verifyWithTextScreenIsVisible(generalPage.summaryServiceTxt);
                 await generalStep.verifyDeedNotarizationFee();
                 await generalStep.clickOnAcceptCookiesButton()
-                await generalStep.clickRadioButtonByText("Continue");
+                await generalStep.clickRadioButtonByText(generalPage.continueTxt);
                 await generalStep.verifyRecordingFeesBreakdownSubtotalAndTotal()
                 await generalStep.verifyFullNameField();
                 await generalStep.verifyEmailField(getRandomForDeedEmail());
                 await generalStep.enterPaymentCardDetails();
                 await generalStep.clickConfirmAndPayButton();
-                await generalStep.verifyWithTextContainsIsVisible("Payment successful! Processing your deed transfer order...");
-                await generalStep.verifyWithTextScreenIsVisible("Your Deed Transfer Is Confirmed!")
-                await generalStep.clickSidBarAnchor("Deed Transfer");
-                await generalStep.verifyWithTextScreenIsVisibleByIndex("PREPARING DEED", 1);
+                await generalStep.verifyWithTextContainsIsVisible(generalPage.paymentSuccessDeedTransferTxt);
+                await generalStep.verifyWithTextScreenIsVisible(generalPage.deedTransferConfirmedTxt)
+                await generalStep.clickSidBarAnchor(generalPage.deedTranserTxt);
+                await generalStep.verifyWithTextScreenIsVisibleByIndex(generalPage.preparingDeedCapTxt, 1);
 
             });
         },
