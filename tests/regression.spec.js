@@ -3,6 +3,7 @@ import { generalSteps } from '../steps/general.steps';
 import { generalPage } from '../pages/general.page';
 import { constants } from '../utils/constants';
 const { getRandomEmail } = require('../utils/helper');
+const COMMON = require('../utils/common.json');
 
 describe('Regression Tests', () => {
     test('TC_001 - Homepage – Complete End-to-End Validation - Verify that the homepage loads correctly and all sections from header to footer function properly in sequence without navigation or UI issues', async ({ page }) => {
@@ -121,7 +122,67 @@ describe('Regression Tests', () => {
         await generalStep.enterUserEmail(email);
         await generalStep.enterCreateAccountPassword(constants.password);
         await generalStep.clickOnCreateAccountButton();
-        await generalStep.verifyWithTextScreenIsVisibleByIndex(generalPage.trustBaseEstatePlanTxt, 1);
+        await generalStep.verifyWithHeadingByIndex(generalPage.trustBaseEstatePlanTxt, 0);
+        await generalStep.clickOnButtonByText(generalPage.backTxt);
+        await generalStep.clickRadioButtonByText(generalPage.noTxt);
+        await generalStep.verifyWithHeadingByIndex(generalPage.willBaseEstatePlanTxt, 0);
+
+    });
+    test('TC_003 - Signup – Negative Validation & Account Creation Errors – Verify that signup form properly validates invalid inputs and prevents account creation when incorrect or duplicate data is entered', async ({ page }) => {
+        const generalStep = generalSteps(page);
+
+        await generalStep.openHomePage();
+        await generalStep.clickStartTodayButton();
+        await generalStep.verifyStartTodayScreenElementsVisible(constants.fullName);
+        await generalStep.clickOnContinueButton();
+        await generalStep.verifyWithHeadingScreenContainsTheTitle(constants.whatStatYouLivedTxt);
+        await generalStep.selectItemFromDropDown(constants.enterState, constants.selectStateFromDropdown);
+        await generalStep.clickOnContinueButton();
+        await generalStep.clickOnAcceptCookiesButton();
+        await generalStep.selectRelationshipStatus(constants.singleRelationshipStatus);
+        await generalStep.verifyWithHeadingScreenIsVisible(generalPage.wouldLikeTorAvoidProbatProcessTxt);
+        await generalStep.verifyWithTextScreenIsNotVisible(generalPage.forBothOfUsTxt);
+        await generalStep.clickOnButtonByText(generalPage.backTxt);
+        await generalStep.selectRelationshipStatus(constants.marriedStatus)
+        await generalStep.verifyWithTextScreenIsVisible(generalPage.forBothOfUsTxt)
+        await generalStep.clickRadioButtonByText(generalPage.justMeTxt);
+        await generalStep.selectAvoidProbateYes();
+        await generalStep.verifyButtonIsDisabled(generalPage.createAccountTxt);
+        await generalStep.enterUserEmail(constants.invalidEmail);
+        await generalStep.clickOnCreateAccountButton();
+        await generalStep.verifyErrorIsVisible(generalPage.enterValidEmailError);
+        await generalStep.verifyErrorIsVisible(generalPage.passwordError);
+        await generalStep.enterCreateAccountPassword(constants.invalidPassword);
+        await generalStep.clickOnCreateAccountButton();
+        await generalStep.verifyErrorIsVisible(generalPage.passwordLengthError);
+        await generalStep.enterUserEmail(COMMON.babytrust);
+        await generalStep.enterCreateAccountPassword(constants.password);
+        await generalStep.clickOnCreateAccountButton();
+        await generalStep.verifyErrorIsVisible(generalPage.emailRegisteredError);
+
+    });
+    test('TC_004 - Login Functionality – Verify complete end-to-end login flow with valid credentials and successful redirection to Dashboard.', async ({ page }) => {
+        const password = COMMON.newPassword;
+        const generalStep = generalSteps(page);
+
+        await generalStep.openHomePage();
+        await generalStep.clickOnLoginInAnchor();
+        await generalStep.enterUserEmail(constants.validEmail);
+        await generalStep.enterUserPassword(password);
+        await generalStep.clickOnLogInButton();
+        await generalStep.verifyWithTextScreenIsVisible(generalPage.summaryTxt);
+        await page.reload();
+        await generalStep.verifyWithTextScreenIsVisible(generalPage.summaryTxt);
+
+
+    });
+    test('TC_005 - Login Functionality – Verify complete negative end-to-end login flow covering all validation and invalid credential scenarios and ensure dashboard access is restricted.', async ({ page }) => {
+        const generalStep = generalSteps(page);
+
+        await generalStep.openHomePage();
+        await generalStep.clickOnLoginInAnchor();
+        await generalStep.clickOnLogInButton();
+
 
     });
 

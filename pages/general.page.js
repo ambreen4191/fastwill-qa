@@ -203,11 +203,12 @@ export const generalPage = {
     justMeTxt: "Just me",
     cancelTxt: "Cancel",
     trustBaseEstatePlanTxt: "Trust-Based Estate Plan",
+    willBaseEstatePlanTxt: "Will-Based Estate Plan",
     wouldLikeTorAvoidProbatProcessTxt: "Would you like to avoid the probate process?",
     magicAddAnnualSubscTxt: "Magic Add Annual Subscription",
     subscAllowEditDocumentTxt: "Subscription allows you to edit your documents anytime.",
     succfullyUpdateAccessForTxt: "Successfully updated access for",
-    getStartedNotarizingTxt: "Get Started Notarizating",
+    getStartedNotarizingTxt: "Get Started Notarizing",
     lastWillAndTestament: "Last Will & Testament",
     advanceCareDirectiveTxt: "Advance Care Directive",
     powerOfAttorneyTxt: "Power of Attorney",
@@ -357,6 +358,10 @@ export const generalPage = {
     sharePlanTxt: "Share Plan",
     invitationSentTxt: "Invitations Sent!",
     updateProfileInfoToManageTxt: `Update your profile information and manage your account settings.`,
+    enterValidEmailError: "Please enter a valid email address with a proper domain extension (e.g., .com, .org).",
+    emailRegisteredError: "This email is already registered. Please log in or use a different email.",
+    passwordError: "A password is required.",
+    passwordLengthError: "The password must be at least 5 characters long.",
     parentRatioBtnTxt: (name) => `${name} and Me`,
     youReferralInviteSentToEmailTxt: (email)=> `Your referral invitation has been sent to ${email}.`,
 
@@ -368,6 +373,7 @@ export const generalPage = {
     accountPasswordId: "#account-password",
     confirmPasswordId: "#password_confirmation",
     messengerFramId: '#widgetMessengerFrame',
+    wiilCreateHeaderCorssIconId: "#will-creation-header button",
 
     /** xpaths */
     xPathProfile: 'a[aria-label="Settings"]+div>button', 

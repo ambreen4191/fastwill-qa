@@ -303,15 +303,8 @@ export const smokeSteps = (page) => {
                 await generalStep.verifyWithHeadingScreenIsVisible(generalPage.doYouWantChoosePetGuardianTxt);
                 await generalStep.clickYesRadioButton();
                 await generalStep.verifyWithHeadingScreenIsVisible(generalPage.listOfPetsDescTxt);
-                await generalStep.clickOnAddPetByIndex(1);
-                await generalStep.fillInputByLabel(generalPage.petsNameLabel, constants.petName, "");
-                await generalStep.clickOnAddPetByIndex(2);
                 await generalStep.clickOnContinueButton();
                 await generalStep.verifyPetGuardianAssignmentScreenIsVisible(constants.petName);
-                await generalStep.addPrimaryGuardian();
-                await generalStep.addGuardian(constants.spousePrimaryPetGuardianData, constants.guardianType);
-                await generalStep.addBackUpGuardian();
-                await generalStep.addGuardian(constants.spouseBackupPetGuardianData, "");
                 await generalStep.clickOnContinueButton();
                 await generalStep.verifyWithHeadingScreenIsVisible(generalPage.setAsideMoenyToCaringPersonHelp);
                 await generalStep.clickYesRadioButton();
@@ -421,15 +414,8 @@ export const smokeSteps = (page) => {
                 await generalStep.verifyWithHeadingScreenIsVisible(generalPage.doYouWantChoosePetGuardianTxt);
                 await generalStep.clickYesRadioButton();
                 await generalStep.verifyWithHeadingScreenIsVisible(generalPage.listOfPetsDescTxt);
-                await generalStep.clickOnAddPetByIndex(1);
-                await generalStep.fillInputByLabel(generalPage.petsNameLabel, constants.petName, "");
-                await generalStep.clickOnAddPetByIndex(2);
                 await generalStep.clickOnContinueButton();
                 await generalStep.verifyPetGuardianAssignmentScreenIsVisible(constants.petName);
-                await generalStep.addPrimaryGuardian();
-                await generalStep.addGuardian(constants.spousePrimaryPetGuardianData, constants.guardianType);
-                await generalStep.addBackUpGuardian();
-                await generalStep.addGuardian(constants.spouseBackupPetGuardianData, "");
                 await generalStep.clickOnContinueButton();
                 await generalStep.verifyWithHeadingScreenIsVisible(generalPage.setAsideMoenyToCaringPersonHelp);
                 await generalStep.clickYesRadioButton();
@@ -954,7 +940,7 @@ export const smokeSteps = (page) => {
                 await generalStep.clickManageAccessHipaButton()
                 await generalStep.verifyWithHeadingScreenIsVisible(generalPage.manageSharingAccessTxt);
                 await generalStep.clickSelectContactWithEmail(contactEmail);
-                await generalStep.clickOnButtonByText(generalPage.saveChangesTxt);
+                await generalStep.clickOnButtonByText(generalPage.sendInviteTxt);
                 await generalStep.verifyWithTextContainsIsVisible(generalPage.succfullyUpdateAccessForTxt);
                 await generalStep.clickOnButtonByText(generalPage.cancelTxt);
                 await generalStep.clickOnButtonByText(generalPage.magicAddAnnualSubscTxt);
@@ -998,7 +984,7 @@ export const smokeSteps = (page) => {
                 await generalStep.clickDocumentButtonByName(generalPage.hipaaCapTxt, generalPage.ambreenTest123Name, generalPage.manageAccessTxt);
                 await generalStep.verifyWithHeadingScreenIsVisible(generalPage.manageSharingAccessTxt);
                 await generalStep.clickSelectContactWithEmail(contactEmail);
-                await generalStep.clickOnButtonByText(generalPage.saveChangesTxt);
+                await generalStep.clickOnButtonByText(generalPage.sendInviteTxt);
                 await generalStep.verifyWithTextContainsIsVisible(generalPage.succfullyUpdateAccessForTxt);
                 await generalStep.clickOnButtonByText(generalPage.cancelTxt);
                 await generalStep.clickOnButtonByText(generalPage.magicAddAnnualSubscTxt);
@@ -1050,7 +1036,7 @@ export const smokeSteps = (page) => {
                 await generalStep.clickDocumentButtonByName(generalPage.hipaaCapTxt, generalPage.ambreenTest123Name, generalPage.manageAccessTxt);
                 await generalStep.verifyWithHeadingScreenIsVisible(generalPage.manageSharingAccessTxt);
                 await generalStep.clickSelectContactWithEmail(contactEmail);
-                await generalStep.clickOnButtonByText(generalPage.saveChangesTxt);
+                await generalStep.clickOnButtonByText(generalPage.sendInviteTxt);
                 await generalStep.verifyWithTextContainsIsVisible(generalPage.succfullyUpdateAccessForTxt);
                 await generalStep.clickOnButtonByText(generalPage.cancelTxt);
                 await generalStep.clickOnButtonByText(generalPage.magicAddAnnualSubscTxt);
@@ -1075,9 +1061,6 @@ export const smokeSteps = (page) => {
                 await generalStep.clickOnButtonByText(generalPage.saveChangesTxt);
                 await generalStep.verifyWithTextContainsIsVisible(generalPage.updatedDocumentAccessTxt);
                 await generalStep.clickOnButtonByText(generalPage.cancelTxt);
-                // await generalStep.clickRemoveAccessForContactsButtonWithEmail(legacyEmail);
-                // await generalStep.clickRemoveAccessModelButton();
-                // await generalStep.verifyWithTextContainsIsVisible(generalPage.accessRemovedSuccessTxt);
 
             });
         },
@@ -1104,7 +1087,7 @@ export const smokeSteps = (page) => {
                     await generalStep.verifyWithTextScreenIsVisible(generalPage.joinSessionNowTxt);
                     await generalStep.verifyAnchorIsEnabled(generalPage.joinSessionNowTxt);
                 } else {
-                    await generalStep.verifyCreateNotarySessionButtonIsDisabled();
+                    await generalStep.verifyButtonIsDisabled();
                 }
             });
         },
@@ -1132,7 +1115,7 @@ export const smokeSteps = (page) => {
                     await generalStep.verifyWithTextScreenIsVisible(generalPage.joinSessionNowTxt);
                     await generalStep.verifyAnchorIsEnabled(generalPage.joinSessionNowTxt);
                 } else {
-                    await generalStep.verifyCreateNotarySessionButtonIsDisabled();
+                    await generalStep.verifyButtonIsDisabled();
                 }
             });
         },

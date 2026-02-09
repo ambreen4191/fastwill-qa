@@ -316,9 +316,9 @@ export const generalSteps = (page) => {
             const isVisible = await locator.isVisible().catch(() => false);
             await allure.step(`Notary 9–5 AM text is ${isVisible ? 'VISIBLE' : 'NOT VISIBLE'}`, async () => { });
         },
-        async verifyCreateNotarySessionButtonIsDisabled() {
-            await allure.step(`Create Notary Session button is disabled`, async () => {
-                const locator = page.getByRole('button', { name: generalPage.notaryCreateSessionTxt, exact: true });
+        async verifyButtonIsDisabled(btnText =  generalPage.notaryCreateSessionTxt) {
+            await allure.step(`Create ${btnText} button is disabled`, async () => {
+                const locator = page.getByRole('button', { name: btnText, exact: true });
                 await expect(locator).toBeDisabled();
             });
         },
@@ -345,6 +345,12 @@ export const generalSteps = (page) => {
                 if (isEnabled) {
                     await expect(locator).toBeEnabled();
                 }
+            });
+        },
+        async verifyErrorIsVisible(errorTxt) {
+            await allure.step(`Verify error: '${errorTxt}' is visible`, async () => {
+                const locator = page.getByText(errorTxt, { exact: true });
+                await expect(locator.first()).toBeVisible();
             });
         },
         async verifyWithTextScreenIsVisible(locatorTxt) {
@@ -600,6 +606,12 @@ export const generalSteps = (page) => {
         async clickCloseIconToSaveChanges() {
             await allure.step(`Click on Cross icon to save changes`, async () => {
                 const locator = page.locator(generalPage.closeIcon);
+                await clickElement(locator);
+            })
+        },
+        async clickCroseIconOfWillCreateHeaderSection() {
+            await allure.step(`Click on Cross to go to homepage`, async () => {
+                const locator = page.locator(generalPage.wiilCreateHeaderCorssIconId);
                 await clickElement(locator);
             })
         },

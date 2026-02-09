@@ -118,7 +118,7 @@ describe('Smoke Tests', () => {
     test('TC_08 - Couple Will Complete Flow – Verify complete flow for couple will account', async ({ page }) => {
         const email = getRandomEmail();
         const generalStep = generalSteps(page);
-        const smokeStep = smokeSteps(page)
+        const smokeStep = smokeSteps(page);
 
         await smokeStep.signupCoupleWillUsers(constants, email, constants.marriedStatus);
         await smokeStep.coupleWillUserBasicAddressToConservatorSetup(constants)
@@ -147,7 +147,7 @@ describe('Smoke Tests', () => {
     test('TC_09 - Couple Trust Complete Flow – Verify complete flow for couple trust account', async ({ page }) => {
         const email = getRandomEmail();
         const generalStep = generalSteps(page);
-        const smokeStep = smokeSteps(page)
+        const smokeStep = smokeSteps(page);
 
         await smokeStep.signupCoupleTrustUsers(constants, email, constants.marriedStatus)
         await smokeStep.coupleTrustUserBasicAddressToConservatorSetup(constants)
