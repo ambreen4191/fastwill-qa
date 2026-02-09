@@ -14,12 +14,11 @@ export const generalSteps = (page) => {
             });
         },
         async verifyLinkAndText(link, text) {
-            await allure.step(`Verify navigation link: ${link} and Text: ${text}`, async () => {                
+            await allure.step(`Verify navigation link: ${link} and Text: ${text}`, async () => {
                 await page.waitForLoadState('load');
                 assert.ok(page.url() === COMMON.baseURL + link, `Navigation failed! Expected URL: ${COMMON.baseURL + link}, but got: ${page.url()}`);
                 const locator = page.getByText(text, { expect: true });
                 await expect(locator).toBeVisible();
-                await page.goBack();
             });
         },
         async verifyNavigationLinks() {
@@ -81,6 +80,15 @@ export const generalSteps = (page) => {
                 assert.ok(page.url() === COMMON.baseURL + generalPage.learnPageURL, `Navigation failed! Expected URL: ${COMMON.baseURL + generalPage.learnPageURL}, but got: ${page.url()}`);
                 await page.goBack();
 
+                await this.clickAndVerifyPrivacyPolicy();
+                await this.clickAndVerifyTermOfServiceLink();
+                await this.clickAndVerifyFacebookPageLink();
+                await this.clickAndVerifyInstagramLink();
+                await this.clickAndVerifyLinkedInButton();
+            });
+        },
+        async clickAndVerifyPrivacyPolicy() {
+            await allure.step('Click and verify Privacy Policy', async () => {
                 const privacyFooter = page.locator(generalPage.homeFooter).getByRole("link", { name: generalPage.privacyPolicyTxt, exact: true });
                 await privacyFooter.scrollIntoViewIfNeeded();
                 await expect(privacyFooter).toBeVisible();
@@ -88,7 +96,10 @@ export const generalSteps = (page) => {
                 await page.waitForLoadState('load');
                 assert.ok(page.url() === COMMON.baseURL + generalPage.privacyPolicyPageURL, `Navigation failed! Expected URL: ${COMMON.baseURL + generalPage.privacyPolicyPageURL}, but got: ${page.url()}`);
                 await page.goBack();
-
+            })
+        },
+        async clickAndVerifyTermOfServiceLink() {
+            await allure.step('Click and verify terms of service', async () => {
                 const termsFooter = page.locator(generalPage.homeFooter).getByRole("link", { name: generalPage.termsServiceTxt, exact: true });
                 await termsFooter.scrollIntoViewIfNeeded();
                 await expect(termsFooter).toBeVisible();
@@ -96,23 +107,10 @@ export const generalSteps = (page) => {
                 await page.waitForLoadState('load');
                 assert.ok(page.url() === COMMON.baseURL + generalPage.termsServicesPageURL, `Navigation failed! Expected URL: ${COMMON.baseURL + generalPage.termsServicesPageURL}, but got: ${page.url()}`);
                 await page.goBack();
-
-                const facebookLink = page.getByRole('link', { name: generalPage.facebookLable, exact: true });
-                await facebookLink.scrollIntoViewIfNeeded();
-                await expect(facebookLink).toBeVisible();
-                await facebookLink.click();
-                await page.waitForLoadState('load');
-                assert.ok(page.url() === COMMON.facebookPageURL, `Navigation failed! Expected URL: ${COMMON.facebookPageURL}, but got: ${page.url()}`);
-                await page.goBack();
-
-                const instagramLink = page.getByRole('link', { name: generalPage.instagramLable, exact: true });
-                await instagramLink.scrollIntoViewIfNeeded();
-                await expect(instagramLink).toBeVisible();
-                await instagramLink.click();
-                await page.waitForLoadState('load');
-                assert.ok(page.url() === COMMON.instagramPageURL, `Navigation failed! Expected URL: ${COMMON.instagramPageURL}, but got: ${page.url()}`);
-                await page.goBack();
-
+            })
+        },
+        async clickAndVerifyLinkedInButton() {
+            await allure.step('Click and verify linkedIn social media link button', async () => {
                 const linkedInLink = page.getByRole('link', { name: generalPage.linkedInLable, exact: true });
                 await linkedInLink.scrollIntoViewIfNeeded();
                 await expect(linkedInLink).toBeVisible();
@@ -120,7 +118,29 @@ export const generalSteps = (page) => {
                 await page.waitForLoadState('load');
                 assert.ok(page.url().includes(generalPage.linkedInPage), `Navigation failed! Expected URL: ${generalPage.linkedInPage}, but got: ${page.url()}`);
                 await page.goBack();
-            });
+            })
+        },
+        async clickAndVerifyInstagramLink() {
+            await allure.step('Click and verify instagram page link', async () => {
+                const instagramLink = page.getByRole('link', { name: generalPage.instagramLable, exact: true });
+                await instagramLink.scrollIntoViewIfNeeded();
+                await expect(instagramLink).toBeVisible();
+                await instagramLink.click();
+                await page.waitForLoadState('load');
+                assert.ok(page.url() === COMMON.instagramPageURL, `Navigation failed! Expected URL: ${COMMON.instagramPageURL}, but got: ${page.url()}`);
+                await page.goBack();
+            })
+        },
+        async clickAndVerifyFacebookPageLink() {
+            await allure.step('Click and verify facebook page link', async () => {
+                const facebookLink = page.getByRole('link', { name: generalPage.facebookLable, exact: true });
+                await facebookLink.scrollIntoViewIfNeeded();
+                await expect(facebookLink).toBeVisible();
+                await facebookLink.click();
+                await page.waitForLoadState('load');
+                assert.ok(page.url() === COMMON.facebookPageURL, `Navigation failed! Expected URL: ${COMMON.facebookPageURL}, but got: ${page.url()}`);
+                await page.goBack();
+            })
         },
         async clickStartTodayButton() {
             await allure.step('Click on start today from top right side button', async () => {
@@ -130,7 +150,7 @@ export const generalSteps = (page) => {
         },
         async clickStartTodayCenteredButton() {
             await allure.step('Click on start today centered button', async () => {
-                const startTodayButton = page.locator(generalPage.homeBody).locator('button', { hasText: generalPage.startTodayTxt});
+                const startTodayButton = page.locator(generalPage.homeBody).locator('button', { hasText: generalPage.startTodayTxt });
                 await clickElement(startTodayButton);
             })
         },
@@ -304,17 +324,17 @@ export const generalSteps = (page) => {
         },
         async verifyDeedTransferTxtIsVisible() {
             await allure.step(`Deed Transfer text is from left sidebar is 'VISIBLE' '}`, async () => {
-                    await page.waitForLoadState("load");
-                    const locator = page.locator(generalPage.sideDeedTransferXPath);
-                    await expect(locator).toBeVisible();
+                await page.waitForLoadState("load");
+                const locator = page.locator(generalPage.sideDeedTransferXPath);
+                await expect(locator).toBeVisible();
 
             });
         },
         async verifyDeedTransferTxtIsNotVisible() {
-            await allure.step( `Deed Transfer text is from left sidebar 'NOT VISIBLE'}`, async () => {
-                    await page.waitForLoadState("load");
-                    const locator = page.locator(generalPage.sideDeedTransferXPath);
-                    await expect(locator).not.toBeVisible();
+            await allure.step(`Deed Transfer text is from left sidebar 'NOT VISIBLE'}`, async () => {
+                await page.waitForLoadState("load");
+                const locator = page.locator(generalPage.sideDeedTransferXPath);
+                await expect(locator).not.toBeVisible();
 
             });
         },
@@ -332,6 +352,21 @@ export const generalSteps = (page) => {
                 await page.waitForLoadState("load");
                 const locator = page.getByText(locatorTxt, { exact: true });
                 await expect(locator.first()).toBeVisible();
+            });
+        },
+        async verifyWithTextScreenIsNotVisible(locatorTxt) {
+            await allure.step(`Verify '${locatorTxt}' screen is not visible`, async () => {
+                await page.waitForLoadState("load");
+                const locator = page.getByText(locatorTxt, { exact: true });
+                await expect(locator.first()).not.toBeVisible();
+            });
+        },
+        async verifyWithTextScreenIsVisibleFromFrame(locatorTxt) {
+            await allure.step(`Verify '${locatorTxt}' screen is visible`, async () => {
+                await page.waitForLoadState("load");
+                const frame = page.frameLocator(generalPage.messengerFramId);
+                const textSpan = frame.locator(generalPage.spanTextXpath(locatorTxt));
+                await expect(textSpan).toBeVisible();
             });
         },
         async verifyWithTextByLabelScreenIsVisible(label, expectedValue) {
@@ -544,9 +579,9 @@ export const generalSteps = (page) => {
                 await clickElement(radioBtn);
             })
         },
-        async clickSelectContactWithEmail(email) {
-            await allure.step(`Click on ${email} to select it.`, async () => {
-                const locator = page.locator(generalPage.selectContactEmailXpath(email));
+        async clickSelectContactWithEmail(email, btnTxt = generalPage.sendInviteTxt) {
+            await allure.step(`Click on ${email} and ${btnTxt} to select it.`, async () => {
+                const locator = page.locator(generalPage.selectContactEmailXpath(email, btnTxt));
                 await clickElement(locator);
             })
         },
@@ -778,6 +813,12 @@ export const generalSteps = (page) => {
                 await clickElement(button);
             });
         },
+        async clickOnSendInviteButton(xpath = generalPage.sendInvitepopupXpath) {
+            await allure.step(`Click on Send invite  button `, async () => {
+                const button = page.locator(xpath);
+                await clickElement(button);
+            });
+        },
         async clickOnAddPropertyPopupButton() {
             await allure.step(`Click on Add Property popup button `, async () => {
                 const button = page.locator(generalPage.addPropertyBtnXpath)
@@ -794,6 +835,12 @@ export const generalSteps = (page) => {
             await allure.step(`Click on ${btnText} button `, async () => {
                 const button = page.getByRole('link', { name: btnText, exact: true });
                 await clickElement(button);
+            });
+        },
+        async clickOnLogoToGoHomePage() {
+            await allure.step(`Click on Logo Image to go on home page`, async () => {
+                const button = page.getByRole('link', { name: generalPage.fastWillTxt, exact: true });
+                await button.click();
             });
         },
         async clickOnGoBack() {

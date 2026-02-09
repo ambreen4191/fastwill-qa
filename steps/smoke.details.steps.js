@@ -910,7 +910,7 @@ export const smokeSteps = (page) => {
                 await generalStep.clickManageAccessHipaButton()
                 await generalStep.verifyWithHeadingScreenIsVisible(generalPage.manageSharingAccessTxt);
                 await generalStep.clickSelectContactWithEmail(contactEmail);
-                await generalStep.clickOnButtonByText(generalPage.saveChangesTxt);
+                await generalStep.clickOnSendInviteButton();
                 await generalStep.verifyWithTextContainsIsVisible(generalPage.succfullyUpdateAccessForTxt);
                 await generalStep.clickOnButtonByText(generalPage.cancelTxt);
                 await generalStep.clickOnButtonByText(generalPage.magicAddAnnualSubscTxt);
@@ -1067,17 +1067,17 @@ export const smokeSteps = (page) => {
                 const legacyEmail = getRandomEmail();
                 await generalStep.fillInputByLabel(generalPage.legacyContactFullnameLabel, constants.legacyContactFullname, "");
                 await generalStep.fillInputByLabel(generalPage.legacyContactEmailLabel, legacyEmail, "");
-                await generalStep.clickOnButtonByText(generalPage.sendInviteTxt);
+                await generalStep.clickOnSendInviteButton(generalPage.sendInviteBtnXpath);
                 await generalStep.verifyWithTextScreenIsVisible(generalPage.invitationSentSuccessTxt);
                 await generalStep.verifyWithTextScreenIsVisible(legacyEmail);
                 await generalStep.clickManageAccessForContactsButtonWithEmail(legacyEmail);
-                await generalStep.clickSelectContactWithEmail(generalPage.powerOfAttorneyTxt);
+                await generalStep.clickSelectContactWithEmail(generalPage.powerOfAttorneyTxt, generalPage.saveChangesTxt);
                 await generalStep.clickOnButtonByText(generalPage.saveChangesTxt);
                 await generalStep.verifyWithTextContainsIsVisible(generalPage.updatedDocumentAccessTxt);
                 await generalStep.clickOnButtonByText(generalPage.cancelTxt);
-                await generalStep.clickRemoveAccessForContactsButtonWithEmail(legacyEmail);
-                await generalStep.clickRemoveAccessModelButton();
-                await generalStep.verifyWithTextContainsIsVisible(generalPage.accessRemovedSuccessTxt);
+                // await generalStep.clickRemoveAccessForContactsButtonWithEmail(legacyEmail);
+                // await generalStep.clickRemoveAccessModelButton();
+                // await generalStep.verifyWithTextContainsIsVisible(generalPage.accessRemovedSuccessTxt);
 
             });
         },

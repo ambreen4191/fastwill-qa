@@ -73,7 +73,7 @@ describe('Smoke Tests', () => {
         await generalStep.clickOnLogInButton();
 
     });
-    test.only('TC_06 - Single Will Complete Flow – Verify complete flow for single will account', async ({ page }) => {
+    test('TC_06 - Single Will Complete Flow – Verify complete flow for single will account', async ({ page }) => {
         const email = getRandomEmail();
         const generalStep = generalSteps(page);
         const smokeStep = smokeSteps(page)
