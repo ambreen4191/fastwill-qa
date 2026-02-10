@@ -80,7 +80,7 @@ describe('Smoke Tests', () => {
 
         await smokeStep.signupIndividualWillUsers(constants, email);
         await smokeStep.individualWillUserBasicAddressToConservatorSetup(constants);
-        await smokeStep.individualWillUserAssetSetup(constants);
+        await smokeStep.individualWillUserAssetSetup(constants, generalPage.howLongbeneficliveAfterPasstoInheritTxt);
         await smokeStep.individualWillUserArrangmentSetup(constants);
         await smokeStep.individualWillUserHealthCareSetup(constants);
         await smokeStep.individualWillUserFinanceCareSectionSetup(constants);
@@ -122,7 +122,7 @@ describe('Smoke Tests', () => {
 
         await smokeStep.signupCoupleWillUsers(constants, email, constants.marriedStatus);
         await smokeStep.coupleWillUserBasicAddressToConservatorSetup(constants)
-        await smokeStep.coupleWillUserAssetSetup(constants);
+        await smokeStep.coupleWillUserAssetSetup(constants, generalPage.howLongbeneficliveAfterPasstoInheritTxt);
         await smokeStep.individualWillUserArrangmentSetup(constants);
         await smokeStep.individualWillUserHealthCareSetup(constants);
         await smokeStep.individualWillUserFinanceCareSectionSetup(constants);

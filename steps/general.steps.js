@@ -5,6 +5,7 @@ const { clickElement, isValidEmail, extractNumericString, isWithinNotaryHours } 
 const { getRandomEmail, prepareDownloadFolder, downloadAndVerifyFile, getRandomForDeedEmail } = require('../utils/helper');
 
 import assert from 'assert';
+import { constants } from '../utils/constants';
 
 export const generalSteps = (page) => {
     return {
@@ -233,35 +234,49 @@ export const generalSteps = (page) => {
                 await expect(paymentHeading).toBeVisible();
             });
         },
-        async enterPaymentCardDetails() {
-            await allure.step("Enter valid payment card details", async () => {
-                const stripeFrame = page.frameLocator('iframe[title="Secure payment input frame"]:not([aria-hidden="true"])');
+        async verifyPaymentCardError(errorTxt) {
+            await allure.step(`Verify '${errorTxt}`, async () => {
+                const stripeFrame = page.frameLocator(generalPage.pamentFrameXpath);
+                const locator = stripeFrame.getByText(errorTxt, { exact: true });
+                await expect(locator).toBeVisible();
+            });
+        },
+        async enterPaymentCardDetails(cardDetails = constants.validCardDetails) {
+            await allure.step(`Enter payment card details ${cardDetails.cardNumber}`, async () => {
+                const stripeFrame = page.frameLocator(generalPage.pamentFrameXpath);
 
                 const cardNumberField = stripeFrame.getByPlaceholder(generalPage.cardNumberPlaceholder);
                 await cardNumberField.click();
-                await cardNumberField.type('4242 4242 4242 4242');
+                await cardNumberField.fill(cardDetails.cardNumber);
 
                 const expiryField = stripeFrame.getByPlaceholder(generalPage.expireyPlaceholder);
                 await expiryField.click();
-                await expiryField.type('12/34');
+                await expiryField.fill(cardDetails.expiry);
 
                 const cvcField = stripeFrame.getByPlaceholder(generalPage.cvcPlacholder);
                 await cvcField.click();
-                await cvcField.type('123');
+                await cvcField.fill(cardDetails.cvc);
 
                 const postalField = stripeFrame.getByPlaceholder(generalPage.postalCodePlaceHolder);
                 if (await postalField.isVisible()) {
                     await clickElement(postalField);
-                    await postalField.type('A1A 1A1');
+                    await postalField.fill(cardDetails.postalCode);
                 }
             });
 
         },
         async acceptTermsAndConditions() {
-            await allure.step("Accept Terms and Conditions", async () => {
+            await allure.step("Checked Accept Terms and Conditions", async () => {
                 const termsCheckbox = page.locator(generalPage.termsCheckboxId);
                 await termsCheckbox.check();
                 await expect(termsCheckbox).toBeChecked();
+            });
+        },
+        async unCheckedAcceptTermsAndConditions() {
+            await allure.step("UnChecked Accept Terms and Conditions", async () => {
+                const termsCheckbox = page.locator(generalPage.termsCheckboxId);
+                await termsCheckbox.uncheck();
+                await expect(termsCheckbox).not.toBeChecked();
             });
         },
         async verifyConfirmAndPayButtonIsEnabled() {
@@ -316,7 +331,7 @@ export const generalSteps = (page) => {
             const isVisible = await locator.isVisible().catch(() => false);
             await allure.step(`Notary 9–5 AM text is ${isVisible ? 'VISIBLE' : 'NOT VISIBLE'}`, async () => { });
         },
-        async verifyButtonIsDisabled(btnText =  generalPage.notaryCreateSessionTxt) {
+        async verifyButtonIsDisabled(btnText = generalPage.notaryCreateSessionTxt) {
             await allure.step(`Create ${btnText} button is disabled`, async () => {
                 const locator = page.getByRole('button', { name: btnText, exact: true });
                 await expect(locator).toBeDisabled();
@@ -353,6 +368,13 @@ export const generalSteps = (page) => {
                 await expect(locator.first()).toBeVisible();
             });
         },
+        async verifyErrorIsNotVisible(locatorTxt) {
+            await allure.step(`Verify error: '${locatorTxt}' is not visible`, async () => {
+                await page.waitForLoadState("load");
+                const locator = page.getByText(locatorTxt, { exact: true });
+                await expect(locator.first()).not.toBeVisible();
+            });
+        },
         async verifyWithTextScreenIsVisible(locatorTxt) {
             await allure.step(`Verify '${locatorTxt}' screen is visible`, async () => {
                 await page.waitForLoadState("load");
@@ -365,6 +387,21 @@ export const generalSteps = (page) => {
                 await page.waitForLoadState("load");
                 const locator = page.getByText(locatorTxt, { exact: true });
                 await expect(locator.first()).not.toBeVisible();
+            });
+        },
+        async verifyPaymentCardIsNotVisible() {
+            await allure.step(`Verify Payment card is not visible`, async () => {
+                await page.waitForLoadState("load");
+                const locator = page.locator(generalPage.pamentFrameXpath);
+                await expect(locator.first()).not.toBeVisible();
+            });
+        },
+        async verifyPaymentCardIsVisible() {
+            await allure.step(`Verify Payment card is visible`, async () => {
+                await page.waitForLoadState("load");
+                const locator = page.frameLocator(generalPage.pamentFrameXpath);
+                const cardNumberField = locator.getByPlaceholder(generalPage.cardNumberPlaceholder);
+                await expect(cardNumberField.first()).toBeVisible();
             });
         },
         async verifyWithTextScreenIsVisibleFromFrame(locatorTxt) {
@@ -427,6 +464,48 @@ export const generalSteps = (page) => {
                 await page.waitForLoadState("load");
                 const locator = page.getByRole('heading', { name: titleTxt }).nth(index);
                 await expect(locator).toBeVisible();
+            });
+        },
+        async verifyWithHeadingByIndex(titleTxt, index = 0) {
+            await allure.step(`Verify '${titleTxt}' screen is visible`, async () => {
+                await page.waitForLoadState("load");
+                const locator = page.getByRole('heading', { name: titleTxt }).nth(index);
+                await expect(locator).toBeVisible();
+            });
+        },
+        async verifyTotalPriceAndApplyValidPromo(promoCode, percentage) {
+            await allure.step(`Verify 'Total' price befor and after applying valid promo`, async () => {
+                const totalPrice = await page.locator(generalPage.totalAmountForCreateAccountXpath).textContent();
+                expect(totalPrice && totalPrice !== 'Calculating...', 'Total Price').toBeTruthy();;
+                const totalPriceBeforePromo = parseFloat(extractNumericString(totalPrice));
+                await this.clickRadioButtonByText(generalPage.promotCodeTxt);
+                await this.inputByPlaceholder(generalPage.enterPromoCodePlaceholderTxt, promoCode);
+                await this.clickOnButtonByText(generalPage.applyTxt);
+                await this.verifyWithTextScreenIsVisible(generalPage.promoCodeAppliedSuccessTxt);
+                const updatedTotalPrice = await page.locator(generalPage.totalAmountForCreateAccountXpath).textContent();
+                expect(updatedTotalPrice && updatedTotalPrice !== 'Calculating...', 'Updated Total Price').toBeTruthy();;
+                const totalPriceAfterPromo = parseFloat(extractNumericString(updatedTotalPrice));
+                const expectedPrice = Number((totalPriceBeforePromo * (1 - percentage / 100)).toFixed(2));
+                await expect(totalPriceAfterPromo, `Expected total after ${percentage}% promo to be ${expectedPrice}`).toBe(expectedPrice);
+            });
+        },
+        async verifyTotalPriceAndApplyInvalidPromo(promoCode) {
+            await allure.step(`Verify 'Total' price befor and after applying invalid promo`, async () => {
+                const totalPrice = await page.locator(generalPage.totalAmountForCreateAccountXpath).textContent();
+                expect(totalPrice && totalPrice !== 'Calculating...', 'Total Price').toBeTruthy();
+                const totalPriceBeforePromo = parseFloat(extractNumericString(totalPrice));
+                await this.clickRadioButtonByText(generalPage.promotCodeTxt);
+                await this.inputByPlaceholder(generalPage.enterPromoCodePlaceholderTxt, promoCode);
+                await this.clickOnButtonByText(generalPage.applyTxt);
+                await this.verifyErrorIsVisible(generalPage.promoCodeError);
+                const updatedTotalPrice = await page.locator(generalPage.totalAmountForCreateAccountXpath).textContent();
+                expect(updatedTotalPrice && updatedTotalPrice !== 'Calculating...', 'Updated Total Price').toBeTruthy();;
+                const totalPriceAfterPromo = parseFloat(extractNumericString(updatedTotalPrice));
+                await expect(totalPriceAfterPromo, `Expected total after ${totalPriceAfterPromo}% promo to be ${totalPriceBeforePromo}`).toBe(totalPriceBeforePromo);                
+                await this.inputByPlaceholder(generalPage.enterPromoCodePlaceholderTxt, constants.validPromo20Percent);
+                await this.clickOnButtonByText(generalPage.applyTxt);
+                await this.verifyErrorIsNotVisible(generalPage.promoCodeError);
+                await this.verifyWithTextScreenIsVisible(generalPage.promoCodeAppliedSuccessTxt);
             });
         },
         async verifyRecordingFeesTotal() {

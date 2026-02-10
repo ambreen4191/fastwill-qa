@@ -194,6 +194,22 @@ export const constants = {
         country: "United States",
         approximateValue: "5000",
     },
+    validCardDetails: {
+        cardNumber: '4242 4242 4242 4242',
+        expiry: '12/34',
+        cvc: '123',
+        postalCode: 'A1A 1A1'
+    },
+
+    invalidCardDetails: {
+        cardNumber: '4000 0000 0000 4565', 
+        expiry: '12/28',                  
+        cvc: '000',                       
+        postalCode: 'A1A 1A1'
+    },
+    freePromo100Percent: "FREE12",
+    validPromo20Percent: "TESTCOUPEN12",
+    invalidPromo20Percent: "TESTCOUPEN123",
     emailSubject: "Reset Password Notification",
     newPassword: COMMON.newPassword,
     password: COMMON.password,

@@ -423,7 +423,7 @@ export const smokeSteps = (page) => {
                 await generalStep.clickOnContinueButton();
             })
         },
-        async coupleWillUserAssetSetup(constants) {
+        async coupleWillUserAssetSetup(constants, beneficiaryTxt = generalPage.beneficairyReceiveInheritanceTxt) {
             await allure.step("Will Creation – Asset – Verify complete Assets section flow in Will Creation (Smoke Test)", async () => {
                 await generalStep.clickRadioButtonByText(generalPage.valueOfAllAsset)
                 await generalStep.clickYesRadioButton();
@@ -471,7 +471,7 @@ export const smokeSteps = (page) => {
                 await generalStep.clickOnContinueButton();
                 await generalStep.clickRadioButtonByText(generalPage.childrenTxt);
                 await generalStep.clickOnContinueButton();
-                await generalStep.verifyWithHeadingScreenIsVisible(generalPage.beneficairyReceiveInheritanceTxt);
+                await generalStep.verifyWithHeadingScreenIsVisible(beneficiaryTxt);
                 await generalStep.clickYesRadioButton()
                 await generalStep.fillInputByLabel(generalPage.numberOfDaysLabel, constants.thirty, "");
                 await generalStep.clickOnContinueButton();
@@ -597,7 +597,7 @@ export const smokeSteps = (page) => {
                 await generalStep.clickOnContinueButton();
             })
         },
-        async individualWillUserAssetSetup(constants) {
+        async individualWillUserAssetSetup(constants, beneficiariesTxt = generalPage.beneficairyReceiveInheritanceTxt) {
             await allure.step("Will Creation – Asset – Verify complete Assets section flow in Will Creation (Smoke Test)", async () => {
                 await generalStep.clickRadioButtonByText(generalPage.valueOfAllAsset)
                 await generalStep.clickYesRadioButton();
@@ -645,7 +645,7 @@ export const smokeSteps = (page) => {
                 await generalStep.clickOnContinueButton();
                 await generalStep.clickRadioButtonByText(generalPage.childrenTxt);
                 await generalStep.clickOnContinueButton();
-                await generalStep.verifyWithHeadingScreenIsVisible(generalPage.beneficairyReceiveInheritanceTxt);
+                await generalStep.verifyWithHeadingScreenIsVisible(beneficiariesTxt);
                 await generalStep.clickYesRadioButton()
                 await generalStep.fillInputByLabel(generalPage.numberOfDaysLabel, constants.thirty, "");
                 await generalStep.clickOnContinueButton();

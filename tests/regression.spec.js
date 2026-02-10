@@ -4,6 +4,7 @@ import { generalPage } from '../pages/general.page';
 import { constants } from '../utils/constants';
 const { getRandomEmail } = require('../utils/helper');
 const COMMON = require('../utils/common.json');
+import { getPasswordResetLink } from '../utils/resetPasswordLink';
 
 describe('Regression Tests', () => {
     test('TC_001 - Homepage – Complete End-to-End Validation - Verify that the homepage loads correctly and all sections from header to footer function properly in sequence without navigation or UI issues', async ({ page }) => {
@@ -181,8 +182,132 @@ describe('Regression Tests', () => {
 
         await generalStep.openHomePage();
         await generalStep.clickOnLoginInAnchor();
+        await generalStep.enterUserEmail(constants.iEmail);
+        await generalStep.enterUserPassword(constants.password);
+        await generalStep.clickOnLogInButton();
+        await generalStep.verifyErrorIsVisible(generalPage.invalidCredentialsError);
+        await generalStep.enterUserEmail(constants.validEmail);
+        await generalStep.enterUserPassword(constants.password);
+        await generalStep.clickOnLogInButton();
+        await generalStep.verifyErrorIsVisible(generalPage.invalidCredentialsError);
+
+    });
+    test('TC_006 - Forgot Password – Verify complete end-to-end forgot password flow from email submission to successful password reset and login.', async ({ page }) => {
+        const email = COMMON.emailForgetPassword;
+        const password = COMMON.password;
+        const startTime = new Date();
+        const generalStep = generalSteps(page);
+
+        await generalStep.openHomePage()
+        await generalStep.clickOnLoginInAnchor();
+        await generalStep.clickOnForgetPasswordTxtLink();
+        await generalStep.verifyWithHeadingScreenIsVisible(constants.resetPasswordTxt);
+        await generalStep.enterUserEmail(email);
+        await generalStep.clickResetPasswordButton();
+        await generalStep.verifyWithTextScreenIsVisible(generalPage.passwordResetMailSentSuccessTxt);
+        const resetLink = await getPasswordResetLink(email, constants.emailSubject, startTime);
+        await page.goto(resetLink);
+        await generalStep.verifyWithHeadingScreenIsVisible(constants.resetPasswordTxt)
+        await generalStep.enterUserPassword(password);
+        await generalStep.enterUserConfirmPassword(password);
+        await generalStep.clickResetPasswordButton();
+        await generalStep.enterUserEmail(email);
+        await generalStep.enterUserPassword(password);
         await generalStep.clickOnLogInButton();
 
+    });
+    test('TC_007 - Forgot Password – Verify negative scenarios of forgot password flow including validation errors, invalid email, and password mismatch.', async ({ page }) => {
+        const email = COMMON.emailForgetPassword;
+        const password = COMMON.password;
+        const startTime = new Date();
+        const generalStep = generalSteps(page);
+
+        await generalStep.openHomePage()
+        await generalStep.clickOnLoginInAnchor();
+        await generalStep.clickOnForgetPasswordTxtLink();
+        await generalStep.verifyWithHeadingScreenIsVisible(constants.resetPasswordTxt);
+        await generalStep.enterUserEmail(constants.iEmail);
+        await generalStep.clickResetPasswordButton();
+        await generalStep.verifyErrorIsVisible(generalPage.noAccountFoundError);
+        await generalStep.enterUserEmail(email);
+        await generalStep.clickResetPasswordButton();
+        await generalStep.verifyWithTextScreenIsVisible(generalPage.passwordResetMailSentSuccessTxt);
+        const resetLink = await getPasswordResetLink(email, constants.emailSubject, startTime);
+        await page.goto(resetLink);
+        await generalStep.verifyWithHeadingScreenIsVisible(constants.resetPasswordTxt)
+        await generalStep.enterUserPassword(password);
+        await generalStep.enterUserConfirmPassword(constants.newPassword);
+        await generalStep.clickResetPasswordButton();
+        await generalStep.verifyErrorIsVisible(generalPage.passwordFiledConfirmNotMatchError);
+
+    });
+    test('TC_008 - Plan Selection & Checkout – Verify user can successfully select Trust plan, apply valid promo code, complete checkout, and process payment successfully.', async ({ page }) => {
+        const generalStep = generalSteps(page);
+        const email = getRandomEmail();
+
+        await generalStep.openHomePage();
+        await generalStep.clickStartTodayButton();
+        await generalStep.verifyStartTodayScreenElementsVisible(constants.fullName);
+        await generalStep.clickOnContinueButton();
+        await generalStep.verifyWithHeadingScreenContainsTheTitle(constants.whatStatYouLivedTxt);
+        await generalStep.selectItemFromDropDown(constants.enterState, constants.selectStateFromDropdown);
+        await generalStep.clickOnContinueButton();
+        await generalStep.clickOnAcceptCookiesButton();
+        await generalStep.selectRelationshipStatus(constants.singleRelationshipStatus);
+        await generalStep.verifyWithHeadingScreenIsVisible(generalPage.wouldLikeTorAvoidProbatProcessTxt);
+        await generalStep.selectAvoidProbateYes();
+        await generalStep.enterUserEmail(email);
+        await generalStep.enterCreateAccountPassword(constants.password);
+        await generalStep.clickOnCreateAccountButton();
+        await generalStep.verifyWithHeadingByIndex(generalPage.recommendedBasedOnYourAnsTxt);
+        await generalStep.verifyWithHeadingByIndex(generalPage.trustBaseEstatePlanTxt, 0);
+        await generalStep.verifyPlanSectionPageAndSelectPlan(generalPage.selectTrustOnly);
+        await generalStep.verifyUserIsOnPaymentPage();
+        await generalStep.verifyWithTextScreenIsVisible(generalPage.trustBaseEstatePlanTxt);
+        await generalStep.verifyTotalPriceAndApplyValidPromo(constants.freePromo100Percent, 100);
+        await generalStep.verifyPaymentCardIsNotVisible();
+        await generalStep.acceptTermsAndConditions();
+        await generalStep.clickOnButtonByText(generalPage.confirmTxt);
+
+    });
+    test('TC_009 - Plan Selection & Checkout Validation – Verify validation and error handling for plan selection and checkout including invalid promo, invalid payment details, and mandatory checkbox validation.', async ({ page }) => {
+        const generalStep = generalSteps(page);
+        const email = getRandomEmail();
+
+        await generalStep.openHomePage();
+        await generalStep.clickStartTodayButton();
+        await generalStep.verifyStartTodayScreenElementsVisible(constants.fullName);
+        await generalStep.clickOnContinueButton();
+        await generalStep.verifyWithHeadingScreenContainsTheTitle(constants.whatStatYouLivedTxt);
+        await generalStep.selectItemFromDropDown(constants.enterState, constants.selectStateFromDropdown);
+        await generalStep.clickOnContinueButton();
+        await generalStep.clickOnAcceptCookiesButton();
+        await generalStep.selectRelationshipStatus(constants.singleRelationshipStatus);
+        await generalStep.verifyWithHeadingScreenIsVisible(generalPage.wouldLikeTorAvoidProbatProcessTxt);
+        await generalStep.selectAvoidProbateYes();
+        await generalStep.enterUserEmail(email);
+        await generalStep.enterCreateAccountPassword(constants.password);
+        await generalStep.clickOnCreateAccountButton();
+        await generalStep.verifyWithHeadingByIndex(generalPage.recommendedBasedOnYourAnsTxt);
+        await generalStep.verifyWithHeadingByIndex(generalPage.trustBaseEstatePlanTxt, 0);
+        await generalStep.verifyPlanSectionPageAndSelectPlan(generalPage.selectTrustOnly);
+        await generalStep.verifyUserIsOnPaymentPage();
+        await generalStep.verifyWithTextScreenIsVisible(generalPage.trustBaseEstatePlanTxt);
+        await generalStep.verifyTotalPriceAndApplyInvalidPromo(constants.invalidPromo20Percent);
+        await generalStep.verifyPaymentCardIsVisible();
+        await generalStep.acceptTermsAndConditions();
+        await generalStep.verifyConfirmAndPayButtonIsEnabled();
+        await generalStep.clickConfirmAndPayButton();
+        await generalStep.verifyPaymentCardError(generalPage.cardNumberIncompleteError);
+        await generalStep.verifyPaymentCardError(generalPage.cardExpiryDateIncompleteError);
+        await generalStep.verifyPaymentCardError(generalPage.cardCVCIncompleteError);
+        await generalStep.verifyPaymentCardError(generalPage.cardPostalCodeError);
+        await generalStep.enterPaymentCardDetails(constants.invalidCardDetails);
+        await generalStep.verifyConfirmAndPayButtonIsEnabled();
+        await generalStep.clickConfirmAndPayButton();
+        await generalStep.verifyPaymentCardError(generalPage.cardNumberInvalidError);
+        await generalStep.enterPaymentCardDetails();
+        await generalStep.unCheckedAcceptTermsAndConditions();
 
     });
 
