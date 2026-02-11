@@ -122,14 +122,17 @@ export const generalPage = {
     whatisYourbirthdayTxt: "Great! Now, what is your birthday?",
     doYouHaveChildTxt: "Do you have children?",
     haveChildrenTxt: "have children?",
+    nameOfYourTrustTxt: "Name of your Trust",
     guardianNominationTxt: "Do you want to name a guardian for your children?",
     whatIsSpousenameTxt: "What's your spouse's name?",
     whoLookAfterYourChilderenTxt: "Who would you like to look after",
     wouldYouLikeNameConservatorChild: "Would you like to name a conservator for your children?",
     whoWouldYouLiketoNameAsConservator: "Who would you like to name as the conservator?",
     futureAdoptionChildrenWillTxt: "Would you like to include any future or adopted children in your Will?",
+    whichChildWouldULikeToAssignTxt: "Which children would you like to assign guardians for?",
     testLivingTrustTxt: "Perfect. Would you like the Trust to be called the “Test Living Trust”?",
     whenWouldYouBeginTrust: "When would you like your Trust to begin?",
+    gatherInfoAboutChilderenTxt: "Let's gather a few important details about your children.",
     wouldYouMainPersonToManageTrustTxt: "Will you be the main person managing this Trust while you're alive?",
     areYouAsGrantorTxt: "Are you, as a Grantor, also the lifetime beneficiary?",
     wholWillLifetimeBeneficiaryTxt: "Who will be the lifetime beneficiary of the Trust?",
@@ -147,6 +150,7 @@ export const generalPage = {
     wantBackupExecutor: "Do you want to name a backup executor?",
     whoWillbeExecutorTxt: "Who will be your executor?",
     whoWillbeBackupExecutorTxt: "Who will be your backup executor?",
+    weAreGoingAssetSectionTxt: "We're going to the Assets section now",
     wouldYouLikeProtectWillFromPotentialDesputeTxt: "Would you like to protect your Will from potential disputes?",
     wantNameBackupHealthAgentTxt: "Do you want to name a backup healthcare agent?",
     whoWillBackupAgentTxt: "Who will be your backup healthcare agent?",
@@ -172,7 +176,7 @@ export const generalPage = {
     selecteDatePlaceholder: "Select date",
     childNamePlaceholder: "e.g. Charles Edison",
     yesTxt: "Yes",
-    addChildTxt: "Add a Child",
+    addChildTxt: /Add (a )?Child/,
     meTxt: "Me",
     selectBirthdayFieldPlaceholder: "Select date of birth",
     saveTxt: "Save",
@@ -242,7 +246,7 @@ export const generalPage = {
     ambreenTestName: "Ambreen Test",
     ambreenTest123Name: "Ambreen Test 124",
     oliverBennettName: "Oliver Bennett",
-    recommendedBasedOnYourAnsTxt: "Here's what we recommend for you based on your answers", 
+    recommendedBasedOnYourAnsTxt: "Here's what we recommend for you based on your answers",
     passwordResetMailSentSuccessTxt: "We have emailed your password reset link.",
     timeToMakeYourPlanOfficialTxt: "It's time to make your plan official in Alabama!",
     legacyContactFullnameLabel: "Enter your contact's full name",
@@ -275,6 +279,7 @@ export const generalPage = {
     perStirpesTxt: "Per Stirpes",
     addressLine1: "Address line 1",
     addressLine2: "Address line 2",
+    addresLine2Option: "Address Line 2 (Optional)",
     addressLine2Property: "Address line 2 (apt, floor, ste, etc)",
     approximateValue: "Approximate value (optional)",
     approxmateAccountValue: "Approximate account value (optional)",
@@ -362,6 +367,8 @@ export const generalPage = {
     addTxt: "Add",
     promotCodeTxt: "Promo code",
     sharePlanTxt: "Share Plan",
+    selectContactTxt: "Select Contact",
+    whoWouldBeTrusteeTxt: "Okay, who should be the Trustee?",
     promoCodeAppliedSuccessTxt: "Promo code applied. Discount reflected in total.",
     invitationSentTxt: "Invitations Sent!",
     updateProfileInfoToManageTxt: `Update your profile information and manage your account settings.`,
@@ -376,6 +383,7 @@ export const generalPage = {
     cardCVCIncompleteError: "Your card’s security code is incomplete.",
     cardPostalCodeError: "Your postal code is invalid.",
     cardNumberInvalidError: "Your card number is invalid.",
+    caringPersonAmountError: "Please enter a reward amount if offering a pet reward.",
     promoCodeError: "Promo Code Not Recognized. Please try again.",
     passwordFiledConfirmNotMatchError: "The password field confirmation does not match.",
     parentRatioBtnTxt: (name) => `${name} and Me`,
@@ -393,11 +401,14 @@ export const generalPage = {
     paymentFormId: "#payment-form",
 
     /** xpaths */
+    editPetXpath: 'button:has(img[alt="Edit"])',
+    deletePetXpath: 'button:has(img[alt="Delete"])',
     pamentFrameXpath: 'iframe[title="Secure payment input frame"]:not([aria-hidden="true"])',
     xPathProfile: 'a[aria-label="Settings"]+div>button',
     xpathAccountDropdown: 'a[aria-label="Settings"]+div>div',
     checkValueForLabelXpath: 'xpath=following-sibling::*[1]',
     datePickerYearXpath: "//button[contains(@id,'datepicker_') and contains(@id,'_year_btn')]",
+    datePickerTrustXpath: "//input[contains(@id,'datepicker_') and contains(@id,'_input')]",
     datePickerMonthXpath: "//button[contains(@id,'datepicker_') and contains(@id,'_month_btn')]",
     xpathAddPrimaryGuardianButton: "//span[normalize-space()='Primary Guardian']/following-sibling::button",
     xpathBackupGuardianButton: "//span[normalize-space()='Backup Guardian']/following-sibling::button",
@@ -446,19 +457,15 @@ export const generalPage = {
 export function getLocator(value) {
     switch (value) {
         case 'Alabama':
-            return generalPage.statPlaceHolderText;
+        case 'California':
         case 'Florida':
-            return generalPage.statPlaceHolderText;
         case 'New York':
-            return generalPage.statPlaceHolderText;
         case 'Colorado':
-            return generalPage.statPlaceHolderText;
+        case 'Alaska':
         case 'Washington':
             return generalPage.statPlaceHolderText;
         case 'United States':
             return generalPage.countryPlaceholder;
-        case 'Alaska':
-            return generalPage.statPlaceHolderText;
         case 'Solo Proprietorship':
             return generalPage.businessTypePlaceHolderTxt;
         case 'Term Life':

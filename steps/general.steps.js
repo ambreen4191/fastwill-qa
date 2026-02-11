@@ -1,8 +1,8 @@
 import { allure, expect } from 'allure-playwright';
 import { getLocator, generalPage } from '../pages/general.page';
 const COMMON = require('../utils/common.json');
-const { clickElement, isValidEmail, extractNumericString, isWithinNotaryHours } = require('../utils/helper');
-const { getRandomEmail, prepareDownloadFolder, downloadAndVerifyFile, getRandomForDeedEmail } = require('../utils/helper');
+const { clickElement, isValidEmail, extractNumericString } = require('../utils/helper');
+const { calculateAge } = require('../utils/helper');
 
 import assert from 'assert';
 import { constants } from '../utils/constants';
@@ -332,9 +332,21 @@ export const generalSteps = (page) => {
             await allure.step(`Notary 9–5 AM text is ${isVisible ? 'VISIBLE' : 'NOT VISIBLE'}`, async () => { });
         },
         async verifyButtonIsDisabled(btnText = generalPage.notaryCreateSessionTxt) {
-            await allure.step(`Create ${btnText} button is disabled`, async () => {
+            await allure.step(`Verify ${btnText} button is disabled`, async () => {
                 const locator = page.getByRole('button', { name: btnText, exact: true });
                 await expect(locator).toBeDisabled();
+            });
+        },
+        async verifyButtonIsEnabled(btnText) {
+            await allure.step(`Verify ${btnText} button is disabled`, async () => {
+                const locator = page.getByRole('button', { name: btnText, exact: true });
+                await expect(locator).toBeEnabled();
+            });
+        },
+        async verifyButtonIsNotVisible(btnText) {
+            await allure.step(`Verify ${btnText} button is not visible`, async () => {
+                const locator = page.getByRole('button', { name: btnText, exact: true });
+                await expect(locator).not.toBeVisible();
             });
         },
         async verifyDeedTransferTxtIsVisible() {
@@ -501,7 +513,7 @@ export const generalSteps = (page) => {
                 const updatedTotalPrice = await page.locator(generalPage.totalAmountForCreateAccountXpath).textContent();
                 expect(updatedTotalPrice && updatedTotalPrice !== 'Calculating...', 'Updated Total Price').toBeTruthy();;
                 const totalPriceAfterPromo = parseFloat(extractNumericString(updatedTotalPrice));
-                await expect(totalPriceAfterPromo, `Expected total after ${totalPriceAfterPromo}% promo to be ${totalPriceBeforePromo}`).toBe(totalPriceBeforePromo);                
+                await expect(totalPriceAfterPromo, `Expected total after ${totalPriceAfterPromo}% promo to be ${totalPriceBeforePromo}`).toBe(totalPriceBeforePromo);
                 await this.inputByPlaceholder(generalPage.enterPromoCodePlaceholderTxt, constants.validPromo20Percent);
                 await this.clickOnButtonByText(generalPage.applyTxt);
                 await this.verifyErrorIsNotVisible(generalPage.promoCodeError);
@@ -556,6 +568,13 @@ export const generalSteps = (page) => {
                 const displayedTotalText = await page.locator(generalPage.totalPriceXpath).textContent();
                 const displayedTotal = parseFloat(extractNumericString(displayedTotalText));
                 expect(calculatedTotal).toBe(displayedTotal);
+            });
+        },
+        async verifyTrustDatePickerPrepopulated() {
+            await allure.step("Verify that Trust date picker has a prepopulated value", async () => {
+                const datePicker = page.locator(generalPage.datePickerTrustXpath);
+                const value = await datePicker.inputValue(); 
+                await expect(value, "Date picker should have a prepopulated value").not.toBe('');
             });
         },
         async verifyDeedNotarizationFee() {
@@ -762,8 +781,8 @@ export const generalSteps = (page) => {
                 await clickElement(continueWithEmail);
             })
         },
-        async clickOnAddAChild(enterchildName, parentsRadioTxt = generalPage.meTxt) {
-            await allure.step(`Click and add a child: ${enterchildName} for ${parentsRadioTxt}`, async () => {
+        async clickAddAChildAndItsDetails(enterchildName, dob = constants.childDOB, parentsRadioTxt = generalPage.meTxt) {
+            await allure.step(`Click to add a child and its details: ${enterchildName} for ${parentsRadioTxt}`, async () => {
                 const addChildButton = page.getByRole('button', { name: generalPage.addChildTxt, exact: true });
                 await clickElement(addChildButton)
 
@@ -776,7 +795,18 @@ export const generalSteps = (page) => {
 
                 const selecteBirthdayDate = page.getByPlaceholder(generalPage.selectBirthdayFieldPlaceholder);
                 await clickElement(selecteBirthdayDate)
-                await this.clickDatePickerToSelectDate("10", "Jan", "2020")
+                await this.clickDatePickerToSelectDate(dob.day, dob.month, dob.year);
+                const age = calculateAge(dob);
+                if (age >= 18) {
+                    await this.fillInputByLabel(generalPage.email, dob.email);
+                    await this.fillInputByLabel(generalPage.phone, dob.phone);
+                    await this.fillInputByLabel(generalPage.addressLine1, dob.addressLine1);
+                    await this.fillInputByLabel(generalPage.addresLine2Option, dob.addressLine2);
+                    await this.fillInputByLabel(generalPage.city, dob.city);
+                    await this.selectFromDropdownByGuardian(dob.state.substring(0, 5), dob.state);
+                    await this.fillInputByLabel(generalPage.zipCode, dob.zipCode);
+                    await this.selectFromDropdownByGuardian(dob.country.substring(0.7), dob.country);
+                }
                 await this.clickOnSaveButton()
 
             });
@@ -787,6 +817,8 @@ export const generalSteps = (page) => {
                 await clickElement(yearLocator)
                 await this.clickOnButtonByText(year)
                 const monthLocator = page.locator(generalPage.datePickerMonthXpath);
+                await clickElement(monthLocator);
+                await this.clickOnButtonByText(month)
                 const selectDate = page.getByRole('button', { name: day, exact: true })
                 await clickElement(selectDate);
                 await this.clickOnButtonByText(generalPage.selectDateTxt);
@@ -905,7 +937,7 @@ export const generalSteps = (page) => {
             });
         },
         async clickOnSendInviteButton(xpath = generalPage.sendInvitepopupXpath) {
-            await allure.step(`Click on Send invite  button `, async () => {
+            await allure.step(`Click on ${xpath}  button `, async () => {
                 const button = page.locator(xpath);
                 await clickElement(button);
             });
@@ -1009,7 +1041,7 @@ export const generalSteps = (page) => {
                 await expect(input).not.toHaveValue('');
             });
         },
-        async fillInputByLabel(labelText, value, guardianType) {
+        async fillInputByLabel(labelText, value, guardianType = "") {
             await allure.step(`Enter your ${labelText}: ${value}`, async () => {
                 const index = guardianType === 'Primary' ? 1 : 1
                 const locator = page.locator('label', { hasText: labelText })
@@ -1023,7 +1055,9 @@ export const generalSteps = (page) => {
                 const locator = page.locator('label', { hasText: labelText })
                     .locator(generalPage.byLableInputXpath);
                 await locator.fill(value);
-                await clickElement(locator)
+                await page.waitForTimeout(1000);
+                await clickElement(locator);
+                await page.waitForTimeout(1000);
                 const dropdownContainer = page.locator(generalPage.dropdownXpath);
                 const selectFromDropDown = dropdownContainer.locator(generalPage.selectStateFromDropdown(value)).first();;
                 await clickElement(selectFromDropDown);
@@ -1038,7 +1072,7 @@ export const generalSteps = (page) => {
                 await locator.fill(value);
             });
         },
-        async selectFromDropdownByGuardian(enterValue, selectValue, guardianType) {
+        async selectFromDropdownByGuardian(enterValue, selectValue, guardianType = "") {
             const index = guardianType === 'Primary' ? 1 : 1;
             await allure.step(`Select ${enterValue} from dropdown with placeholder ${selectValue}`, async () => {
                 const dropdownLocator = page.getByPlaceholder(getLocator(selectValue)).nth(index - 1);

@@ -26,6 +26,24 @@ function isWithinNotaryHours() {
 
   return hour >= 9 && hour < 17;
 }
+function calculateAge({ day, month, year }) {
+    const birthDate = new Date(`${month} ${day}, ${year}`);
+    const today = new Date();
+
+    let age = today.getFullYear() - birthDate.getFullYear();
+
+    const hasHadBirthdayThisYear =
+        today.getMonth() > birthDate.getMonth() ||
+        (today.getMonth() === birthDate.getMonth() &&
+            today.getDate() >= birthDate.getDate());
+
+    if (!hasHadBirthdayThisYear) {
+        age--;
+    }
+
+    return age;
+}
+
 
 
 async function prepareDownloadFolder() {
@@ -99,5 +117,6 @@ module.exports = {
     createContextWithMockTime, 
     isValidEmail,
     extractNumericString,
-    isWithinNotaryHours
+    isWithinNotaryHours,
+    calculateAge
 };

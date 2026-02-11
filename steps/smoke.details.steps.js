@@ -120,7 +120,7 @@ export const smokeSteps = (page) => {
                 await generalStep.clickOnContinueButton();
                 await generalStep.verifyDoyouHavChildrenScreenIsVisible();
                 await generalStep.clickYesRadioButton();
-                await generalStep.clickOnAddAChild(constants.childName);
+                await generalStep.clickAddAChildAndItsDetails(constants.childName);
                 await generalStep.clickOnContinueButton();
                 await generalStep.verifyWithHeadingScreenIsVisible(generalPage.guardianNominationTxt);
                 await generalStep.clickYesRadioButton();
@@ -150,15 +150,15 @@ export const smokeSteps = (page) => {
                 await generalStep.verifyWithHeadingScreenIsVisible(generalPage.areYouAsGrantorTxt);
                 await generalStep.clickRadioButtonByText(generalPage.noTxt);
                 await generalStep.verifyWithHeadingScreenIsVisible(generalPage.wholWillLifetimeBeneficiaryTxt);
-                await generalStep.clickOnButtonByText(generalPage.addAContactTxt)
+                await generalStep.clickOnButtonByText(generalPage.selectContactTxt)
                 await generalStep.addGuardian(constants.executorData, constants.guardianType)
                 await generalStep.clickOnContinueButton()
                 await generalStep.verifyWithHeadingScreenIsVisible(generalPage.whoShouldTrusteeIncapacitatedTxt);
-                await generalStep.clickOnButtonByText(generalPage.addAContactTxt);
+                await generalStep.clickOnButtonByText(generalPage.selectContactTxt);
                 await generalStep.addGuardian(constants.monitorData, constants.guardianType);
                 await generalStep.clickOnContinueButton();
                 await generalStep.verifyWithHeadingScreenIsVisible(generalPage.whoWouldTakeOverPassAwayTxt);
-                await generalStep.clickOnButtonByText(generalPage.addAContactTxt);
+                await generalStep.clickOnButtonByText(generalPage.selectContactTxt);
                 await generalStep.addGuardian(constants.successorData, constants.guardianType);
                 await generalStep.clickOnContinueButton();
                 await generalStep.verifyWithHeadingScreenIsVisible(generalPage.doYouHavePetTxt);
@@ -202,7 +202,7 @@ export const smokeSteps = (page) => {
                 await generalStep.clickOnContinueButton();
                 await generalStep.verifyWithHeadingScreenContainsTheTitle(generalPage.haveChildrenTxt);
                 await generalStep.clickYesRadioButton();
-                await generalStep.clickOnAddAChild(constants.childName, generalPage.parentRatioBtnTxt(constants.thomasEdison));
+                await generalStep.clickAddAChildAndItsDetails(constants.childName, generalPage.parentRatioBtnTxt(constants.thomasEdison));
                 await generalStep.clickOnContinueButton();
                 await generalStep.verifyWithHeadingScreenIsVisible(generalPage.guardianNominationTxt);
                 await generalStep.clickYesRadioButton();
@@ -232,15 +232,15 @@ export const smokeSteps = (page) => {
                 await generalStep.verifyWithHeadingScreenIsVisible(generalPage.areYouAsGrantorTxt);
                 await generalStep.clickRadioButtonByText(generalPage.noTxt);
                 await generalStep.verifyWithHeadingScreenIsVisible(generalPage.wholWillLifetimeBeneficiaryTxt);
-                await generalStep.clickOnButtonByText(generalPage.addAContactTxt)
+                await generalStep.clickOnButtonByText(generalPage.selectContactTxt)
                 await generalStep.addGuardian(constants.executorData, constants.guardianType)
                 await generalStep.clickOnContinueButton()
                 await generalStep.verifyWithHeadingScreenIsVisible(generalPage.whoShouldTrusteeIncapacitatedTxt);
-                await generalStep.clickOnButtonByText(generalPage.addAContactTxt);
+                await generalStep.clickOnButtonByText(generalPage.selectContactTxt);
                 await generalStep.addGuardian(constants.monitorData, constants.guardianType);
                 await generalStep.clickOnContinueButton();
                 await generalStep.verifyWithHeadingScreenIsVisible(generalPage.whoWouldTakeOverPassAwayTxt);
-                await generalStep.clickOnButtonByText(generalPage.addAContactTxt);
+                await generalStep.clickOnButtonByText(generalPage.selectContactTxt);
                 await generalStep.addGuardian(constants.successorData, constants.guardianType);
                 await generalStep.clickOnContinueButton();
                 await generalStep.verifyWithHeadingScreenIsVisible(generalPage.doYouHavePetTxt);
@@ -332,7 +332,7 @@ export const smokeSteps = (page) => {
                 await generalStep.clickOnContinueButton();
                 await generalStep.verifyWithHeadingScreenContainsTheTitle(generalPage.haveChildrenTxt);
                 await generalStep.clickYesRadioButton();
-                await generalStep.clickOnAddAChild(constants.childName, generalPage.parentRatioBtnTxt(constants.thomasEdison));
+                await generalStep.clickAddAChildAndItsDetails(constants.childName, generalPage.parentRatioBtnTxt(constants.thomasEdison));
                 await generalStep.clickOnContinueButton();
                 await generalStep.verifyWithHeadingScreenIsVisible(generalPage.guardianNominationTxt);
                 await generalStep.clickYesRadioButton();
@@ -496,7 +496,7 @@ export const smokeSteps = (page) => {
                 await generalStep.clickOnContinueButton();
                 await generalStep.verifyDoyouHavChildrenScreenIsVisible();
                 await generalStep.clickYesRadioButton();
-                await generalStep.clickOnAddAChild(constants.childName);
+                await generalStep.clickAddAChildAndItsDetails(constants.childName);
                 await generalStep.clickOnContinueButton();
                 await generalStep.verifyWithHeadingScreenIsVisible(generalPage.guardianNominationTxt);
                 await generalStep.clickYesRadioButton();
@@ -646,7 +646,6 @@ export const smokeSteps = (page) => {
                 await generalStep.clickRadioButtonByText(generalPage.childrenTxt);
                 await generalStep.clickOnContinueButton();
                 await generalStep.verifyWithHeadingScreenIsVisible(beneficiariesTxt);
-                await generalStep.clickYesRadioButton()
                 await generalStep.fillInputByLabel(generalPage.numberOfDaysLabel, constants.thirty, "");
                 await generalStep.clickOnContinueButton();
                 await generalStep.clickRadioButtonByText(generalPage.childrenTxt);

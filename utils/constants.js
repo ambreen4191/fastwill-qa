@@ -24,7 +24,7 @@ export const constants = {
         city: "Miami",
         state: "Florida",
         zipCode: "33131",
-        country: "United States", 
+        country: "United States",
         propertyPrice: "200000"
     },
     spousePrimaryPetGuardianData: {
@@ -202,11 +202,31 @@ export const constants = {
     },
 
     invalidCardDetails: {
-        cardNumber: '4000 0000 0000 4565', 
-        expiry: '12/28',                  
-        cvc: '000',                       
+        cardNumber: '4000 0000 0000 4565',
+        expiry: '12/28',
+        cvc: '000',
         postalCode: 'A1A 1A1'
     },
+    childDOB: {
+        day: "10",
+        month: "Jan",
+        year: "2020"
+    },
+    adultChildDOB: {
+        day: "10",
+        month: "Jan",
+        year: "2000",
+        email: "christopher.whitmore92@gmail.com",
+        phone: "+1 415 867 5309",
+        addressLine1: "742 Evergreen Terrace",
+        addressLine2: "Unit 12",
+        city: "San Francisco",
+        state: "California",
+        zipCode: "94103",
+        country: "United States"
+    },
+    silverOakTrust: "Silver Oak Living Trust",
+    adultChildName: "Christopher Whitmore",
     freePromo100Percent: "FREE12",
     validPromo20Percent: "TESTCOUPEN12",
     invalidPromo20Percent: "TESTCOUPEN123",
@@ -221,10 +241,11 @@ export const constants = {
     singleRelationshipStatus: 'Single',
     marriedStatus: "Married",
     petName: "Tony",
+    dogBella: "Bella",
     addressLine1: "123 Main St",
     resetPasswordTxt: "Reset password",
     addressLine2: "Apt 4B",
-    thirty:  "30",
+    thirty: "30",
     city: "New York",
     zipcode: "10001",
     enterCountery: "United",
@@ -233,6 +254,7 @@ export const constants = {
     spouseBirthdayDate: "01/10/2000",
     childName: "George",
     caringPersonAmount: "300",
+    inValidCaringPersonAmount: "-300",
     guardianType: "Primary",
     propertyPersonName: "John",
     financialInstitution: "Chase Bank",

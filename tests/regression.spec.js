@@ -1,10 +1,12 @@
 import { test, describe } from '@playwright/test';
 import { generalSteps } from '../steps/general.steps';
+import { smokeSteps } from '../steps/smoke.details.steps';
 import { generalPage } from '../pages/general.page';
 import { constants } from '../utils/constants';
 const { getRandomEmail } = require('../utils/helper');
 const COMMON = require('../utils/common.json');
 import { getPasswordResetLink } from '../utils/resetPasswordLink';
+import { regressionSteps } from '../steps/regression.detials.steps';
 
 describe('Regression Tests', () => {
     test('TC_001 - Homepage – Complete End-to-End Validation - Verify that the homepage loads correctly and all sections from header to footer function properly in sequence without navigation or UI issues', async ({ page }) => {
@@ -308,6 +310,24 @@ describe('Regression Tests', () => {
         await generalStep.verifyPaymentCardError(generalPage.cardNumberInvalidError);
         await generalStep.enterPaymentCardDetails();
         await generalStep.unCheckedAcceptTermsAndConditions();
+
+    });
+    test('TC_010 - Trust Creation – Basic Section (Individual Trust) – Verify complete Individual Trust Basic section flow including address, DOB, children logic, trustee conditional flow, successor trustee, pet nomination, guardian nomination, pet reward funding, and completion logic.', async ({ page }) => {
+        const email = getRandomEmail();
+        const smokeStep = smokeSteps(page)
+        const regressionStep = regressionSteps(page);
+
+        await smokeStep.signupIndividualTrustUsers(constants, email);
+        await regressionStep.individualTrustUserBasicAddressToConservatorSetup(constants);
+
+    });
+    test('TC_011 - Trust Creation – Basic Section (Individual Trust) – Verify system blocks progression and shows proper validation messages when required fields, address details, contact details, trustee details, guardian details, and funding inputs are invalid or incomplete.', async ({ page }) => {
+        const email = getRandomEmail();
+        const smokeStep = smokeSteps(page)
+        const regressionStep = regressionSteps(page);
+
+        await smokeStep.signupIndividualTrustUsers(constants, email);
+        await regressionStep.individualTrustUserBasicAddressToConservatorSetup(constants);
 
     });
 
