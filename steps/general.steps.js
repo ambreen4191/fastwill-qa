@@ -299,12 +299,6 @@ export const generalSteps = (page) => {
                 await expect(addressScreen).toBeVisible();
             });
         },
-        async verifyBirthdayScreenIsVisible() {
-            await allure.step("Verify birthday screen is visible", async () => {
-                const birthdayScreen = page.getByRole('heading', { name: generalPage.whatisYourbirthdayTxt });
-                await expect(birthdayScreen).toBeVisible();
-            });
-        },
         async verifyDoyouHavChildrenScreenIsVisible() {
             await allure.step("Verify 'Do you have childeren' screen is visible", async () => {
                 const birthdayScreen = page.getByRole('heading', { name: generalPage.doYouHaveChildTxt });
@@ -573,7 +567,7 @@ export const generalSteps = (page) => {
         async verifyTrustDatePickerPrepopulated() {
             await allure.step("Verify that Trust date picker has a prepopulated value", async () => {
                 const datePicker = page.locator(generalPage.datePickerTrustXpath);
-                const value = await datePicker.inputValue(); 
+                const value = await datePicker.inputValue();
                 await expect(value, "Date picker should have a prepopulated value").not.toBe('');
             });
         },
@@ -655,7 +649,7 @@ export const generalSteps = (page) => {
         },
         async clickOnAddConservatorButton() {
             await allure.step("Click on add a conservator button", async () => {
-                const addConservator = page.getByRole('button', { name: generalPage.addConservator, exact: true });
+                const addConservator = page.getByRole('button', { name: generalPage.selectContactTxt, exact: true });
                 await clickElement(addConservator);
             })
         },
@@ -798,6 +792,50 @@ export const generalSteps = (page) => {
                 await this.clickDatePickerToSelectDate(dob.day, dob.month, dob.year);
                 const age = calculateAge(dob);
                 if (age >= 18) {
+                    await this.fillInputByLabel(generalPage.email, dob.email);
+                    await this.fillInputByLabel(generalPage.phone, dob.phone);
+                    await this.fillInputByLabel(generalPage.addressLine1, dob.addressLine1);
+                    await this.fillInputByLabel(generalPage.addresLine2Option, dob.addressLine2);
+                    await this.fillInputByLabel(generalPage.city, dob.city);
+                    await this.selectFromDropdownByGuardian(dob.state.substring(0, 5), dob.state);
+                    await this.fillInputByLabel(generalPage.zipCode, dob.zipCode);
+                    await this.selectFromDropdownByGuardian(dob.country.substring(0.7), dob.country);
+                }
+                await this.clickOnSaveButton()
+
+            });
+        },
+        async clickAddAChildAndItsDetailsWithValidations(enterchildName, dob = constants.childDOB, parentsRadioTxt = generalPage.meTxt) {
+            await allure.step(`Click to add a child and its details: ${enterchildName} for ${parentsRadioTxt} with validation errors`, async () => {
+                const addChildButton = page.getByRole('button', { name: generalPage.addChildTxt, exact: true });
+                await clickElement(addChildButton)
+
+                const childName = page.getByPlaceholder(generalPage.childNamePlaceholder);
+                await childName.fill(enterchildName)
+                await expect(childName).not.toHaveValue('');
+                const meRadioButton = page.getByRole('radio', { name: parentsRadioTxt, exact: true });
+                await meRadioButton.check();
+                await expect(meRadioButton).toBeChecked();
+
+                const selecteBirthdayDate = page.getByPlaceholder(generalPage.selectBirthdayFieldPlaceholder);
+                await clickElement(selecteBirthdayDate)
+                await this.clickDatePickerToSelectDate(dob.day, dob.month, dob.year);
+                const age = calculateAge(dob);
+                if (age >= 18) {
+                    await this.clickOnSaveButton()
+                    await this.verifyErrorIsVisible(generalPage.emailRequiredError);
+                    await this.verifyErrorIsVisible(generalPage.phoneNumberRequiredError);
+                    await this.verifyErrorIsVisible(generalPage.addressLine1RequiredError);
+                    await this.verifyErrorIsVisible(generalPage.cityRequiredError);
+                    await this.verifyErrorIsVisible(generalPage.stateRequiredError);
+                    await this.verifyErrorIsVisible(generalPage.zipcodRequiredError);
+                    await this.fillInputByLabel(generalPage.email, dob.invalidEmail);
+                    await this.fillInputByLabel(generalPage.phone, dob.invalidPhone);
+                    await this.fillInputByLabel(generalPage.zipCode, dob.invalidZipcode);
+                    await this.clickOnSaveButton()
+                    await this.verifyErrorIsVisible(generalPage.invalidEmailError);
+                    await this.verifyErrorIsVisible(generalPage.invalidUSPhoneError);
+                    await this.verifyErrorIsVisible(generalPage.zipcod5DigitError);
                     await this.fillInputByLabel(generalPage.email, dob.email);
                     await this.fillInputByLabel(generalPage.phone, dob.phone);
                     await this.fillInputByLabel(generalPage.addressLine1, dob.addressLine1);
@@ -1050,10 +1088,10 @@ export const generalSteps = (page) => {
                 await locator.fill(value);
             });
         },
-        async fillInputByLabelAndSelectFromDropdown(labelText, value) {
+        async fillInputByLabelAndSelectFromDropdown(labelText, value, sd="", index=0) {
             await allure.step(`Enter your: ${labelText} and select from dropdown: ${value}`, async () => {
                 const locator = page.locator('label', { hasText: labelText })
-                    .locator(generalPage.byLableInputXpath);
+                    .locator(generalPage.byLableInputXpath).nth(index);
                 await locator.fill(value);
                 await page.waitForTimeout(1000);
                 await clickElement(locator);
@@ -1084,8 +1122,8 @@ export const generalSteps = (page) => {
                 await clickElement(selectFromDropDown);
             });
         },
-        async addGuardian(data, guardianType) {
-            await allure.step(`Add a ${guardianType ? guardianType : 'Backup'} guardian`, async () => {
+        async createAndAssignContact(data, guardianType) {
+            await allure.step(`Add a ${guardianType==="Primary" ? guardianType : 'Backup'} guardian`, async () => {
                 await this.addContactGuardianButton(guardianType)
                 await this.fillInputByLabel(generalPage.firstName, data.firstName, guardianType);
                 await this.fillInputByLabel(generalPage.lastName, data.lastName, guardianType);
@@ -1102,8 +1140,64 @@ export const generalSteps = (page) => {
                 await this.clickOnAddContactButtonByIndex(guardianType);
             });
         },
+        async createValidateAndAssignContact(data, guardianType = "Primary") {
+            await allure.step(`Create and validate a ${guardianType==="Primary" ? guardianType : 'Backup'} Contact`, async () => {
+                await this.addContactGuardianButton(guardianType)
+                await this.clickOnAddContactButtonByIndex(guardianType);
+                await this.verifyErrorIsVisible(generalPage.firstNameRequiredError);
+                await this.verifyErrorIsVisible(generalPage.lastNameRequiredError);
+                await this.verifyErrorIsVisible(generalPage.emailRequiredError);
+                await this.verifyErrorIsVisible(generalPage.phoneNumberRequiredError);
+                await this.verifyErrorIsVisible(generalPage.addressLCapLine1RequiredError);
+                await this.verifyErrorIsVisible(generalPage.cityRequiredError);
+                await this.verifyErrorIsVisible(generalPage.stateRequiredError);
+                await this.verifyErrorIsVisible(generalPage.zipCodeRequiredError);
+                await this.fillInputByLabel(generalPage.firstName, data.firstName, guardianType);
+                await this.fillInputByLabel(generalPage.lastName, data.lastName, guardianType);
+                await this.fillInputByLabel(generalPage.email, data.invalidEmail, guardianType);
+                await this.fillInputByLabel(generalPage.zipCode, data.invalidZipcode, guardianType);
+                await this.clickOnAddContactButtonByIndex(guardianType);
+                await this.verifyErrorIsVisible(generalPage.emailFormatError);
+                await this.verifyErrorIsVisible(generalPage.zipCodeDigitError);
+                await this.fillInputByLabel(generalPage.firstName, data.firstName, guardianType);
+                await this.fillInputByLabel(generalPage.lastName, data.lastName, guardianType);
+                await this.fillInputByLabel(generalPage.email, data.email, guardianType);
+                await this.fillInputByLabel(generalPage.phone, data.phone, guardianType);
+                await this.fillInputByLabel(generalPage.addressLine1, data.addressLine1, guardianType);
+                await this.fillInputByLabel(generalPage.addressLine2, data.addressLine2, guardianType);
+                await this.fillInputByLabel(generalPage.city, data.city, guardianType);
+                await this.selectFromDropdownByGuardian(data.state.substring(0, 5), data.state, guardianType);
+                await this.fillInputByLabel(generalPage.zipCode, data.zipCode, guardianType);
+                await this.selectFromDropdownByGuardian(data.country.substring(0, 7), data.country, guardianType);
+                await this.clickOnAddContactButtonByIndex(guardianType);
+                await this.clickGuardianToAssignToChildByIndex(`${data.firstName} ${data.lastName}`, guardianType);
+                await this.clickOnAddContactButtonByIndex(guardianType);
+            });
+        },
         async addPropertyData(data, guardianType) {
-            await allure.step(`Add a Property Data for ${guardianType ? guardianType : 'Backup'} guardian`, async () => {
+            await allure.step(`Add a Property Data for ${guardianType==="Primary" ? guardianType : 'Backup'} guardian`, async () => {
+                await this.fillInputByLabel(generalPage.addressLine1, data.addressLine1, guardianType);
+                await this.fillInputByLabel(generalPage.addressLine2Property, data.addressLine2, guardianType);
+                await this.fillInputByLabel(generalPage.city, data.city, guardianType);
+                await this.selectFromDropdownByGuardian(data.state.substring(0, 5), data.state, guardianType);
+                await this.fillInputByLabel(generalPage.zipPostalCode, data.zipCode, guardianType);
+                await this.selectFromDropdownByGuardian(data.country.substring(0.7), data.country, guardianType);
+                await this.fillInputByLabel(generalPage.approximateValue, data.propertyPrice, guardianType);
+                await this.clickOnAddPropertyPopupButton();
+            });
+        },
+        async addPropertyDataWithValidations(data, guardianType) {
+            await allure.step(`Add a Property Data for ${guardianType==="Primary" ? guardianType : 'Backup'} with validations.`, async () => {
+                await this.clickOnAddPropertyPopupButton();
+                await this.verifyErrorIsVisible(generalPage.addressLine1RequiredError);
+                await this.verifyErrorIsVisible(generalPage.cityRequiredError);
+                await this.verifyErrorIsVisible(generalPage.stateRequiredError);
+                await this.verifyErrorIsVisible(generalPage.zipCodeRequiredError);
+                await this.verifyErrorIsVisible(generalPage.addressLine1RequiredError);
+                await this.verifyErrorIsVisible(generalPage.addressLine1RequiredError);
+                await this.fillInputByLabel(generalPage.zipPostalCode, data.invalidZipCode, guardianType);
+                await this.clickOnAddPropertyPopupButton();
+                await this.verifyErrorIsVisible(generalPage.zipCodeDigitError);
                 await this.fillInputByLabel(generalPage.addressLine1, data.addressLine1, guardianType);
                 await this.fillInputByLabel(generalPage.addressLine2Property, data.addressLine2, guardianType);
                 await this.fillInputByLabel(generalPage.city, data.city, guardianType);

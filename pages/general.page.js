@@ -365,12 +365,17 @@ export const generalPage = {
     contactNameTxt: "Contact Name",
     emailAddressTxt: "Email Address",
     addTxt: "Add",
+    addPersonTxt: "Add Person",
+    enterTxt: "Enter",
     promotCodeTxt: "Promo code",
     sharePlanTxt: "Share Plan",
     selectContactTxt: "Select Contact",
     whoWouldBeTrusteeTxt: "Okay, who should be the Trustee?",
-    promoCodeAppliedSuccessTxt: "Promo code applied. Discount reflected in total.",
+    promoCodeAppliedSuccessTxt: "Promo code applied discount reflected in total.",
     invitationSentTxt: "Invitations Sent!",
+    whatisValueOfAssetsTxt: 'What is the value of all your assets?',
+    doyouHaveAnyPropertyTxt: "Do you have any property?",
+    provideDetailOfPropertyTxt: "Please provide details about your properties.",
     updateProfileInfoToManageTxt: `Update your profile information and manage your account settings.`,
     enterValidEmailError: "Please enter a valid email address with a proper domain extension (e.g., .com, .org).",
     emailRegisteredError: "This email is already registered. Please log in or use a different email.",
@@ -385,6 +390,24 @@ export const generalPage = {
     cardNumberInvalidError: "Your card number is invalid.",
     caringPersonAmountError: "Please enter a reward amount if offering a pet reward.",
     promoCodeError: "Promo Code Not Recognized. Please try again.",
+    zipcodeFormatError: "Zip Code field format is invalid.",
+    fieldRequiredError: "Field is required.",
+    emailRequiredError: "Email is required.",
+    emailFormatError: "Email must be a valid format.",
+    invalidEmailError: "Please enter a valid email address.",
+    phoneNumberRequiredError: "Phone number is required.",
+    invalidUSPhoneError: "Please enter a valid US phone number (e.g. +1 (555) 123 - 4567).",
+    addressLine1RequiredError: "Address line 1 is required.",
+    addressLCapLine1RequiredError: "Address Line 1 is required.",
+    cityRequiredError: "City is required.",
+    stateRequiredError: "State is required.",
+    zipcodRequiredError: "ZIP code is required.",
+    zipCodeRequiredError: "Zip code is required.",
+    zipcod5DigitError: "ZIP code must be exactly 5 digits.",
+    zipCodeDigitError: "Zip code must be exactly 5 digits.",
+    firstNameRequiredError: "First name is required.",
+    petNameRequiredError: "Pet name is required.",
+    lastNameRequiredError: "Last name is required.",
     passwordFiledConfirmNotMatchError: "The password field confirmation does not match.",
     parentRatioBtnTxt: (name) => `${name} and Me`,
     youReferralInviteSentToEmailTxt: (email) => `Your referral invitation has been sent to ${email}.`,
@@ -412,8 +435,8 @@ export const generalPage = {
     datePickerMonthXpath: "//button[contains(@id,'datepicker_') and contains(@id,'_month_btn')]",
     xpathAddPrimaryGuardianButton: "//span[normalize-space()='Primary Guardian']/following-sibling::button",
     xpathBackupGuardianButton: "//span[normalize-space()='Backup Guardian']/following-sibling::button",
-    xpathAddContactPrimaryGuardianButton: "(//h2[normalize-space()='Add a Contact']/following-sibling::div/button)[1]",
-    xpathAddContactBackupGuardianButton: "(//h2[normalize-space()='Add a Contact']/following-sibling::div/button)[2]",
+    xpathAddContactPrimaryGuardianButton: "(//h2[normalize-space()='Select Contact']/following-sibling::div/button)[1]",
+    xpathAddContactBackupGuardianButton: "(//h2[normalize-space()='Select Contact']/following-sibling::div/button)[2]",
     modelCrossIcon: "//a[contains(@href, 'estate-checklist')]/following-sibling::button[img[@alt='Close']]",
     assetsTab: "//button[normalize-space()= 'Summary']/following-sibling::button[normalize-space()='Assets']",
     previewDocumentModelCloseIco: "//a[contains(@href, 'download/user')]/following-sibling::button[img[@alt='Close']]",
@@ -463,6 +486,8 @@ export function getLocator(value) {
         case 'Colorado':
         case 'Alaska':
         case 'Washington':
+        case 'Massachusetts':
+        case 'Illinois':
             return generalPage.statPlaceHolderText;
         case 'United States':
             return generalPage.countryPlaceholder;

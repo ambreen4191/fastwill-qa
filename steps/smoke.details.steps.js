@@ -115,7 +115,7 @@ export const smokeSteps = (page) => {
                 await generalStep.enterZipCode(constants.zipcode);
                 await generalStep.selectItemFromDropDown(constants.enterCountery, constants.selectCountryFromDropdown);
                 await generalStep.clickOnContinueButton();
-                await generalStep.verifyBirthdayScreenIsVisible();
+                await generalStep.verifyWithHeadingScreenIsVisible(generalPage.whatisYourbirthdayTxt);
                 await generalStep.enterBirthDayDate(constants.birthdayDate);
                 await generalStep.clickOnContinueButton();
                 await generalStep.verifyDoyouHavChildrenScreenIsVisible();
@@ -128,9 +128,9 @@ export const smokeSteps = (page) => {
                 await generalStep.clickOnContinueButton();
                 await generalStep.verifyWithHeadingScreenContainsTheTitle(generalPage.whoLookAfterYourChilderenTxt);
                 await generalStep.addPrimaryGuardian();
-                await generalStep.addGuardian(constants.primaryParentData, constants.guardianType);
+                await generalStep.createAndAssignContact(constants.primaryParentData, constants.guardianType);
                 await generalStep.addBackUpGuardian();
-                await generalStep.addGuardian(constants.backupParentData, "");
+                await generalStep.createAndAssignContact(constants.backupParentData, "");
                 await generalStep.clickOnContinueButton();
                 await generalStep.verifyWithHeadingScreenIsVisible(generalPage.wouldYouLikeNameConservatorChild);
                 await generalStep.clickYesRadioButton();
@@ -151,15 +151,15 @@ export const smokeSteps = (page) => {
                 await generalStep.clickRadioButtonByText(generalPage.noTxt);
                 await generalStep.verifyWithHeadingScreenIsVisible(generalPage.wholWillLifetimeBeneficiaryTxt);
                 await generalStep.clickOnButtonByText(generalPage.selectContactTxt)
-                await generalStep.addGuardian(constants.executorData, constants.guardianType)
+                await generalStep.createAndAssignContact(constants.executorData, constants.guardianType)
                 await generalStep.clickOnContinueButton()
                 await generalStep.verifyWithHeadingScreenIsVisible(generalPage.whoShouldTrusteeIncapacitatedTxt);
                 await generalStep.clickOnButtonByText(generalPage.selectContactTxt);
-                await generalStep.addGuardian(constants.monitorData, constants.guardianType);
+                await generalStep.createAndAssignContact(constants.monitorData, constants.guardianType);
                 await generalStep.clickOnContinueButton();
                 await generalStep.verifyWithHeadingScreenIsVisible(generalPage.whoWouldTakeOverPassAwayTxt);
                 await generalStep.clickOnButtonByText(generalPage.selectContactTxt);
-                await generalStep.addGuardian(constants.successorData, constants.guardianType);
+                await generalStep.createAndAssignContact(constants.successorData, constants.guardianType);
                 await generalStep.clickOnContinueButton();
                 await generalStep.verifyWithHeadingScreenIsVisible(generalPage.doYouHavePetTxt);
                 await generalStep.clickYesRadioButton();
@@ -172,9 +172,9 @@ export const smokeSteps = (page) => {
                 await generalStep.clickOnContinueButton();
                 await generalStep.verifyPetGuardianAssignmentScreenIsVisible(constants.petName);
                 await generalStep.addPrimaryGuardian();
-                await generalStep.addGuardian(constants.primaryPetGuardianData, constants.guardianType);
+                await generalStep.createAndAssignContact(constants.primaryPetGuardianData, constants.guardianType);
                 await generalStep.addBackUpGuardian();
-                await generalStep.addGuardian(constants.backupPetGuardianData, "");
+                await generalStep.createAndAssignContact(constants.backupPetGuardianData, "");
                 await generalStep.clickOnContinueButton();
                 await generalStep.verifyWithHeadingScreenIsVisible(generalPage.setAsideMoenyToCaringPersonHelp);
                 await generalStep.clickYesRadioButton();
@@ -191,7 +191,7 @@ export const smokeSteps = (page) => {
                 await generalStep.enterZipCode(constants.zipcode);
                 await generalStep.selectItemFromDropDown(constants.enterCountery, constants.selectCountryFromDropdown);
                 await generalStep.clickOnContinueButton();
-                await generalStep.verifyBirthdayScreenIsVisible();
+                await generalStep.verifyWithHeadingScreenIsVisible(generalPage.whatisYourbirthdayTxt);
                 await generalStep.enterBirthDayDate(constants.birthdayDate);
                 await generalStep.clickOnContinueButton();
                 await generalStep.verifyWithHeadingScreenIsVisible(generalPage.whatIsSpousenameTxt);
@@ -210,9 +210,9 @@ export const smokeSteps = (page) => {
                 await generalStep.clickOnContinueButton();
                 await generalStep.verifyWithHeadingScreenContainsTheTitle(generalPage.whoLookAfterYourChilderenTxt);
                 await generalStep.addPrimaryGuardian();
-                await generalStep.addGuardian(constants.primaryParentData, constants.guardianType);
+                await generalStep.createAndAssignContact(constants.primaryParentData, constants.guardianType);
                 await generalStep.addBackUpGuardian();
-                await generalStep.addGuardian(constants.backupParentData, "");
+                await generalStep.createAndAssignContact(constants.backupParentData, "");
                 await generalStep.clickOnContinueButton();
                 await generalStep.verifyWithHeadingScreenIsVisible(generalPage.wouldYouLikeNameConservatorChild);
                 await generalStep.clickYesRadioButton();
@@ -233,15 +233,15 @@ export const smokeSteps = (page) => {
                 await generalStep.clickRadioButtonByText(generalPage.noTxt);
                 await generalStep.verifyWithHeadingScreenIsVisible(generalPage.wholWillLifetimeBeneficiaryTxt);
                 await generalStep.clickOnButtonByText(generalPage.selectContactTxt)
-                await generalStep.addGuardian(constants.executorData, constants.guardianType)
+                await generalStep.createAndAssignContact(constants.executorData, constants.guardianType)
                 await generalStep.clickOnContinueButton()
                 await generalStep.verifyWithHeadingScreenIsVisible(generalPage.whoShouldTrusteeIncapacitatedTxt);
                 await generalStep.clickOnButtonByText(generalPage.selectContactTxt);
-                await generalStep.addGuardian(constants.monitorData, constants.guardianType);
+                await generalStep.createAndAssignContact(constants.monitorData, constants.guardianType);
                 await generalStep.clickOnContinueButton();
                 await generalStep.verifyWithHeadingScreenIsVisible(generalPage.whoWouldTakeOverPassAwayTxt);
                 await generalStep.clickOnButtonByText(generalPage.selectContactTxt);
-                await generalStep.addGuardian(constants.successorData, constants.guardianType);
+                await generalStep.createAndAssignContact(constants.successorData, constants.guardianType);
                 await generalStep.clickOnContinueButton();
                 await generalStep.verifyWithHeadingScreenIsVisible(generalPage.doYouHavePetTxt);
                 await generalStep.clickYesRadioButton();
@@ -254,9 +254,9 @@ export const smokeSteps = (page) => {
                 await generalStep.clickOnContinueButton();
                 await generalStep.verifyPetGuardianAssignmentScreenIsVisible(constants.petName);
                 await generalStep.addPrimaryGuardian();
-                await generalStep.addGuardian(constants.primaryPetGuardianData, constants.guardianType);
+                await generalStep.createAndAssignContact(constants.primaryPetGuardianData, constants.guardianType);
                 await generalStep.addBackUpGuardian();
-                await generalStep.addGuardian(constants.backupPetGuardianData, "");
+                await generalStep.createAndAssignContact(constants.backupPetGuardianData, "");
                 await generalStep.clickOnContinueButton();
                 await generalStep.verifyWithHeadingScreenIsVisible(generalPage.setAsideMoenyToCaringPersonHelp);
                 await generalStep.clickYesRadioButton();
@@ -273,7 +273,7 @@ export const smokeSteps = (page) => {
                 await generalStep.enterZipCode(constants.zipcode);
                 await generalStep.selectItemFromDropDown(constants.enterCountery, constants.selectCountryFromDropdown);
                 await generalStep.clickOnContinueButton();
-                await generalStep.verifyBirthdayScreenIsVisible();
+                await generalStep.verifyWithHeadingScreenIsVisible(generalPage.whatisYourbirthdayTxt);
                 await generalStep.enterBirthDayDate(constants.birthdayDate);
                 await generalStep.clickOnContinueButton();
                 await generalStep.verifyWithHeadingScreenIsVisible(generalPage.whatIsSpousenameTxt);
@@ -321,7 +321,7 @@ export const smokeSteps = (page) => {
                 await generalStep.enterZipCode(constants.zipcode);
                 await generalStep.selectItemFromDropDown(constants.enterCountery, constants.selectCountryFromDropdown);
                 await generalStep.clickOnContinueButton();
-                await generalStep.verifyBirthdayScreenIsVisible();
+                await generalStep.verifyWithHeadingScreenIsVisible(generalPage.whatisYourbirthdayTxt);
                 await generalStep.enterBirthDayDate(constants.birthdayDate);
                 await generalStep.clickOnContinueButton();
                 await generalStep.verifyWithHeadingScreenIsVisible(generalPage.whatIsSpousenameTxt);
@@ -340,9 +340,9 @@ export const smokeSteps = (page) => {
                 await generalStep.clickOnContinueButton();
                 await generalStep.verifyWithHeadingScreenContainsTheTitle(generalPage.whoLookAfterYourChilderenTxt);
                 await generalStep.addPrimaryGuardian();
-                await generalStep.addGuardian(constants.primaryParentData, constants.guardianType);
+                await generalStep.createAndAssignContact(constants.primaryParentData, constants.guardianType);
                 await generalStep.addBackUpGuardian();
-                await generalStep.addGuardian(constants.backupParentData, "");
+                await generalStep.createAndAssignContact(constants.backupParentData, "");
                 await generalStep.clickOnContinueButton();
                 await generalStep.verifyWithHeadingScreenIsVisible(generalPage.wouldYouLikeNameConservatorChild);
                 await generalStep.clickYesRadioButton();
@@ -364,9 +364,9 @@ export const smokeSteps = (page) => {
                 await generalStep.clickOnContinueButton();
                 await generalStep.verifyPetGuardianAssignmentScreenIsVisible(constants.petName);
                 await generalStep.addPrimaryGuardian();
-                await generalStep.addGuardian(constants.primaryPetGuardianData, constants.guardianType);
+                await generalStep.createAndAssignContact(constants.primaryPetGuardianData, constants.guardianType);
                 await generalStep.addBackUpGuardian();
-                await generalStep.addGuardian(constants.backupPetGuardianData, "");
+                await generalStep.createAndAssignContact(constants.backupPetGuardianData, "");
                 await generalStep.clickOnContinueButton();
                 await generalStep.verifyWithHeadingScreenIsVisible(generalPage.setAsideMoenyToCaringPersonHelp);
                 await generalStep.clickYesRadioButton();
@@ -383,7 +383,7 @@ export const smokeSteps = (page) => {
                 await generalStep.enterZipCode(constants.zipcode);
                 await generalStep.selectItemFromDropDown(constants.enterCountery, constants.selectCountryFromDropdown);
                 await generalStep.clickOnContinueButton();
-                await generalStep.verifyBirthdayScreenIsVisible();
+                await generalStep.verifyWithHeadingScreenIsVisible(generalPage.whatisYourbirthdayTxt);
                 await generalStep.enterBirthDayDate(constants.birthdayDate);
                 await generalStep.clickOnContinueButton();
                 await generalStep.verifyWithHeadingScreenIsVisible(generalPage.whatIsSpousenameTxt);
@@ -491,7 +491,7 @@ export const smokeSteps = (page) => {
                 await generalStep.enterZipCode(constants.zipcode);
                 await generalStep.selectItemFromDropDown(constants.enterCountery, constants.selectCountryFromDropdown);
                 await generalStep.clickOnContinueButton();
-                await generalStep.verifyBirthdayScreenIsVisible();
+                await generalStep.verifyWithHeadingScreenIsVisible(generalPage.whatisYourbirthdayTxt);
                 await generalStep.enterBirthDayDate(constants.birthdayDate);
                 await generalStep.clickOnContinueButton();
                 await generalStep.verifyDoyouHavChildrenScreenIsVisible();
@@ -504,9 +504,9 @@ export const smokeSteps = (page) => {
                 await generalStep.clickOnContinueButton();
                 await generalStep.verifyWithHeadingScreenContainsTheTitle(generalPage.whoLookAfterYourChilderenTxt);
                 await generalStep.addPrimaryGuardian();
-                await generalStep.addGuardian(constants.primaryParentData, constants.guardianType);
+                await generalStep.createAndAssignContact(constants.primaryParentData, constants.guardianType);
                 await generalStep.addBackUpGuardian();
-                await generalStep.addGuardian(constants.backupParentData, "");
+                await generalStep.createAndAssignContact(constants.backupParentData, "");
                 await generalStep.clickOnContinueButton();
                 await generalStep.verifyWithHeadingScreenIsVisible(generalPage.wouldYouLikeNameConservatorChild);
                 await generalStep.clickYesRadioButton();
@@ -528,9 +528,9 @@ export const smokeSteps = (page) => {
                 await generalStep.clickOnContinueButton();
                 await generalStep.verifyPetGuardianAssignmentScreenIsVisible(constants.petName);
                 await generalStep.addPrimaryGuardian();
-                await generalStep.addGuardian(constants.primaryPetGuardianData, constants.guardianType);
+                await generalStep.createAndAssignContact(constants.primaryPetGuardianData, constants.guardianType);
                 await generalStep.addBackUpGuardian();
-                await generalStep.addGuardian(constants.backupPetGuardianData, "");
+                await generalStep.createAndAssignContact(constants.backupPetGuardianData, "");
                 await generalStep.clickOnContinueButton();
                 await generalStep.verifyWithHeadingScreenIsVisible(generalPage.setAsideMoenyToCaringPersonHelp);
                 await generalStep.clickYesRadioButton();
@@ -659,13 +659,13 @@ export const smokeSteps = (page) => {
             await allure.step("Arragement – Verify complete Arrangement section flow", async () => {
                 await generalStep.verifyWithHeadingScreenIsVisible(generalPage.whoWillbeExecutorTxt)
                 await generalStep.clickOnButtonByText(generalPage.addAContactTxt)
-                await generalStep.addGuardian(constants.executorData, constants.guardianType);
+                await generalStep.createAndAssignContact(constants.executorData, constants.guardianType);
                 await generalStep.clickOnContinueButton()
                 await generalStep.verifyWithHeadingScreenIsVisible(generalPage.wantBackupExecutor);
                 await generalStep.clickYesRadioButton()
                 await generalStep.verifyWithHeadingScreenIsVisible(generalPage.whoWillbeBackupExecutorTxt);
                 await generalStep.clickOnButtonByText(generalPage.addAContactTxt)
-                await generalStep.addGuardian(constants.backupExecutorData, constants.guardianType)
+                await generalStep.createAndAssignContact(constants.backupExecutorData, constants.guardianType)
                 await generalStep.clickOnContinueButton()
                 await generalStep.verifyWithHeadingScreenIsVisible(generalPage.shouldExecutorRequiredBond)
                 await generalStep.clickRadioButtonByText(generalPage.noTxt)
@@ -673,7 +673,7 @@ export const smokeSteps = (page) => {
                 await generalStep.clickYesRadioButton();
                 await generalStep.verifyWithHeadingScreenIsVisible(generalPage.whoWouldLikeNameasMonitorTxt)
                 await generalStep.clickOnButtonByText(generalPage.addAContactTxt)
-                await generalStep.addGuardian(constants.monitorData, constants.guardianType);
+                await generalStep.createAndAssignContact(constants.monitorData, constants.guardianType);
                 await generalStep.clickOnContinueButton()
                 await generalStep.verifyWithHeadingScreenIsVisible(generalPage.wantNameConservatorEstateTxt)
                 await generalStep.clickRadioButtonByText(generalPage.noTxt);
@@ -697,13 +697,13 @@ export const smokeSteps = (page) => {
             await allure.step("Verify user can complete entire Health Care section successfully", async () => {
                 await generalStep.verifyWithHeadingScreenIsVisible(generalPage.whoWillMakeMedicalDecision);
                 await generalStep.clickOnButtonByText(generalPage.addHealthCareAgentTxt)
-                await generalStep.addGuardian(constants.healthCareAgentData, constants.guardianType);
+                await generalStep.createAndAssignContact(constants.healthCareAgentData, constants.guardianType);
                 await generalStep.clickOnContinueButton();
                 await generalStep.verifyWithHeadingScreenIsVisible(generalPage.wantNameBackupHealthAgentTxt);
                 await generalStep.clickYesRadioButton();
                 await generalStep.verifyWithHeadingScreenIsVisible(generalPage.whoWillBackupAgentTxt);
                 await generalStep.clickOnButtonByText(generalPage.addAContactTxt)
-                await generalStep.addGuardian(constants.backupHealthCareAgentData, constants.guardianType);
+                await generalStep.createAndAssignContact(constants.backupHealthCareAgentData, constants.guardianType);
                 await generalStep.clickOnContinueButton();
                 await generalStep.verifyWithHeadingScreenIsVisible(generalPage.leaveMedicalCarforAgentTxt)
                 await generalStep.clickRadioButtonByText(generalPage.noTxt);
@@ -716,7 +716,7 @@ export const smokeSteps = (page) => {
                 await generalStep.verifyWithHeadingScreenIsVisible(generalPage.wouldLikeGivePermissionViewMedicalRecordsTxt)
                 await generalStep.clickYesRadioButton();
                 await generalStep.clickRadioButtonByText(generalPage.authorizedPersonTxt)
-                await generalStep.addGuardian(constants.primaryParentData, constants.guardianType);
+                await generalStep.createAndAssignContact(constants.primaryParentData, constants.guardianType);
                 await generalStep.clickOnContinueButton()
                 await generalStep.verifyWithHeadingScreenIsVisible(generalPage.wantWhenHealthProxyNoLongerEffectTxt)
                 await generalStep.clickRadioButtonByText(generalPage.yesIwouldLikeToChooseTxt);
@@ -730,13 +730,13 @@ export const smokeSteps = (page) => {
                 await generalStep.clickYesRadioButton();
                 await generalStep.verifyWithHeadingScreenIsVisible(generalPage.screenOfFinancialAgentTxt)
                 await generalStep.clickOnButtonByText(generalPage.addFinancialAgentTxt)
-                await generalStep.addGuardian(constants.financialAgentData, constants.guardianType);
+                await generalStep.createAndAssignContact(constants.financialAgentData, constants.guardianType);
                 await generalStep.clickOnContinueButton();
                 await generalStep.verifyWithHeadingScreenIsVisible(generalPage.wantNameBackupFinancialAgenTxt);
                 await generalStep.clickYesRadioButton();
                 await generalStep.verifyWithHeadingScreenIsVisible(generalPage.successorAgenScreenDisplayed)
                 await generalStep.clickOnButtonByText(generalPage.addBackupAgentTxt)
-                await generalStep.addGuardian(constants.backupAgentData, constants.guardianType);
+                await generalStep.createAndAssignContact(constants.backupAgentData, constants.guardianType);
                 await generalStep.clickOnContinueButton();
                 await generalStep.verifyWithHeadingScreenIsVisible(generalPage.wouldLikeBackRuleForBackAgetntxt);
                 await generalStep.clickYesRadioButton();

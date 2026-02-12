@@ -327,7 +327,18 @@ describe('Regression Tests', () => {
         const regressionStep = regressionSteps(page);
 
         await smokeStep.signupIndividualTrustUsers(constants, email);
-        await regressionStep.individualTrustUserBasicAddressToConservatorSetup(constants);
+        await regressionStep.individualTrustUserNegativeBasicAddressToConservatorSetup(constants);
+
+    });
+    test.only('TC_012 - Will Creation – Assets Section – Ensure user can successfully complete entire Assets flow from Intro screen to Backup Residuary with all conditional scenarios (YES/NO), validations, Add/Edit/Delete, distribution types', async ({ page }) => {
+        const email = getRandomEmail();
+        const smokeStep = smokeSteps(page)
+        const regressionStep = regressionSteps(page);
+        const generalStep = generalSteps(page);
+
+        await smokeStep.signupIndividualTrustUsers(constants, email);
+        await regressionStep.individualTrustUserNegativeBasicAddressToConservatorSetup(constants);
+        await regressionStep.individualTrustUserAssetSetup(constants);
 
     });
 
