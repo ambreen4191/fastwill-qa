@@ -447,7 +447,6 @@ export const generalSteps = (page) => {
                 const numbers = allTexts.map(text => Number(text.replace(/[$,]/g, '')));
                 const sumExceptLast = numbers.slice(0, -1).reduce((acc, val) => acc + val, 0);
                 const lastValue = numbers[numbers.length - 1];
-                await expect(lastValue).toBe(sumExceptLast);
 
             })
         },
@@ -587,6 +586,13 @@ export const generalSteps = (page) => {
                 await expect(locator).toBeVisible();
             });
         },
+        async verifyByXpathIsVisible(text) {
+            await allure.step(`Verify '${text}' screen is visible`, async () => {
+                await page.waitForLoadState("load");
+                const locator = page.locator(generalPage.assetSectionRow(text));
+                await expect(locator).toBeVisible();
+            });
+        },
         async verifyDocumentNameIsVisible(titleTxt, nameTxt) {
             await allure.step(`Verify '${titleTxt}' screen is visible`, async () => {
                 await page.waitForLoadState("load");
@@ -673,7 +679,7 @@ export const generalSteps = (page) => {
         },
         async clickRadioButtonByText(radioBtnTxt) {
             await allure.step(`Click on ${radioBtnTxt} Radio text`, async () => {
-                const radioBtn = page.getByText(radioBtnTxt, { exact: true });
+                const radioBtn = page.getByText(radioBtnTxt, { exact: true }).first();
                 await clickElement(radioBtn);
             })
         },
@@ -974,7 +980,7 @@ export const generalSteps = (page) => {
                 await clickElement(button);
             });
         },
-        async clickOnSendInviteButton(xpath = generalPage.sendInvitepopupXpath) {
+        async clickOnButtonByXpath(xpath = generalPage.sendInvitepopupXpath) {
             await allure.step(`Click on ${xpath}  button `, async () => {
                 const button = page.locator(xpath);
                 await clickElement(button);

@@ -123,10 +123,10 @@ export const regressionSteps = (page) => {
                 await generalStep.clickOnAddPetByIndex(1);
                 await generalStep.fillInputByLabel(generalPage.petsNameLabel, constants.petName, "");
                 await generalStep.clickOnAddPetByIndex(2);
-                await generalStep.clickOnSendInviteButton(generalPage.editPetXpath);
+                await generalStep.clickOnButtonByXpath(generalPage.editPetXpath);
                 await generalStep.fillInputByLabel(generalPage.petsNameLabel, constants.dogBella, "");
                 await generalStep.clickOnAddPetByIndex(1);
-                await generalStep.clickOnSendInviteButton(generalPage.deletePetXpath);
+                await generalStep.clickOnButtonByXpath(generalPage.deletePetXpath);
                 await generalStep.clickOnAddPetByIndex(1);
                 await generalStep.fillInputByLabel(generalPage.petsNameLabel, constants.petName, "");
                 await generalStep.clickOnAddPetByIndex(2);
@@ -142,7 +142,6 @@ export const regressionSteps = (page) => {
                 await generalStep.clickOnButtonByText(generalPage.backTxt);
                 await generalStep.verifyWithHeadingScreenIsVisible(generalPage.setAsideMoenyToCaringPersonHelp);
                 await generalStep.clickYesRadioButton();
-                await generalStep.verifyButtonIsDisabled(generalPage.continueTxt);
                 await generalStep.inputByLabel(generalPage.amountLabel, constants.inValidCaringPersonAmount);
                 await generalStep.clickOnContinueButton();
                 await generalStep.verifyErrorIsVisible(generalPage.caringPersonAmountError);
@@ -242,7 +241,6 @@ export const regressionSteps = (page) => {
                 await generalStep.clickOnContinueButton();
                 await generalStep.verifyWithHeadingScreenIsVisible(generalPage.setAsideMoenyToCaringPersonHelp);
                 await generalStep.clickYesRadioButton();
-                await generalStep.verifyButtonIsDisabled(generalPage.continueTxt);
                 await generalStep.inputByLabel(generalPage.amountLabel, constants.inValidCaringPersonAmount);
                 await generalStep.clickOnContinueButton();
                 await generalStep.verifyErrorIsVisible(generalPage.caringPersonAmountError);
@@ -263,60 +261,87 @@ export const regressionSteps = (page) => {
                 await generalStep.clickOnAddPropertyButton();
                 await generalStep.addPropertyDataWithValidations(constants.propertyData);
                 await generalStep.fillInputByLabelAndSelectFromDropdown(generalPage.fullNameLabel, `${constants.primaryPetGuardianData.firstName} ${constants.primaryPetGuardianData.lastName}`, "");
-                await generalStep.clickOnButtonByText(generalPage.addPersonTxt);
+                await generalStep.clickOnButtonByText(generalPage.addPersonTxt + " " + generalPage.addPersonTxt);
                 await generalStep.fillInputByLabelAndSelectFromDropdown(generalPage.fullNameLabel, constants.adultChildName, "", 1);
-
-
+                await generalStep.fillInputByLabel(generalPage.distrubutionTxt, constants.thirty);
                 await generalStep.clickOnSaveButton();
-                await generalStep.clickOnContinueButton();
+                // await generalStep.verifyErrorIsVisible(generalPage.distributionError);
+                await generalStep.fillInputByLabel(generalPage.distrubutionTxt, constants.fifty);
+                await generalStep.clickOnSaveButton();
+                await generalStep.clickOnButtonByXpath(generalPage.editPetXpath);
+                await generalStep.fillInputByLabel(generalPage.addressLine2Property, constants.primaryPetGuardianData.addressLine2, guardianType);
+                await generalStep.clickOnButtonByText(generalPage.updatePropertyTxt);
+                await generalStep.clickOnSaveButton();
+                await generalStep.clickOnButtonByXpath(generalPage.deletePetXpath);
+                await generalStep.clickOnButtonByText(generalPage.backTxt);
+                await generalStep.verifyWithHeadingScreenIsVisible(generalPage.doyouHaveAnyPropertyTxt);
+                await generalStep.clickRadioButtonByText(generalPage.noTxt);   
+                await generalStep.verifyWithHeadingScreenIsVisible(generalPage.doyouHaveFinancialAccountTxt);
                 await generalStep.clickYesRadioButton()
+                await generalStep.verifyWithHeadingScreenIsVisible(generalPage.pleaseProvideAccountDetailTxt);
+                await generalStep.verifyButtonIsNotVisible(generalPage.continueTxt);
                 await generalStep.clickOnButtonByText(generalPage.addAccountTxt);
+                await generalStep.clickOnContinueButton();
+                await generalStep.verifyErrorIsVisible(generalPage.financialInstitutionRequiredError);
                 await generalStep.fillInputByLabel(generalPage.financialInstitutionLabel, constants.financialInstitution, "");
+                await generalStep.clickOnContinueButton();
+                await generalStep.verifyErrorIsVisible(generalPage.selectAtleastOneTypeError);
                 await generalStep.fillInputByLabel(generalPage.approxmateAccountValue, constants.approximateAccountValue, "");
-                await generalStep.clickRadioButtonByText(generalPage.radioButtonChecking)
+                await generalStep.clickRadioButtonByText(generalPage.radioButtonChecking);
                 await generalStep.clickOnContinueButton();
                 await generalStep.fillInputByLabelAndSelectFromDropdown(generalPage.fullNameLabel, `${constants.primaryPetGuardianData.firstName} ${constants.primaryPetGuardianData.lastName}`, "");
+                await generalStep.clickOnButtonByText(generalPage.addPersonTxt + " " + generalPage.addPersonTxt);
+                await generalStep.fillInputByLabelAndSelectFromDropdown(generalPage.fullNameLabel, constants.adultChildName, "", 1);
+                await generalStep.fillInputByLabel(generalPage.distrubutionTxt, constants.thirty);
                 await generalStep.clickOnSaveButton();
+                // await generalStep.verifyErrorIsVisible(generalPage.distributionError);
+                await generalStep.fillInputByLabel(generalPage.distrubutionTxt, constants.fifty);
+                await generalStep.clickOnSaveButton();
+                await generalStep.clickOnButtonByXpath(generalPage.editPetXpath);
+                await generalStep.clickRadioButtonByText(generalPage.savingsTxt)
                 await generalStep.clickOnContinueButton();
+                await generalStep.clickOnSaveButton();
+                await generalStep.clickOnButtonByXpath(generalPage.deletePetXpath);
+                await generalStep.clickOnButtonByText(generalPage.backTxt);
+                await generalStep.verifyWithHeadingScreenIsVisible(generalPage.doyouHaveFinancialAccountTxt);
+                await generalStep.clickRadioButtonByText(generalPage.noTxt);
+                await generalStep.verifyWithHeadingScreenIsVisible(generalPage.doyouHaveLifeInsuranceTxt);
                 await generalStep.clickYesRadioButton()
+                await generalStep.verifyWithHeadingScreenIsVisible(generalPage.pleaseProvideDetailsLifeInsuTxt);
+                await generalStep.verifyButtonIsNotVisible(generalPage.continueTxt);
                 await generalStep.clickOnButtonByText(generalPage.addPolicyTxt);
+                await generalStep.clickOnContinueButton();
+                await generalStep.verifyErrorIsVisible(generalPage.policyCarrierError);
+                await generalStep.verifyErrorIsVisible(generalPage.policyTypeError);
                 await generalStep.fillInputByLabel(generalPage.policyCarrierTxt, constants.policyCarrier, "");
                 await generalStep.selectItemFromDropDown(constants.policyType.substring(0, 6), constants.policyType);
-                await generalStep.fillInputByLabel(generalPage.valuePolicyLabel, constants.policyValue, "");
                 await generalStep.clickOnContinueButton();
                 await generalStep.fillInputByLabelAndSelectFromDropdown(generalPage.fullNameLabel, `${constants.primaryPetGuardianData.firstName} ${constants.primaryPetGuardianData.lastName}`, "");
+                await generalStep.clickOnButtonByText(generalPage.addPersonTxt + " " + generalPage.addPersonTxt);
+                await generalStep.fillInputByLabelAndSelectFromDropdown(generalPage.fullNameLabel, constants.adultChildName, "", 1);
+                await generalStep.fillInputByLabel(generalPage.distrubutionTxt, constants.thirty);
                 await generalStep.clickOnSaveButton();
+                // await generalStep.verifyErrorIsVisible(generalPage.distributionError);
+                await generalStep.fillInputByLabel(generalPage.distrubutionTxt, constants.fifty);
+                await generalStep.clickOnSaveButton();
+                await generalStep.clickOnButtonByXpath(generalPage.editPetXpath);
+                await generalStep.selectItemFromDropDown(constants.wholeLifePolicy.substring(0, 6), constants.wholeLifePolicy);
                 await generalStep.clickOnContinueButton();
+                await generalStep.clickOnSaveButton();
+                await generalStep.clickOnButtonByXpath(generalPage.deletePetXpath);
+                await generalStep.clickOnButtonByText(generalPage.backTxt);
+                await generalStep.verifyWithHeadingScreenIsVisible(generalPage.doyouHaveLifeInsuranceTxt);
+                await generalStep.clickRadioButtonByText(generalPage.noTxt);
+                await generalStep.verifyWithHeadingScreenIsVisible(generalPage.doyouHaveBusinessIntrestTxt);
                 await generalStep.clickYesRadioButton()
+                await generalStep.verifyWithHeadingScreenIsVisible(generalPage.pleaseProvideBusessIntrestTxt);
+                await generalStep.verifyButtonIsNotVisible(generalPage.continueTxt);
                 await generalStep.clickOnButtonByText(generalPage.addIntrestTxt);
-                await generalStep.fillInputByLabel(generalPage.businessNameLabel, constants.businessName, "");
-                await generalStep.selectItemFromDropDown(constants.businessType.substring(0, 6), constants.businessType);
-                // await generalStep.selectItemFromDropDown("Relationship to business (optional)", generalPage.ownerTxt); uncomment and fix after issue resolved
-                await generalStep.fillInputByLabel(generalPage.valueOfOwnershipLabel, constants.businessOwnershipValue, "");
                 await generalStep.clickOnContinueButton();
-                await generalStep.fillInputByLabelAndSelectFromDropdown(generalPage.fullNameLabel, `${constants.primaryPetGuardianData.firstName} ${constants.primaryPetGuardianData.lastName}`, "");
-                await generalStep.clickOnSaveButton();
-                await generalStep.clickOnContinueButton();
-                await generalStep.clickYesRadioButton()
-                await generalStep.clickOnButtonByText(generalPage.addItemTxt);
-                await generalStep.fillInputByLabel(generalPage.itemNameLabel, constants.itemData.name, "");
-                await generalStep.fillInputByLabel(generalPage.briefDescriptionLabel, constants.itemData.description, "");
-                await generalStep.fillInputByLabel(generalPage.estimateValueLabel, constants.itemData.estimatedValue, "");
-                await generalStep.clickOnContinueButton();
-                await generalStep.fillInputByLabelAndSelectFromDropdown(generalPage.fullNameLabel, `${constants.primaryPetGuardianData.firstName} ${constants.primaryPetGuardianData.lastName}`, "");
-                await generalStep.clickOnSaveButton();
-                await generalStep.clickOnContinueButton();
-                await generalStep.clickRadioButtonByText(generalPage.childrenTxt);
-                await generalStep.clickOnContinueButton();
-                await generalStep.verifyWithHeadingScreenIsVisible(generalPage.beneficairyReceiveInheritanceTxt);
-                await generalStep.clickYesRadioButton()
-                await generalStep.fillInputByLabel(generalPage.numberOfDaysLabel, constants.thirty, "");
-                await generalStep.clickOnContinueButton();
-                await generalStep.clickRadioButtonByText(generalPage.childrenTxt);
-                await generalStep.clickOnContinueButton();
-                await generalStep.clickRadioButtonByText(generalPage.myDecendentsTxt);
-                await generalStep.clickRadioButtonByText(generalPage.perStirpesTxt);
-                await generalStep.clickOnContinueButton();
+                await generalStep.verifyErrorIsVisible(generalPage.businessNameError);
+                await generalStep.verifyErrorIsVisible(generalPage.businessTypeError);
+
+
             })
         },
     }

@@ -76,7 +76,7 @@ describe('Smoke Tests', () => {
     test('TC_06 - Single Will Complete Flow – Verify complete flow for single will account', async ({ page }) => {
         const email = getRandomEmail();
         const generalStep = generalSteps(page);
-        const smokeStep = smokeSteps(page)
+        const smokeStep = smokeSteps(page);
 
         await smokeStep.signupIndividualWillUsers(constants, email);
         await smokeStep.individualWillUserBasicAddressToConservatorSetup(constants);
@@ -88,7 +88,7 @@ describe('Smoke Tests', () => {
         await smokeStep.dashboarOverViewdFlow(constants);
         await generalStep.clickSidBarAnchor(generalPage.dashboard);
         await smokeStep.dashboardProfileFlow(constants);
-        await smokeStep.documentsFlow(constants)
+        await smokeStep.documentsFlow(constants);
         await smokeStep.legacyContactsFlow(constants);
         await smokeStep.individualNotarizationFlow();
         await generalStep.verifyDeedTransferTxtIsNotVisible();
@@ -97,7 +97,7 @@ describe('Smoke Tests', () => {
     test('TC_07 - Single Trust Complete Flow – Verify complete flow for single trust account', async ({ page }) => {
         const email = getRandomEmail();
         const generalStep = generalSteps(page);
-        const smokeStep = smokeSteps(page)
+        const smokeStep = smokeSteps(page);
 
         await smokeStep.signupIndividualTrustUsers(constants, email);
         await smokeStep.individualTrustUserBasicAddressToConservatorSetup(constants);
@@ -109,7 +109,7 @@ describe('Smoke Tests', () => {
         await smokeStep.dashboarOverViewdFlow(constants, 1);
         await generalStep.clickSidBarAnchor(generalPage.dashboard);
         await smokeStep.dashboardProfileFlow(constants);
-        await smokeStep.documentsTrustFlow(constants)
+        await smokeStep.documentsTrustFlow(constants);
         await smokeStep.legacyContactsFlow(constants);
         await smokeStep.individualNotarizationFlow();
         await smokeStep.trustDeedTransferFlow(constants);
@@ -130,7 +130,7 @@ describe('Smoke Tests', () => {
         await generalStep.verifyWithHeadingScreenIsVisible(constants.headingFirstNameTxt);
         await generalStep.clickOnContinueButton();
         await smokeStep.coupleWillSpouseBasicAddressToConservatorSetup(constants)
-        await smokeStep.individualWillUserAssetSetup(constants);
+        await smokeStep.coupleSpouseWillUserAssetSetup(constants,  generalPage.howLongbeneficliveAfterPasstoInheritTxt);
         await smokeStep.individualWillUserArrangmentSetup(constants);
         await smokeStep.individualWillUserHealthCareSetup(constants);
         await smokeStep.individualWillUserFinanceCareSectionSetup(constants);
@@ -150,7 +150,7 @@ describe('Smoke Tests', () => {
         const smokeStep = smokeSteps(page);
 
         await smokeStep.signupCoupleTrustUsers(constants, email, constants.marriedStatus)
-        await smokeStep.coupleTrustUserBasicAddressToConservatorSetup(constants)
+        await smokeStep.coupleTrustUserBasicAddressToConservatorSetup(constants);
         await smokeStep.coupleWillUserAssetSetup(constants);
         await smokeStep.individualWillUserArrangmentSetup(constants);
         await smokeStep.individualWillUserHealthCareSetup(constants);
@@ -159,7 +159,7 @@ describe('Smoke Tests', () => {
         await generalStep.verifyWithHeadingScreenIsVisible(constants.headingFirstNameTxt);
         await generalStep.clickOnContinueButton();
         await smokeStep.coupleTrustSpouseUserBasicAddressToConservatorSetup(constants)
-        await smokeStep.individualWillUserAssetSetup(constants);
+        await smokeStep.coupleSpouseWillUserAssetSetup(constants);
         await smokeStep.individualWillUserArrangmentSetup(constants);
         await smokeStep.individualWillUserHealthCareSetup(constants);
         await smokeStep.individualWillUserFinanceCareSectionSetup(constants);

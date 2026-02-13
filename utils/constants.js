@@ -27,6 +27,19 @@ export const constants = {
         country: "United States",
         propertyPrice: "200000"
     },
+    secondaryPetGuardianData: {
+        firstName: "Charlotte",
+        lastName: "Anderson",
+        email: "charlotte.anderson@gmail.com",
+        phone: "+13105551278",
+        addressLine1: "350 5th Avenue",
+        addressLine2: "Suite 2100",
+        city: "New York",
+        state: "New York",
+        zipCode: "10118",
+        country: "United States",
+        propertyPrice: "350000"
+    },
     propertyData: {
         addressLine1: "1111 Brickell Avenue",
         addressLine2: "Suite 2100",
@@ -35,7 +48,7 @@ export const constants = {
         zipCode: "33131",
         invalidZipCode: "323",
         country: "United States",
-        approximateValue: "100000"
+        propertyPrice: "100000"
     },
     spousePrimaryPetGuardianData: {
         firstName: "Isabella",
@@ -287,6 +300,7 @@ export const constants = {
     resetPasswordTxt: "Reset password",
     addressLine2: "Apt 4B",
     thirty: "30",
+    fifty: "50",
     city: "New York",
     zipcode: "10001",
     enterCountery: "United",
@@ -303,6 +317,7 @@ export const constants = {
     approximateAccountValue: "25000",
     policyCarrier: "MetLife Insurance",
     policyType: "Term Life",
+    wholeLifePolicy: "Whole Life",
     policyValue: "50000",
     policyHolderName: "John Doe",
     businessName: "Doe Enterprises",
