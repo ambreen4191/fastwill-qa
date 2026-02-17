@@ -454,7 +454,7 @@ export const smokeSteps = (page) => {
                 await generalStep.clickOnButtonByText(generalPage.addIntrestTxt);
                 await generalStep.fillInputByLabel(generalPage.businessNameLabel, constants.businessName, "");
                 await generalStep.selectItemFromDropDown(constants.businessType.substring(0, 6), constants.businessType);
-                // await generalStep.selectItemFromDropDown("Relationship to business (optional)", generalPage.ownerTxt); uncomment and fix after issue resolved
+                await generalStep.selectItemFromDropDown(generalPage.ownerTxt.substring(0, 3), generalPage.ownerTxt);
                 await generalStep.fillInputByLabel(generalPage.valueOfOwnershipLabel, constants.businessOwnershipValue, "");
                 await generalStep.clickOnContinueButton();
                 await generalStep.fillInputByLabelAndSelectFromDropdown(generalPage.fullNameLabel, `${constants.primaryPetGuardianData.firstName} ${constants.primaryPetGuardianData.lastName}`);
@@ -571,7 +571,7 @@ export const smokeSteps = (page) => {
                 await generalStep.clickOnButtonByText(generalPage.addIntrestTxt);
                 await generalStep.fillInputByLabel(generalPage.businessNameLabel, constants.businessName, "");
                 await generalStep.selectItemFromDropDown(constants.businessType.substring(0, 6), constants.businessType);
-                // await generalStep.selectItemFromDropDown("Relationship to business (optional)", generalPage.ownerTxt); uncomment and fix after issue resolved
+                await generalStep.selectItemFromDropDown(generalPage.ownerTxt.substring(0, 3), generalPage.ownerTxt);
                 await generalStep.fillInputByLabel(generalPage.valueOfOwnershipLabel, constants.businessOwnershipValue, "");
                 await generalStep.clickOnContinueButton();
                 await generalStep.fillInputByLabelAndSelectFromDropdown(generalPage.fullNameLabel, `${constants.primaryPetGuardianData.firstName} ${constants.primaryPetGuardianData.lastName}`, "");
@@ -630,7 +630,7 @@ export const smokeSteps = (page) => {
                 await generalStep.clickOnButtonByText(generalPage.addIntrestTxt);
                 await generalStep.fillInputByLabel(generalPage.businessNameLabel, constants.businessName, "");
                 await generalStep.selectItemFromDropDown(constants.businessType.substring(0, 6), constants.businessType);
-                // await generalStep.selectItemFromDropDown("Relationship to business (optional)", generalPage.ownerTxt); uncomment and fix after issue resolved
+                await generalStep.selectItemFromDropDown(generalPage.ownerTxt.substring(0, 3), generalPage.ownerTxt);
                 await generalStep.fillInputByLabel(generalPage.valueOfOwnershipLabel, constants.businessOwnershipValue, "");
                 await generalStep.clickOnContinueButton();
                 await generalStep.fillInputByLabelAndSelectFromDropdown(generalPage.fullNameLabel, `${constants.primaryPetGuardianData.firstName} ${constants.primaryPetGuardianData.lastName}`);
@@ -688,7 +688,7 @@ export const smokeSteps = (page) => {
                 await generalStep.clickOnButtonByText(generalPage.addIntrestTxt);
                 await generalStep.fillInputByLabel(generalPage.businessNameLabel, constants.businessName, "");
                 await generalStep.selectItemFromDropDown(constants.businessType.substring(0, 6), constants.businessType);
-                // await generalStep.selectItemFromDropDown("Relationship to business (optional)", generalPage.ownerTxt); uncomment and fix after issue resolved
+                await generalStep.selectItemFromDropDown(generalPage.ownerTxt.substring(0, 3), generalPage.ownerTxt);
                 await generalStep.fillInputByLabel(generalPage.valueOfOwnershipLabel, constants.businessOwnershipValue, "");
                 await generalStep.clickOnContinueButton();
                 await generalStep.fillInputByLabelAndSelectFromDropdown(generalPage.fullNameLabel, `${constants.primaryPetGuardianData.firstName} ${constants.primaryPetGuardianData.lastName}`);

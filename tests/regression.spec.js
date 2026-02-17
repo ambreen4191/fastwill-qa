@@ -341,5 +341,17 @@ describe('Regression Tests', () => {
         await regressionStep.individualTrustUserAssetSetup(constants);
 
     });
+    test('TC_013 - Will Creation – Arrangements Section – Verify complete Arrangements section end-to-end including Conservator contact modal actions (Create, Select, Edit, Delete, See More) and all conditional flows', async ({ page }) => {
+        const email = getRandomEmail();
+        const smokeStep = smokeSteps(page)
+        const regressionStep = regressionSteps(page);
+        const generalStep = generalSteps(page);
+
+        await smokeStep.signupIndividualTrustUsers(constants, email);
+        await regressionStep.individualTrustUserBasicAddressToConservatorSetup(constants);
+        await smokeStep.individualTrustUserAssetSetup(constants);
+        await regressionStep.individualWillUserArrangmentSetup(constants);
+
+    });
 
 });

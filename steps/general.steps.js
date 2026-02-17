@@ -374,6 +374,12 @@ export const generalSteps = (page) => {
                 await expect(locator.first()).toBeVisible();
             });
         },
+        async verifyErrorIncludeIsVisible(errorTxt) {
+            await allure.step(`Verify error: '${errorTxt}' is visible`, async () => {
+                const locator = page.getByText(errorTxt);
+                await expect(locator.first()).toBeVisible();
+            });
+        },
         async verifyErrorIsNotVisible(locatorTxt) {
             await allure.step(`Verify error: '${locatorTxt}' is not visible`, async () => {
                 await page.waitForLoadState("load");
@@ -919,12 +925,18 @@ export const generalSteps = (page) => {
         },
         async selectItemFromDropDown(enterValue, selectValue) {
             await allure.step(`Type ${enterValue} in text field and Select the item from dropdown ${selectValue}`, async () => {
-                const enterValueTxtField = page.getByPlaceholder(getLocator(selectValue))
-                await enterValueTxtField.click();
-                await enterValueTxtField.type(enterValue, { delay: 50 });
+                const enterValueTxtField = page.getByPlaceholder(getLocator(selectValue));
+                await enterValueTxtField.fill(enterValue);
+                await page.waitForTimeout(1000);
                 const dropdownContainer = page.locator(generalPage.dropdownXpath);
                 const selectFromDropDown = dropdownContainer.locator(generalPage.selectStateFromDropdown(selectValue));
                 await clickElement(selectFromDropDown);
+            })
+        },
+        async inputByXpath(xpath, value) {
+            await allure.step(`Enter your ${xpath}: ${value}`, async () => {
+                const locator = page.locator(xpath);
+                await locator.fill(value);
             })
         },
         async inputByLabel(labelText, value) {
@@ -943,9 +955,9 @@ export const generalSteps = (page) => {
                 await locator.fill(value);
             })
         },
-        async clickOnContinueButton() {
+        async clickOnContinueButton(index = 0) {
             await allure.step('Click on Contiue button', async () => {
-                const continueButton = page.getByRole('button', { name: generalPage.continueTxt, exact: true });
+                const continueButton = page.getByRole('button', { name: generalPage.continueTxt, exact: true }).nth(index);
                 await clickElement(continueButton);
             })
         },
@@ -982,7 +994,7 @@ export const generalSteps = (page) => {
         },
         async clickOnButtonByXpath(xpath = generalPage.sendInvitepopupXpath) {
             await allure.step(`Click on ${xpath}  button `, async () => {
-                const button = page.locator(xpath);
+                const button = page.locator(xpath).first();
                 await clickElement(button);
             });
         },

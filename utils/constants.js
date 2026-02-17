@@ -79,6 +79,11 @@ export const constants = {
         description: "A vintage Chinese porcelain vase from the 19th century",
         estimatedValue: "12000"
     },
+    watchItemData: {
+        name: "Luxury Wristwatch",
+        description: "A limited edition Swiss automatic chronograph with sapphire crystal",
+        estimatedValue: "18500"
+    },
     backupExecutorData: {
         firstName: "Sarah",
         lastName: "Thompson",
@@ -299,8 +304,12 @@ export const constants = {
     addressLine1: "123 Main St",
     resetPasswordTxt: "Reset password",
     addressLine2: "Apt 4B",
+    minusThirty: "-30",
     thirty: "30",
+    hundredThousand: "100000",
     fifty: "50",
+    twenty: '20',
+    twentyFive: "25",
     city: "New York",
     zipcode: "10001",
     enterCountery: "United",
@@ -321,6 +330,7 @@ export const constants = {
     policyValue: "50000",
     policyHolderName: "John Doe",
     businessName: "Doe Enterprises",
+    summitEnterPrisesBusiName: "Summit Enterprises",
     businessType: "Solo Proprietorship",
     businessOwnershipValue: "75000",
     legacyContactFullname: "Edison Thomson",
