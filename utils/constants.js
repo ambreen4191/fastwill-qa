@@ -88,12 +88,14 @@ export const constants = {
         firstName: "Sarah",
         lastName: "Thompson",
         email: "sarah.thompson@gmail.com",
+        invalidEmail: "sarah.thompson@.com",
         phone: "+12345678902",
         addressLine1: "425 Park Avenue",
         addressLine2: "Apt 8B",
         city: "Birmingham",
         state: "Alabama",
         zipCode: "35203",
+        invalidZipcode: "MA32A",
         country: "United States"
     },
     executorData: {
@@ -160,12 +162,14 @@ export const constants = {
         firstName: "Laura",
         lastName: "Wilson",
         email: "laura.wilson@gmail.com",
+        invalidEmail: "laura.wilson@.com",
         phone: "+12345678902",
         addressLine1: "500 Tech Park Drive",
         addressLine2: "Building 3, Suite 210",
         city: "Alabama",
         state: "Alabama",
         zipCode: "10018",
+        invalidZipcode: "FA444",
         country: "United States"
     },
     backupAgentData: {
@@ -359,5 +363,6 @@ export const constants = {
     wouldCreatPlanForPartnerTxt: "Would you also like to create a plan for your partner?",
     bothOfUsTxt: "For both of us",
     guardianNominationTxt: "Do you want to name a guardian for your children?",
-
+    medicalInstrumentDetailTxt: "I appoint my health care agent to make medical decisions on my behalf if I am unable to do so. My agent should make decisions based on my best interests and in accordance with my known values and wishes.",
+    organsInstructionTxt: "Kidneys, liver, heart, lungs, pancreas, and corneas for transplant if medically suitable. Any additional tissues deemed appropriate for transplant or medical use at the time of donation.",
 }

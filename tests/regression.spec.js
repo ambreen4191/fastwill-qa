@@ -334,7 +334,6 @@ describe('Regression Tests', () => {
         const email = getRandomEmail();
         const smokeStep = smokeSteps(page)
         const regressionStep = regressionSteps(page);
-        const generalStep = generalSteps(page)
 
         await smokeStep.signupIndividualTrustUsers(constants, email);
         await regressionStep.individualTrustUserBasicAddressToConservatorSetup(constants);
@@ -345,12 +344,47 @@ describe('Regression Tests', () => {
         const email = getRandomEmail();
         const smokeStep = smokeSteps(page)
         const regressionStep = regressionSteps(page);
-        const generalStep = generalSteps(page);
 
         await smokeStep.signupIndividualTrustUsers(constants, email);
         await regressionStep.individualTrustUserBasicAddressToConservatorSetup(constants);
         await smokeStep.individualTrustUserAssetSetup(constants);
-        await regressionStep.individualWillUserArrangmentSetup(constants);
+        await regressionStep.individualTrustUserArrangmentSetup(constants);
+
+    });
+    test('TC_014 - Will Creation – Arrangement Section – Verify Arrangement section validation behavior, disabled states, contact modal validations, and conditional dependency handling', async ({ page }) => {
+        const email = getRandomEmail();
+        const smokeStep = smokeSteps(page)
+        const regressionStep = regressionSteps(page);
+
+        await smokeStep.signupIndividualTrustUsers(constants, email);
+        await regressionStep.individualTrustUserNegativeBasicAddressToConservatorSetup(constants);
+        await smokeStep.individualTrustUserAssetSetup(constants);
+        await regressionStep.individualTrustNegativeUserArrangmentSetup(constants);
+
+    });
+    test('TC_015 - Healthcare Complete Flow – Verify user can complete full Healthcare section including primary agent, backup agent, instructions, permissions, limits, organ donation, authorization, expiration, branching logic, validations, and navigation', async ({ page }) => {
+        const email = getRandomEmail();
+        const smokeStep = smokeSteps(page)
+        const regressionStep = regressionSteps(page);
+
+        await smokeStep.signupIndividualTrustUsers(constants, email);
+        await regressionStep.individualTrustUserNegativeBasicAddressToConservatorSetup(constants);
+        await smokeStep.individualTrustUserAssetSetup(constants);
+        await regressionStep.individualTrustUserArrangmentSetup(constants);
+        await regressionStep.individualWillUserHealthCareSetup(constants)
+
+    });
+    test.only('TC_016 - Healthcare Negative Flow – Verify system prevents user from progressing in Healthcare section when required inputs are missing, invalid, or incomplete', async ({ page }) => {
+        const email = getRandomEmail();
+        const smokeStep = smokeSteps(page)
+        const regressionStep = regressionSteps(page);
+        const generalStep = generalSteps(page);
+        
+        await smokeStep.signupIndividualTrustUsers(constants, email);
+        await regressionStep.individualTrustUserNegativeBasicAddressToConservatorSetup(constants);
+        await smokeStep.individualTrustUserAssetSetup(constants);
+        await regressionStep.individualTrustUserArrangmentSetup(constants);
+        await regressionStep.individualWillNegativeUserHealthCareSetup(constants)
 
     });
 

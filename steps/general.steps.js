@@ -1106,6 +1106,15 @@ export const generalSteps = (page) => {
                 await locator.fill(value);
             });
         },
+        async clearInputByLabel(labelText, value, guardianType = "") {
+            await allure.step(`Clear your ${labelText}: ${value}`, async () => {
+                const index = guardianType === 'Primary' ? 1 : 1
+                const locator = page.locator('label', { hasText: labelText })
+                    .locator(generalPage.inputTxtByLabelXpath).nth(index - 1);
+                await expect(locator).toBeVisible();
+                await locator.clear();
+            });
+        },
         async fillInputByLabelAndSelectFromDropdown(labelText, value, sd="", index=0) {
             await allure.step(`Enter your: ${labelText} and select from dropdown: ${value}`, async () => {
                 const locator = page.locator('label', { hasText: labelText })

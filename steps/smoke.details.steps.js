@@ -543,7 +543,9 @@ export const smokeSteps = (page) => {
         async individualTrustUserAssetSetup(constants) {
             await allure.step("Verify complete Assets section end-to-end flow", async () => {
                 await generalStep.clickRadioButtonByText(generalPage.valueOfAllAsset)
-                await generalStep.clickYesRadioButton()
+                await generalStep.clickYesRadioButton();
+                await generalStep.verifyWithHeadingScreenIsVisible(generalPage.currentAddressPropTxt);
+                await generalStep.clickYesRadioButton();
                 await generalStep.clickOnAddPropertyButton();
                 await generalStep.addPropertyData(constants.primaryPetGuardianData);
                 await generalStep.fillInputByLabelAndSelectFromDropdown(generalPage.fullNameLabel, `${constants.primaryPetGuardianData.firstName} ${constants.primaryPetGuardianData.lastName}`, "");
