@@ -114,12 +114,14 @@ export const constants = {
         firstName: "Sarah",
         lastName: "Williams",
         email: "sarah.williams@gmail.com",
+        invalidEmail: "sarah.williams@.com",
         phone: "+12398765432",
         addressLine1: "500 Park Avenue",
         addressLine2: "Suite 1500",
         city: "Florida",
         state: "Florida",
         zipCode: "10022",
+        invalidZipcode: "F234A",
         country: "United States"
     },
     backupHealthCareAgentData: {
@@ -255,12 +257,12 @@ export const constants = {
     },
     childDOB: {
         day: "10",
-        month: "Jan",
+        month: "Feb",
         year: "2020"
     },
     adultChildDOB: {
         day: "10",
-        month: "Jan",
+        month: "Feb",
         year: "2000",
         email: "christopher.whitmore92@gmail.com",
         phone: "+1 415 867 5309",
@@ -273,7 +275,7 @@ export const constants = {
     },
     invalidAdultChildDOB: {
         day: "10",
-        month: "Jan",
+        month: "Feb",
         year: "2000",
         email: "nathaniel.parker87@gmail.com",
         phone: "+1 646 555 7823",
@@ -287,6 +289,7 @@ export const constants = {
         invalidPhone: "12345",
         invalidZipcode: "ABCDE",
     },
+    phone: "+12398765332",
     silverOakTrust: "Silver Oak Living Trust",
     adultChildName: "Christopher Whitmore",
     freePromo100Percent: "FREE12",

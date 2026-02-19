@@ -4,7 +4,7 @@ export default defineConfig({
     testDir: './tests',
     timeout: 60 * 60 * 1000,
     expect: {
-        timeout: 35000 
+        timeout: 35000
     },
     reporter: [
         ['list'],
@@ -15,7 +15,8 @@ export default defineConfig({
         headless: true,
         screenshot: 'only-on-failure',
         video: 'retain-on-failure',
-        trace: 'on-first-retry', 
+        trace: 'on-first-retry',
+        viewport: { width: 1280, height: 720 },
         launchOptions: {
             slowMo: 320,
         }

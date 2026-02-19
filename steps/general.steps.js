@@ -3,7 +3,6 @@ import { getLocator, generalPage } from '../pages/general.page';
 const COMMON = require('../utils/common.json');
 const { clickElement, isValidEmail, extractNumericString } = require('../utils/helper');
 const { calculateAge } = require('../utils/helper');
-
 import assert from 'assert';
 import { constants } from '../utils/constants';
 
@@ -315,7 +314,7 @@ export const generalSteps = (page) => {
         async verifyWithHeadingScreenIsVisible(locatorTxt) {
             await allure.step(`Verify '${locatorTxt}' screen is visible`, async () => {
                 await page.waitForLoadState("load");
-                const locator = page.getByRole('heading', { name: locatorTxt, exact: true });
+                const locator = page.getByRole('heading', { name: locatorTxt, exact: true }).first();
                 await expect(locator).toBeVisible();
             });
         },
@@ -574,6 +573,13 @@ export const generalSteps = (page) => {
                 const datePicker = page.locator(generalPage.datePickerTrustXpath);
                 const value = await datePicker.inputValue();
                 await expect(value, "Date picker should have a prepopulated value").not.toBe('');
+            });
+        },
+        async verifyContactsShowMoreDetailsByXpath(personName, category) {
+            await allure.step(`Verify Show more contact for ${personName} that have ${category}`, async () => {
+                const contact = page.locator(generalPage.contactPersonXpath(personName));
+                const detailLocator = await contact.locator(generalPage.contactViewXpath(category));
+                await expect(detailLocator).toBeVisible();
             });
         },
         async verifyDeedNotarizationFee() {
@@ -867,8 +873,8 @@ export const generalSteps = (page) => {
                 await clickElement(yearLocator)
                 await this.clickOnButtonByText(year)
                 const monthLocator = page.locator(generalPage.datePickerMonthXpath);
-                await clickElement(monthLocator);
-                await this.clickOnButtonByText(month)
+                // await clickElement(monthLocator);
+                // await this.clickOnButtonByText(month);
                 const selectDate = page.getByRole('button', { name: day, exact: true })
                 await clickElement(selectDate);
                 await this.clickOnButtonByText(generalPage.selectDateTxt);
@@ -988,7 +994,7 @@ export const generalSteps = (page) => {
         },
         async clickOnButtonByText(btnText) {
             await allure.step(`Click on ${btnText} button `, async () => {
-                const button = page.getByRole('button', { name: btnText, exact: true });
+                const button = page.getByRole('button', { name: btnText, exact: true }).first();
                 await clickElement(button);
             });
         },
@@ -1115,7 +1121,7 @@ export const generalSteps = (page) => {
                 await locator.clear();
             });
         },
-        async fillInputByLabelAndSelectFromDropdown(labelText, value, sd="", index=0) {
+        async fillInputByLabelAndSelectFromDropdown(labelText, value, sd = "", index = 0) {
             await allure.step(`Enter your: ${labelText} and select from dropdown: ${value}`, async () => {
                 const locator = page.locator('label', { hasText: labelText })
                     .locator(generalPage.byLableInputXpath).nth(index);
@@ -1150,7 +1156,7 @@ export const generalSteps = (page) => {
             });
         },
         async createAndAssignContact(data, guardianType) {
-            await allure.step(`Add a ${guardianType==="Primary" ? guardianType : 'Backup'} guardian`, async () => {
+            await allure.step(`Add a ${guardianType === "Primary" ? guardianType : 'Backup'} guardian`, async () => {
                 await this.addContactGuardianButton(guardianType)
                 await this.fillInputByLabel(generalPage.firstName, data.firstName, guardianType);
                 await this.fillInputByLabel(generalPage.lastName, data.lastName, guardianType);
@@ -1168,7 +1174,7 @@ export const generalSteps = (page) => {
             });
         },
         async createValidateAndAssignContact(data, guardianType = "Primary") {
-            await allure.step(`Create and validate a ${guardianType==="Primary" ? guardianType : 'Backup'} Contact`, async () => {
+            await allure.step(`Create and validate a ${guardianType === "Primary" ? guardianType : 'Backup'} Contact`, async () => {
                 await this.addContactGuardianButton(guardianType)
                 await this.clickOnAddContactButtonByIndex(guardianType);
                 await this.verifyErrorIsVisible(generalPage.firstNameRequiredError);
@@ -1202,7 +1208,7 @@ export const generalSteps = (page) => {
             });
         },
         async addPropertyData(data, guardianType) {
-            await allure.step(`Add a Property Data for ${guardianType==="Primary" ? guardianType : 'Backup'} guardian`, async () => {
+            await allure.step(`Add a Property Data for ${guardianType === "Primary" ? guardianType : 'Backup'} guardian`, async () => {
                 await this.fillInputByLabel(generalPage.addressLine1, data.addressLine1, guardianType);
                 await this.fillInputByLabel(generalPage.addressLine2Property, data.addressLine2, guardianType);
                 await this.fillInputByLabel(generalPage.city, data.city, guardianType);
@@ -1214,7 +1220,7 @@ export const generalSteps = (page) => {
             });
         },
         async addPropertyDataWithValidations(data, guardianType) {
-            await allure.step(`Add a Property Data for ${guardianType==="Primary" ? guardianType : 'Backup'} with validations.`, async () => {
+            await allure.step(`Add a Property Data for ${guardianType === "Primary" ? guardianType : 'Backup'} with validations.`, async () => {
                 await this.clickOnAddPropertyPopupButton();
                 await this.verifyErrorIsVisible(generalPage.addressLine1RequiredError);
                 await this.verifyErrorIsVisible(generalPage.cityRequiredError);

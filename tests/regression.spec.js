@@ -374,17 +374,46 @@ describe('Regression Tests', () => {
         await regressionStep.individualWillUserHealthCareSetup(constants)
 
     });
-    test.only('TC_016 - Healthcare Negative Flow – Verify system prevents user from progressing in Healthcare section when required inputs are missing, invalid, or incomplete', async ({ page }) => {
+    test('TC_016 - Healthcare Negative Flow – Verify system prevents user from progressing in Healthcare section when required inputs are missing, invalid, or incomplete', async ({ page }) => {
         const email = getRandomEmail();
         const smokeStep = smokeSteps(page)
         const regressionStep = regressionSteps(page);
-        const generalStep = generalSteps(page);
-        
+
         await smokeStep.signupIndividualTrustUsers(constants, email);
         await regressionStep.individualTrustUserNegativeBasicAddressToConservatorSetup(constants);
         await smokeStep.individualTrustUserAssetSetup(constants);
         await regressionStep.individualTrustUserArrangmentSetup(constants);
         await regressionStep.individualWillNegativeUserHealthCareSetup(constants)
+
+    });
+    test('TC_017 - Financial Care – End to End (Positive) – Verify user can complete Financial Care section successfully (covers valid YES and NO scenarios/branches)', async ({ page }) => {
+        const email = getRandomEmail();
+        const smokeStep = smokeSteps(page)
+        const regressionStep = regressionSteps(page);
+        const generalStep = generalSteps(page);
+
+        await smokeStep.signupIndividualTrustUsers(constants, email);
+        await regressionStep.individualTrustUserNegativeBasicAddressToConservatorSetup(constants);
+        await smokeStep.individualTrustUserAssetSetup(constants);
+        await regressionStep.individualTrustUserArrangmentSetup(constants);
+        await regressionStep.individualWillUserHealthCareSetup(constants);
+        await regressionStep.individualWillUserFinanceCareSectionSetup(constants);
+        await generalStep.clickOnButtonByText(generalPage.viewDashBoardTxt);
+
+    });
+    test('TC_018 - Financial Care – End to End (Negative) – Verify validations, required selections, and NO-branch sequencing work correctly', async ({ page }) => {
+        const email = getRandomEmail();
+        const smokeStep = smokeSteps(page)
+        const regressionStep = regressionSteps(page);
+        const generalStep = generalSteps(page);
+
+        await smokeStep.signupIndividualTrustUsers(constants, email);
+        await regressionStep.individualTrustUserNegativeBasicAddressToConservatorSetup(constants);
+        await smokeStep.individualTrustUserAssetSetup(constants);
+        await regressionStep.individualTrustUserArrangmentSetup(constants);
+        await regressionStep.individualWillUserHealthCareSetup(constants);
+        await regressionStep.individualWillUserNegativeFinanceCareSectionSetup(constants);
+        await generalStep.clickOnButtonByText(generalPage.viewDashBoardTxt);
 
     });
 
