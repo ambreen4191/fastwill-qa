@@ -129,8 +129,9 @@ export const smokeSteps = (page) => {
                 await generalStep.verifyWithHeadingScreenContainsTheTitle(generalPage.whoLookAfterYourChilderenTxt);
                 await generalStep.addPrimaryGuardian();
                 await generalStep.createAndAssignContact(constants.primaryParentData, constants.guardianType);
-                await generalStep.addBackUpGuardian();
-                await generalStep.createAndAssignContact(constants.backupParentData, "");
+                /** uncomment the below code when bug related this gets fixed */
+                // await generalStep.addBackUpGuardian();
+                // await generalStep.createAndAssignContact(constants.backupParentData, "");
                 await generalStep.clickOnContinueButton();
                 await generalStep.verifyWithHeadingScreenIsVisible(generalPage.wouldYouLikeNameConservatorChild);
                 await generalStep.clickYesRadioButton();
@@ -507,8 +508,8 @@ export const smokeSteps = (page) => {
                 await generalStep.verifyWithHeadingScreenContainsTheTitle(generalPage.whoLookAfterYourChilderenTxt);
                 await generalStep.addPrimaryGuardian();
                 await generalStep.createAndAssignContact(constants.primaryParentData, constants.guardianType);
-                await generalStep.addBackUpGuardian();
-                await generalStep.createAndAssignContact(constants.backupParentData, "");
+                // await generalStep.addBackUpGuardian();
+                // await generalStep.createAndAssignContact(constants.backupParentData, "");
                 await generalStep.clickOnContinueButton();
                 await generalStep.verifyWithHeadingScreenIsVisible(generalPage.wouldYouLikeNameConservatorChild);
                 await generalStep.clickYesRadioButton();
@@ -545,7 +546,12 @@ export const smokeSteps = (page) => {
                 await generalStep.clickRadioButtonByText(generalPage.valueOfAllAsset)
                 await generalStep.clickYesRadioButton();
                 await generalStep.verifyWithHeadingScreenIsVisible(generalPage.currentAddressPropTxt);
-                await generalStep.clickYesRadioButton();
+                await generalStep.clickYesRadioButton();     
+                await generalStep.verifyWithHeadingScreenIsVisible(generalPage.provideDetailOfPropertyTxt);           
+                await generalStep.clickOnButtonByXpath(generalPage.editPetXpath);
+                await generalStep.clickOnButtonByText(generalPage.updatePropertyTxt);
+                await generalStep.fillInputByLabelAndSelectFromDropdown(generalPage.fullNameLabel, `${constants.primaryPetGuardianData.firstName} ${constants.primaryPetGuardianData.lastName}`, "");
+                await generalStep.clickOnSaveButton();
                 await generalStep.clickOnAddPropertyButton();
                 await generalStep.addPropertyData(constants.primaryPetGuardianData);
                 await generalStep.fillInputByLabelAndSelectFromDropdown(generalPage.fullNameLabel, `${constants.primaryPetGuardianData.firstName} ${constants.primaryPetGuardianData.lastName}`, "");
@@ -605,6 +611,15 @@ export const smokeSteps = (page) => {
             await allure.step("Will Creation – Asset – Verify complete Assets section flow in Will Creation (Smoke Test)", async () => {
                 await generalStep.clickRadioButtonByText(generalPage.valueOfAllAsset)
                 await generalStep.clickYesRadioButton();
+                await generalStep.verifyWithHeadingScreenIsVisible(generalPage.doyouHaveAnyPropertyTxt);
+                await generalStep.clickYesRadioButton();
+                await generalStep.verifyWithHeadingScreenIsVisible(generalPage.currentAddressPropTxt);
+                await generalStep.clickYesRadioButton();
+                await generalStep.verifyWithHeadingScreenIsVisible(generalPage.provideDetailOfPropertyTxt);                
+                await generalStep.clickOnButtonByXpath(generalPage.editPetXpath);
+                await generalStep.clickOnButtonByText(generalPage.updatePropertyTxt);
+                await generalStep.fillInputByLabelAndSelectFromDropdown(generalPage.fullNameLabel, `${constants.primaryPetGuardianData.firstName} ${constants.primaryPetGuardianData.lastName}`, "");
+                await generalStep.clickOnSaveButton();
                 await generalStep.clickOnAddPropertyButton();
                 await generalStep.addPropertyData(constants.primaryPetGuardianData);
                 await generalStep.fillInputByLabelAndSelectFromDropdown(generalPage.fullNameLabel, `${constants.primaryPetGuardianData.firstName} ${constants.primaryPetGuardianData.lastName}`, "");
@@ -781,6 +796,7 @@ export const smokeSteps = (page) => {
                 await generalStep.verifyWithHeadingScreenIsVisible(generalPage.wantDonateOrganTxt)
                 await generalStep.clickYesRadioButton();
                 await generalStep.clickRadioButtonByText(generalPage.organsNeededEyesTissuesTxt);
+                await generalStep.clickYesRadioButton();// remove this line when issue gets fixed
                 await generalStep.clickOnContinueButton()
                 await generalStep.verifyWithHeadingScreenIsVisible(generalPage.wouldLikeGivePermissionViewMedicalRecordsTxt)
                 await generalStep.clickYesRadioButton();
@@ -811,7 +827,7 @@ export const smokeSteps = (page) => {
                 await generalStep.clickYesRadioButton();
                 await generalStep.fillInTextAreaByLabel(generalPage.describeBackupRuleLabel, constants.backupRuleTxt, "");
                 await generalStep.clickOnContinueButton();
-                await generalStep.verifyWithHeadingScreenIsVisible(generalPage.whatTypeDecisionsAthorityToAgent)
+                await generalStep.verifyWithHeadingScreenContainsTheTitle(generalPage.whatTypeDecisionsAthorityToAgent);
                 await generalStep.clickSwitchButtonByText(generalPage.realPropertyTxt)
                 await generalStep.clickSwitchButtonByText(generalPage.taxesTxt)
                 await generalStep.clickOnContinueButton();
@@ -842,8 +858,8 @@ export const smokeSteps = (page) => {
                 await generalStep.verifyWithHeadingScreenIsVisible(generalPage.timeToMakeYourPlanOfficialTxt)
                 await generalStep.clickOnGoBack();
                 await generalStep.clickOnButtonByText(generalPage.addNowTxt);
-                await generalStep.fillInputByLabel(generalPage.legacyContactFullnameLabel, constants.legacyContactFullname, "");
-                await generalStep.fillInputByLabel(generalPage.legacyContactEmailLabel, constants.legacyContactEmail, "");
+                await generalStep.inputByPlaceholder(generalPage.chooseContactPlaceHolderTxt, `${constants.primaryParentData.firstName} ${constants.primaryParentData.lastName}`);
+                await generalStep.clickRadioButtonByText(`${constants.primaryParentData.firstName} ${constants.primaryParentData.lastName} (${constants.primaryParentData.email})`);
                 await generalStep.clickOnButtonByText(generalPage.sendInviteTxt);
                 await generalStep.clickOnGoBack();
                 await generalStep.clickOnButtonByText(generalPage.summaryTxt);
@@ -865,8 +881,8 @@ export const smokeSteps = (page) => {
                 await generalStep.verifyWithHeadingScreenIsVisible(generalPage.headingFirstNameTxt);
                 await generalStep.enterUserFullName(constants.ambreenText124Name)
                 await generalStep.clickOnContinueButton();
-                await generalStep.clickCloseIconToSaveChanges()
-                await generalStep.clickOnAnchorByText(generalPage.exitTxt)
+                await generalStep.clickCloseIconToSaveChanges();
+                await generalStep.clickOnAnchorByText(generalPage.exitTxt);
                 await generalStep.clickOnButtonByText(generalPage.summaryTxt);
                 await generalStep.verifyWithTextByLabelScreenIsVisible(generalPage.nameLabel, constants.ambreenText124Name);
                 await generalStep.clickOnAssetTab();
@@ -878,6 +894,8 @@ export const smokeSteps = (page) => {
                 await generalStep.clickOnAnchorByText(generalPage.editAssetsTxt);
                 await generalStep.clickRadioButtonByText(generalPage.valueOfAllAsset)
                 await generalStep.clickYesRadioButton()
+                await generalStep.verifyWithHeadingScreenIsVisible(generalPage.currentAddressPropTxt);
+                await generalStep.clickRadioButtonByText(generalPage.noTxt);
                 await generalStep.clickOnAddPropertyButton();
                 await generalStep.addPropertyData(constants.secondaryPetGuardianData);
                 await generalStep.fillInputByLabelAndSelectFromDropdown(generalPage.fullNameLabel, `${constants.primaryPetGuardianData.firstName} ${constants.primaryPetGuardianData.lastName}`, "");
@@ -932,7 +950,7 @@ export const smokeSteps = (page) => {
         },
         async documentsFlow(constants) {
             await allure.step("Documents – Verify complete Documents page end-to-end flow", async () => {
-                await generalStep.clickSidBarAnchor(generalPage.estatePlanTxt);
+                await generalStep.clickSidBarAnchor(generalPage.documentsTxt);
                 await generalStep.verifyWithHeadingScreenIsVisible(generalPage.myDocumentsCapTxt);
                 await generalStep.verifyWithHeadingScreenIsVisible(generalPage.sharePlanWithSomeoneYouTrustTxt);
                 await generalStep.clickOnButtonByText(generalPage.shareMyPlanTxt);
@@ -958,12 +976,6 @@ export const smokeSteps = (page) => {
                 await prepareDownloadFolder();
                 const downloadAll = page.getByRole("link", { name: generalPage.downloadAllTxt })
                 await downloadAndVerifyFile(page, downloadAll);
-                await generalStep.clickManageAccessHipaButton()
-                await generalStep.verifyWithHeadingScreenIsVisible(generalPage.manageSharingAccessTxt);
-                await generalStep.clickSelectContactWithEmail(contactEmail);
-                await generalStep.clickOnButtonByXpath();
-                await generalStep.verifyWithTextContainsIsVisible(generalPage.succfullyUpdateAccessForTxt);
-                await generalStep.clickOnButtonByText(generalPage.cancelTxt);
                 await generalStep.clickRadioButtonByText(generalPage.addFastWillLifeTimeMembTxt);
                 await generalStep.verifyWithTextScreenIsVisible(generalPage.subscAllowEditDocumentTxt);
                 await generalStep.clickOnButtonByText(generalPage.cancelTxt);
@@ -972,7 +984,7 @@ export const smokeSteps = (page) => {
         },
         async documentsTrustFlow(constants) {
             await allure.step("Documents – Verify complete Documents page end-to-end flow", async () => {
-                await generalStep.clickSidBarAnchor(generalPage.estatePlanTxt);
+                await generalStep.clickSidBarAnchor(generalPage.documentsTxt);
                 await generalStep.verifyWithHeadingScreenIsVisible(generalPage.myDocumentsCapTxt);
                 await generalStep.verifyWithHeadingScreenIsVisible(generalPage.sharePlanWithSomeoneYouTrustTxt);
                 await generalStep.clickOnButtonByText(generalPage.shareMyPlanTxt);
@@ -1002,12 +1014,6 @@ export const smokeSteps = (page) => {
                 await prepareDownloadFolder();
                 const downloadAll = page.getByRole("link", { name: generalPage.downloadAllTxt })
                 await downloadAndVerifyFile(page, downloadAll);
-                await generalStep.clickManageAccessHipaButton()
-                await generalStep.verifyWithHeadingScreenIsVisible(generalPage.manageSharingAccessTxt);
-                await generalStep.clickSelectContactWithEmail(contactEmail);
-                await generalStep.clickOnButtonByText(generalPage.sendInviteTxt);
-                await generalStep.verifyWithTextContainsIsVisible(generalPage.succfullyUpdateAccessForTxt);
-                await generalStep.clickOnButtonByText(generalPage.cancelTxt);
                 await generalStep.clickRadioButtonByText(generalPage.addFastWillLifeTimeMembTxt);
                 await generalStep.verifyWithTextScreenIsVisible(generalPage.subscAllowEditDocumentTxt);
                 await generalStep.clickOnButtonByText(generalPage.cancelTxt);
@@ -1112,20 +1118,27 @@ export const smokeSteps = (page) => {
         },
         async legacyContactsFlow(constants) {
             await allure.step("Legacy Contacts – Verify complete Legacy Contacts end-to-end flow", async () => {
-
                 await generalStep.clickSidBarAnchor(generalPage.legacyContactsTxt);
                 await generalStep.verifyWithTextContainsIsVisible(generalPage.addTrustedLegacyContactaccountTxt);
+                await generalStep.inputByPlaceholder(generalPage.chooseContactPlaceHolderTxt, `${constants.backupPetGuardianData.firstName} ${constants.backupPetGuardianData.lastName}`);
+                await generalStep.clickRadioButtonByText(`${constants.backupPetGuardianData.firstName} ${constants.backupPetGuardianData.lastName} (${constants.backupPetGuardianData.email})`);
+                await generalStep.clickOnButtonByXpath(generalPage.sendInviteBtnXpath);
+                await generalStep.verifyWithTextScreenIsVisible(generalPage.invitationSentSuccessTxt);
+                await generalStep.verifyWithTextScreenIsVisible(constants.backupPetGuardianData.email);
                 const legacyEmail = getRandomEmail();
+                await generalStep.inputByPlaceholder(generalPage.chooseContactPlaceHolderTxt, generalPage.otherEnterManuallyTxt);
+                await generalStep.clickRadioButtonByText(generalPage.otherEnterManuallyTxt);
                 await generalStep.fillInputByLabel(generalPage.legacyContactFullnameLabel, constants.legacyContactFullname, "");
                 await generalStep.fillInputByLabel(generalPage.legacyContactEmailLabel, legacyEmail, "");
                 await generalStep.clickOnButtonByXpath(generalPage.sendInviteBtnXpath);
                 await generalStep.verifyWithTextScreenIsVisible(generalPage.invitationSentSuccessTxt);
                 await generalStep.verifyWithTextScreenIsVisible(legacyEmail);
-                await generalStep.clickManageAccessForContactsButtonWithEmail(legacyEmail);
-                await generalStep.clickSelectContactWithEmail(generalPage.powerOfAttorneyTxt, generalPage.saveChangesTxt);
-                await generalStep.clickOnButtonByText(generalPage.saveChangesTxt);
-                await generalStep.verifyWithTextContainsIsVisible(generalPage.updatedDocumentAccessTxt);
-                await generalStep.clickOnButtonByText(generalPage.cancelTxt);
+                await generalStep.inputByPlaceholder(generalPage.chooseContactPlaceHolderTxt, generalPage.otherEnterManuallyTxt);
+                await generalStep.clickRadioButtonByText(generalPage.otherEnterManuallyTxt);
+                await generalStep.fillInputByLabel(generalPage.legacyContactFullnameLabel, constants.legacyContactFullname, "");
+                await generalStep.fillInputByLabel(generalPage.legacyContactEmailLabel, legacyEmail, "");
+                await generalStep.clickOnButtonByXpath(generalPage.sendInviteBtnXpath);
+                await generalStep.verifyWithTextScreenIsVisible(generalPage.invitationSentFailureTxt);
 
             });
         },

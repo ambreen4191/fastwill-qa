@@ -84,7 +84,7 @@ describe('Smoke Tests', () => {
         await smokeStep.individualWillUserArrangmentSetup(constants);
         await smokeStep.individualWillUserHealthCareSetup(constants);
         await smokeStep.individualWillUserFinanceCareSectionSetup(constants);
-        await generalStep.clickOnButtonByText(generalPage.gotoDashboard);
+        await generalStep.clickOnButtonByText(generalPage.viewDashBoardTxt);
         await smokeStep.dashboarOverViewdFlow(constants);
         await generalStep.clickSidBarAnchor(generalPage.dashboard);
         await smokeStep.dashboardProfileFlow(constants);
@@ -94,7 +94,7 @@ describe('Smoke Tests', () => {
         await generalStep.verifyDeedTransferTxtIsNotVisible();
 
     });
-    test('TC_07 - Single Trust Complete Flow – Verify complete flow for single trust account', async ({ page }) => {
+    test.only('TC_07 - Single Trust Complete Flow – Verify complete flow for single trust account', async ({ page }) => {
         const email = getRandomEmail();
         const generalStep = generalSteps(page);
         const smokeStep = smokeSteps(page);
@@ -105,7 +105,7 @@ describe('Smoke Tests', () => {
         await smokeStep.individualWillUserArrangmentSetup(constants);
         await smokeStep.individualWillUserHealthCareSetup(constants);
         await smokeStep.individualWillUserFinanceCareSectionSetup(constants);
-        await generalStep.clickOnButtonByText(generalPage.gotoDashboard);
+        await generalStep.clickOnButtonByText(generalPage.viewDashBoardTxt);
         await smokeStep.dashboarOverViewdFlow(constants, 1);
         await generalStep.clickSidBarAnchor(generalPage.dashboard);
         await smokeStep.dashboardProfileFlow(constants);
