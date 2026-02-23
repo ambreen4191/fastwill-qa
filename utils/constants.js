@@ -358,6 +358,8 @@ export const constants = {
     specificRestriction: "Restrictions are rules or conditions put in place to set clear boundaries and limits on actions or behavior.",
     backupRuleTxt: "If the primary guardian is unable to take responsibility, the children should be cared for by a trusted family member or close friend. This person should ensure the children’s safety, continue their education and routines, and act in their best interests until a permanent arrangement is made.",
     thomasEdison: "Thomas Edison",
+    thomasEmail: "thomas.edison123@gmail.com",
+    thomasMobile: "+1233322222",
     assetsTxt: "Assets",
     whatStatYouLivedTxt: "what state do you live in?",
     healthCareProxyExpiryMessage: "I would like my Health Care Proxy to remain in effect until my 80th birthday, after which it should expire automatically.",

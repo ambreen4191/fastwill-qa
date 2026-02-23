@@ -126,9 +126,10 @@ export const generalPage = {
     whatisYourbirthdayTxt: "Great! Now, what is your birthday?",
     doYouHaveChildTxt: "Do you have children?",
     haveChildrenTxt: "have children?",
+    fullLegalNameTxt: "Full Legal Name",
     nameOfYourTrustTxt: "Name of your Trust",
     guardianNominationTxt: "Do you want to name a guardian for your children?",
-    whatIsSpousenameTxt: "What's your spouse's name?",
+    whatIsSpousenameTxt: "What's your spouse's information?",
     whoLookAfterYourChilderenTxt: "Who would you like to look after",
     wouldYouLikeNameConservatorChild: "Would you like to name a conservator for your children?",
     whoWouldYouLiketoNameAsConservator: "Who would you like to name as the conservator?",
@@ -197,7 +198,6 @@ export const generalPage = {
     addPetTxt: "Add a Pet",
     addAddress: "Add Address",
     addPropertyTxt: "Add Property",
-    addAccountTxt: 'Add Account',
     businessTypePlaceHolderTxt: "e.g., Solo Proprietorship",
     privacyTypePlaceHolderTxt: 'e.g., Term Life',
     calculatingTxt: "Calculating...",
@@ -243,6 +243,8 @@ export const generalPage = {
     deedTranserTotalTxt: "Deed Transfer Total",
     subtotalTxt: "Subtotal",
     spouseInputPlaceHolder: "e.g. Thomas Edison",
+    spouseEmailPlaceholder: "e.g. spouse@email.com",
+    spousePhonePlaceholder: "+1 (###) ### - ####",
     thomasEdisonName: "Thomas Edison",
     radioButtonChecking: "Checking",
     valueOfAllAsset: "Up to $50k",
@@ -287,7 +289,7 @@ export const generalPage = {
     typeInstuctionHereTxt: "Type your instructions here",
     shouldAgenActTogetherTxt: "Should your agents act together or independently?",
     realPropertyExpandedDetailTxt: "Your agent has authority to manage, buy, sell, mortgage, and lease real property including land and buildings on your behalf.",
-    beAbleToHelpWithTxt : "be able to help with?",
+    beAbleToHelpWithTxt: "be able to help with?",
     actTogetherTxt: "Act Together",
     learnMoreTxt: "Learn More",
     whenWas: `When was `,
@@ -295,6 +297,7 @@ export const generalPage = {
     lastName: "Last Name",
     email: "Email",
     phone: "Phone",
+    phoneNumber: "Phone Number",
     location: "Location",
     addAnotherTxt: "Add Another",
     numberOfDaysLabel: "Number of Days",
@@ -505,7 +508,9 @@ export const generalPage = {
     specialInstructionError: "Please provide special instructions to proceed.",
     powerOfAttorneyError: "Please provide an event or date for terminating the Power of Attorney.",
     passwordFiledConfirmNotMatchError: "The password field confirmation does not match.",
-    parentRatioBtnTxt: (name) => `${name} and Me`,
+    parentRatioBtnTxt: (name) => `${name.includes(" ")
+        ? name.split(" ")[0]
+        : name} and Me`,
     youReferralInviteSentToEmailTxt: (email) => `Your referral invitation has been sent to ${email}.`,
 
     /** ids path */
@@ -546,8 +551,8 @@ export const generalPage = {
     totalFeeAmountXpath: "xpath=//span[normalize-space()='Total Recording Fees']/following::span[2]",
     deedTransferNotFeeXpath: "//span[normalize-space()='Amount']/following-sibling::span",
     recordingFeeItemsCountXpath: "xpath=./div",
-    recordingFeeRowXpath: "(//span[normalize-space()='Recording Fees'])/following-sibling::div",
-    totalPriceXpath: "(//div[span[normalize-space()='Total']])[2]/following-sibling::span",
+    recordingFeeRowXpath: "((//h3[normalize-space()='Summary'])[1])/following-sibling::div[h3[normalize-space()='Recording Fees']]//span[contains(text(), 'Recording Fees')]/following-sibling::div/span[last()]",
+    totalPriceXpath: "(//div[span[normalize-space()='Total']])[1]/following-sibling::span",
     propertyAmountXpath: "//div[div[normalize-space()='Real Estate']]//following-sibling::div[.//div[starts-with(normalize-space(), '$')] and not(preceding-sibling::div[div[normalize-space()='Financial accounts']])]//div[starts-with(normalize-space(), '$')]",
     sideDeedTransferXPath: "//aside[contains(@class, 'lg:block')]/nav/div/ul/li/a[./span[normalize-space()='Deed Transfer']]",
     dropdownXpath: '//div[@x-show="open" and not(contains(@style, "display=none"))]',
@@ -558,7 +563,7 @@ export const generalPage = {
     sendInvitepopupXpath: "//button[normalize-space()='Send Invite']",
     sendInviteBtnXpath: "//h2[normalize-space()='Contact Information']/following-sibling::div[2]/button",
     totalAmountForCreateAccountXpath: "//div[div[p[normalize-space()='Total']]]//p[contains(normalize-space(), '$')]",
-    recordingFeeRowPriceItemXpath: (index) => `(//span[normalize-space()='Recording Fees'])[${index}]/following-sibling::div/span[last()]`,
+    recordingFeeRowPriceItemXpath: (index) => `(((//h3[normalize-space()='Summary'])[1])/following-sibling::div[h3[normalize-space()='Recording Fees']]//span[contains(text(), 'Recording Fees')]/following-sibling::div/span[last()])[${index}]`,
     recordingFeeItemXpath: (index) => `(//div[h3[normalize-space()='Recording Fees']/following-sibling::div])[${index}]/div/div[1]/div/div[contains(@class,'items-end')]/span[2]`,
     amountByLabelXpath: (label) => `(//span[normalize-space()='${label}'])[2]/following-sibling::span`,
     selectStateFromDropdown: (state) => `xpath=.//div[span[normalize-space()="${state}"]]`,
@@ -570,7 +575,7 @@ export const generalPage = {
     removeAccessForContactsUsingEmailXpath: (email) => `//div[div[span[normalize-space()='${email}']]]/following-sibling::div/button[normalize-space()='Remove Access']`,
     tabsUsingBaiscTabXpath: (text) => `(//span[normalize-space()='Basic'])[2]/following::span[normalize-space()='${text}']`,
     selectContactXpath: (name) => `(//div[div[span[normalize-space()='${name}']]]/following-sibling::div/button)`,
-    spanTextXpath: (text) => `span:has-text("${text}")`, 
+    spanTextXpath: (text) => `span:has-text("${text}")`,
     assetSectionRow: (rowName) => `//div[div[div[normalize-space()='Name / Address']]]//div[div[normalize-space()='${rowName}']]`,
     benefePercentageXpath: (name) => `//div[span[normalize-space()='${name}']]//input`,
     showMoreButtonXpath: (name) => `//div[span[normalize-space()='${name}']]/following-sibling::button`,
@@ -595,8 +600,8 @@ export function getLocator(value) {
             return generalPage.countryPlaceholder;
         case 'Solo Proprietorship':
             return generalPage.businessTypePlaceHolderTxt;
-        case "Owner": 
-        return generalPage.relationshiptToBisnessPlaceholder;
+        case "Owner":
+            return generalPage.relationshiptToBisnessPlaceholder;
         case 'Term Life':
         case 'Whole Life':
             return generalPage.privacyTypePlaceHolderTxt;

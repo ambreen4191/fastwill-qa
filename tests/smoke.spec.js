@@ -94,7 +94,7 @@ describe('Smoke Tests', () => {
         await generalStep.verifyDeedTransferTxtIsNotVisible();
 
     });
-    test.only('TC_07 - Single Trust Complete Flow – Verify complete flow for single trust account', async ({ page }) => {
+    test('TC_07 - Single Trust Complete Flow – Verify complete flow for single trust account', async ({ page }) => {
         const email = getRandomEmail();
         const generalStep = generalSteps(page);
         const smokeStep = smokeSteps(page);
@@ -120,6 +120,12 @@ describe('Smoke Tests', () => {
         const generalStep = generalSteps(page);
         const smokeStep = smokeSteps(page);
 
+        // await generalStep.openHomePage();
+        // await generalStep.clickOnLoginInAnchor();
+        // await generalStep.enterUserEmail("ambreeny.qat123+1771864452656@gmail.com ");
+        // await generalStep.enterUserPassword("Test@123");
+        // await generalStep.clickOnLogInButton();
+
         await smokeStep.signupCoupleWillUsers(constants, email, constants.marriedStatus);
         await smokeStep.coupleWillUserBasicAddressToConservatorSetup(constants)
         await smokeStep.coupleWillUserAssetSetup(constants, generalPage.howLongbeneficliveAfterPasstoInheritTxt);
@@ -129,12 +135,12 @@ describe('Smoke Tests', () => {
         await generalStep.clickOnContinueButton();
         await generalStep.verifyWithHeadingScreenIsVisible(constants.headingFirstNameTxt);
         await generalStep.clickOnContinueButton();
-        await smokeStep.coupleWillSpouseBasicAddressToConservatorSetup(constants)
-        await smokeStep.coupleSpouseWillUserAssetSetup(constants,  generalPage.howLongbeneficliveAfterPasstoInheritTxt);
+        await smokeStep.coupleWillSpouseBasicAddressToConservatorSetup(constants);
+        await smokeStep.coupleSpouseWillUserAssetSetup(constants);
         await smokeStep.individualWillUserArrangmentSetup(constants);
         await smokeStep.individualWillUserHealthCareSetup(constants);
         await smokeStep.individualWillUserFinanceCareSectionSetup(constants);
-        await generalStep.clickOnButtonByText(generalPage.backToOverview);
+        await generalStep.clickOnButtonByText(generalPage.viewDashBoardTxt);
         await smokeStep.dashboarOverViewdFlow(constants);
         await generalStep.clickSidBarAnchor(generalPage.dashboard);
         await smokeStep.dashboardProfileFlow(constants);
@@ -163,7 +169,7 @@ describe('Smoke Tests', () => {
         await smokeStep.individualWillUserArrangmentSetup(constants);
         await smokeStep.individualWillUserHealthCareSetup(constants);
         await smokeStep.individualWillUserFinanceCareSectionSetup(constants);
-        await generalStep.clickOnButtonByText(generalPage.backToOverview);
+        await generalStep.clickOnButtonByText(generalPage.viewDashBoardTxt);
         await smokeStep.dashboarOverViewdFlow(constants, 1);
         await generalStep.clickSidBarAnchor(generalPage.dashboard);
         await smokeStep.dashboardProfileFlow(constants);

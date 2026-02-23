@@ -545,9 +545,10 @@ export const generalSteps = (page) => {
                 const feeRows = page.locator(generalPage.recordingFeeRowXpath);
                 const rowCount = await feeRows.count();
                 let calculatedSubtotal = 0;
-                for (let i = 2; i < rowCount; i++) {
+                for (let i = 1; i <= rowCount; i++) {
                     const feeSpan = page.locator(generalPage.recordingFeeRowPriceItemXpath(i));
                     const feeText = await feeSpan.textContent();
+                    console.log(`Fees for the row: ${feeText}`)
                     if (!feeText) continue;
                     const fee = parseFloat(extractNumericString(feeText));
                     if (isNaN(fee)) continue;
@@ -564,7 +565,7 @@ export const generalSteps = (page) => {
                 const calculatedTotal = displayedSubtotal + notarizationTotal;
                 const displayedTotalText = await page.locator(generalPage.totalPriceXpath).textContent();
                 const displayedTotal = parseFloat(extractNumericString(displayedTotalText));
-                expect(calculatedTotal).toBeGreaterThan(displayedTotal);
+                expect(calculatedTotal).toBe(displayedTotal);
             });
         },
         async verifyTrustDatePickerPrepopulated() {
