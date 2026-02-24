@@ -27,6 +27,32 @@ export const constants = {
         country: "United States",
         propertyPrice: "200000"
     },
+    primaryBellaPetGuardianData: {
+        firstName: "Ethan",
+        lastName: "Marshall",
+        email: "ethan.marshall8472@gmail.com",
+        phone: "+13055559841",
+        addressLine1: "485 Biscayne Boulevard",
+        addressLine2: "Unit 2204",
+        city: "Miami",
+        state: "Florida",
+        zipCode: "33132",
+        country: "United States",
+        propertyPrice: "275000"
+    },
+    secondaryBellaPetGuardianData: {
+        firstName: "Amelia",
+        lastName: "Reynolds",
+        email: "amelia.reynolds5931@gmail.com",
+        phone: "+19175557623",
+        addressLine1: "145 East 47th Street",
+        addressLine2: "Apt 18C",
+        city: "New York",
+        state: "New York",
+        zipCode: "10017",
+        country: "United States",
+        propertyPrice: "425000"
+    },
     secondaryPetGuardianData: {
         firstName: "Charlotte",
         lastName: "Anderson",
@@ -317,6 +343,9 @@ export const constants = {
     fifty: "50",
     twenty: '20',
     twentyFive: "25",
+    twentySeven: "27",
+    fourtyNine: "49",
+    twentyNine: "29",
     city: "New York",
     zipcode: "10001",
     enterCountery: "United",

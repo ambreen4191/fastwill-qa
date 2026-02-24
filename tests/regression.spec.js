@@ -330,7 +330,7 @@ describe('Regression Tests', () => {
         await regressionStep.individualTrustUserNegativeBasicAddressToConservatorSetup(constants);
 
     });
-    test('TC_012 - Will Creation – Assets Section – Ensure user can successfully complete entire Assets flow from Intro screen to Backup Residuary with all conditional scenarios (YES/NO), validations, Add/Edit/Delete, distribution types', async ({ page }) => {
+    test.only('TC_012 - Will Creation – Assets Section – Ensure user can successfully complete entire Assets flow from Intro screen to Backup Residuary with all conditional scenarios (YES/NO), validations, Add/Edit/Delete, distribution types', async ({ page }) => {
         const email = getRandomEmail();
         const smokeStep = smokeSteps(page)
         const regressionStep = regressionSteps(page);
@@ -414,6 +414,25 @@ describe('Regression Tests', () => {
         await regressionStep.individualWillUserHealthCareSetup(constants);
         await regressionStep.individualWillUserNegativeFinanceCareSectionSetup(constants);
         await generalStep.clickOnButtonByText(generalPage.viewDashBoardTxt);
+
+    });
+    test('TC_019 - Basic Section Complete End-to-End Flow – Verify complete Basic section flow from Address → Children → Guardian → Conservator → Pets → Reward → Healthcare', async ({ page }) => {
+        const email = getRandomEmail();
+        const smokeStep = smokeSteps(page)
+        const regressionStep = regressionSteps(page);
+
+        await smokeStep.signupIndividualWillUsers(constants, email);
+        await regressionStep.individualWillUserBasicAddressToConservatorSetup(constants);
+
+    });
+    test.only('TC_020 - Basic Section Complete Validation End-to-End – Verify system prevents progression when required fields missing, invalid, or selections not made throughout full flow', async ({ page }) => {
+        const email = getRandomEmail();
+        const smokeStep = smokeSteps(page)
+        const regressionStep = regressionSteps(page);
+        const generalStep = generalSteps(page);
+
+        await smokeStep.signupIndividualWillUsers(constants, email);
+        await regressionStep.individualWillUserNegativeBasicAddressToConservatorSetup(constants);
 
     });
 

@@ -506,6 +506,7 @@ export const generalPage = {
     expirationDetailError: "Since you chose “Yes” for expiration, please provide the expiration details.",
     provideBackupRulesError: "Please provide backup rules content when backup rules is Yes.",
     specialInstructionError: "Please provide special instructions to proceed.",
+    mustSelectChildError: "You must select at least one child.",
     powerOfAttorneyError: "Please provide an event or date for terminating the Power of Attorney.",
     passwordFiledConfirmNotMatchError: "The password field confirmation does not match.",
     parentRatioBtnTxt: (name) => `${name.includes(" ")
