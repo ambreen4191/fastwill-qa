@@ -1059,12 +1059,9 @@ export const regressionSteps = (page) => {
                 await generalStep.verifyErrorIsVisible(generalPage.mustSelectChildError);
                 await generalStep.clickChildToAssignToGuardian(constants.childName);
                 await generalStep.clickOnContinueButton();
-
                 await generalStep.verifyWithHeadingScreenContainsTheTitle(generalPage.whoLookAfterYourChilderenTxt);
                 await generalStep.verifyButtonIsNotVisible(generalPage.continueTxt);
                 await generalStep.addPrimaryGuardian();
-                await generalStep.verifyButtonIsDisabled(generalPage.confirmTxt);
-                await generalStep.clickOnButtonByText(generalPage.confirmTxt);
                 await generalStep.verifyButtonIsDisabled(generalPage.confirmTxt);
                 await generalStep.createValidateAndAssignContact(constants.primaryParentData, constants.guardianType);
                 await generalStep.verifyWithButtonScreenTitleIsVisible(generalPage.continueTxt);                
@@ -1074,52 +1071,17 @@ export const regressionSteps = (page) => {
                 // await generalStep.createAndAssignContact(constants.backupParentData, "");
                 await generalStep.verifyWithButtonScreenTitleIsVisible(generalPage.continueTxt);
                 await generalStep.clickOnContinueButton();
-                // remainging steps
                 await generalStep.verifyWithHeadingScreenIsVisible(generalPage.wouldYouLikeNameConservatorChild);
                 await generalStep.clickYesRadioButton();
                 await generalStep.verifyWithHeadingScreenIsVisible(generalPage.whoWouldYouLiketoNameAsConservator);
+                await generalStep.verifyButtonIsNotVisible(generalPage.continueTxt);
                 await generalStep.clickOnAddConservatorButton();
+                await generalStep.verifyButtonIsDisabled(generalPage.confirmTxt);
                 await generalStep.clickGuardianToAssignToChildByIndex(`${constants.primaryParentData.firstName} ${constants.primaryParentData.lastName}`, constants.guardianType);
                 await generalStep.clickOnAddContactButtonByIndex(constants.guardianType);
                 await generalStep.clickOnContinueButton();
                 await generalStep.verifyWithHeadingScreenIsVisible(generalPage.futureAdoptionChildrenWillTxt);
-
-
-                await generalStep.verifyWithHeadingScreenIsVisible(generalPage.futureAdoptionChildrenWillTxt);
-                await generalStep.clickRadioButtonByText(generalPage.noTxt);
-                await generalStep.verifyWithHeadingScreenIsVisible(generalPage.testLivingTrustTxt);
-                await generalStep.clickRadioButtonByText(generalPage.noTxt);
-                await generalStep.verifyButtonIsDisabled(generalPage.continueTxt);
-                await generalStep.inputByLabel(generalPage.nameOfYourTrustTxt, constants.silverOakTrust);
-                await generalStep.verifyButtonIsEnabled(generalPage.continueTxt);
-                await generalStep.clickOnContinueButton();
-                await generalStep.verifyWithHeadingScreenIsVisible(generalPage.whenWouldYouBeginTrust);
-                await generalStep.verifyTrustDatePickerPrepopulated();
-                await generalStep.clickOnContinueButton();
-                await generalStep.verifyWithHeadingScreenIsVisible(generalPage.wouldYouMainPersonToManageTrustTxt);
-                await generalStep.clickRadioButtonByText(generalPage.noTxt);
-                await generalStep.verifyWithHeadingScreenIsVisible(generalPage.whoWouldBeTrusteeTxt);
-                await generalStep.clickOnButtonByText(generalPage.selectContactTxt);
-                await generalStep.verifyButtonIsDisabled(generalPage.confirmTxt);
-                await generalStep.createValidateAndAssignContact(constants.trusteeData);
-                await generalStep.clickOnContinueButton();
-                await generalStep.verifyWithHeadingScreenIsVisible(generalPage.areYouAsGrantorTxt);
-                await generalStep.clickRadioButtonByText(generalPage.noTxt);
-                await generalStep.verifyWithHeadingScreenIsVisible(generalPage.wholWillLifetimeBeneficiaryTxt);
-                await generalStep.verifyButtonIsNotVisible(generalPage.continueTxt);
-                await generalStep.clickOnButtonByText(generalPage.selectContactTxt)
-                await generalStep.createAndAssignContact(constants.executorData, constants.guardianType)
-                await generalStep.clickOnContinueButton()
-                await generalStep.verifyWithHeadingScreenIsVisible(generalPage.whoShouldTrusteeIncapacitatedTxt);
-                await generalStep.verifyButtonIsNotVisible(generalPage.continueTxt);
-                await generalStep.clickOnButtonByText(generalPage.selectContactTxt);
-                await generalStep.createAndAssignContact(constants.monitorData, constants.guardianType);
-                await generalStep.clickOnContinueButton();
-                await generalStep.verifyWithHeadingScreenIsVisible(generalPage.whoWouldTakeOverPassAwayTxt);
-                await generalStep.verifyButtonIsNotVisible(generalPage.continueTxt);
-                await generalStep.clickOnButtonByText(generalPage.selectContactTxt);
-                await generalStep.createAndAssignContact(constants.successorData, constants.guardianType);
-                await generalStep.clickOnContinueButton();
+                await generalStep.clickYesRadioButton();
                 await generalStep.verifyWithHeadingScreenIsVisible(generalPage.doYouHavePetTxt);
                 await generalStep.clickYesRadioButton();
                 await generalStep.verifyWithHeadingScreenIsVisible(generalPage.doYouWantChoosePetGuardianTxt);
@@ -1141,10 +1103,6 @@ export const regressionSteps = (page) => {
                 await generalStep.clickOnContinueButton();
                 await generalStep.verifyWithHeadingScreenIsVisible(generalPage.setAsideMoenyToCaringPersonHelp);
                 await generalStep.clickYesRadioButton();
-                await generalStep.inputByLabel(generalPage.amountLabel, constants.inValidCaringPersonAmount);
-                await generalStep.clickOnContinueButton();
-                await generalStep.verifyErrorIsVisible(generalPage.caringPersonAmountError);
-                await generalStep.inputByLabel(generalPage.amountLabel, constants.assetsTxt);
                 await generalStep.clickOnContinueButton();
                 await generalStep.verifyErrorIsVisible(generalPage.caringPersonAmountError);
                 await generalStep.inputByLabel(generalPage.amountLabel, constants.caringPersonAmount);

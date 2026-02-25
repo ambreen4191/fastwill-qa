@@ -92,12 +92,14 @@ export const constants = {
         firstName: "James",
         lastName: "Harrington",
         email: "James@gmail.com",
+        invalidEmail: "james.harrington@.com",
         phone: "+12342432343",
         addressLine1: "245 West 72nd Street",
         addressLine2: "Apartment 5B",
         city: "Florida",
         state: "Florida",
         zipCode: "10023",
+        invalidZipcode: "3FA34",
         country: "United States"
     },
     itemData: {

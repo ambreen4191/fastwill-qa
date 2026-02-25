@@ -330,7 +330,7 @@ describe('Regression Tests', () => {
         await regressionStep.individualTrustUserNegativeBasicAddressToConservatorSetup(constants);
 
     });
-    test.only('TC_012 - Will Creation – Assets Section – Ensure user can successfully complete entire Assets flow from Intro screen to Backup Residuary with all conditional scenarios (YES/NO), validations, Add/Edit/Delete, distribution types', async ({ page }) => {
+    test('TC_012 - Will Creation – Assets Section – Ensure user can successfully complete entire Assets flow from Intro screen to Backup Residuary with all conditional scenarios (YES/NO), validations, Add/Edit/Delete, distribution types', async ({ page }) => {
         const email = getRandomEmail();
         const smokeStep = smokeSteps(page)
         const regressionStep = regressionSteps(page);
@@ -425,7 +425,7 @@ describe('Regression Tests', () => {
         await regressionStep.individualWillUserBasicAddressToConservatorSetup(constants);
 
     });
-    test.only('TC_020 - Basic Section Complete Validation End-to-End – Verify system prevents progression when required fields missing, invalid, or selections not made throughout full flow', async ({ page }) => {
+    test('TC_020 - Basic Section Complete Validation End-to-End – Verify system prevents progression when required fields missing, invalid, or selections not made throughout full flow', async ({ page }) => {
         const email = getRandomEmail();
         const smokeStep = smokeSteps(page)
         const regressionStep = regressionSteps(page);
