@@ -318,6 +318,14 @@ export const generalSteps = (page) => {
                 await expect(locator).toBeVisible();
             });
         },
+        async verifyInputByLabelHasValue(labelText, guardianType = "") {
+            await allure.step(`Verify your ${labelText} has value`, async () => {
+                const index = guardianType === 'Primary' ? 1 : 1
+                const locator = page.locator('label', { hasText: labelText })
+                    .locator(generalPage.inputTxtByLabelXpath).nth(index - 1);
+                await expect(locator).not.toHaveValue('');
+            });
+        },
         async verifyNotaryText9to5AMIsVisible() {
             await page.waitForLoadState("load");
             const locator = page.getByText(generalPage.notary9To5AmTxt, { exact: true });
@@ -571,6 +579,7 @@ export const generalSteps = (page) => {
         async verifyTrustDatePickerPrepopulated() {
             await allure.step("Verify that Trust date picker has a prepopulated value", async () => {
                 const datePicker = page.locator(generalPage.datePickerTrustXpath);
+                await page.waitForTimeout(1000);
                 const value = await datePicker.inputValue();
                 await expect(value, "Date picker should have a prepopulated value").not.toBe('');
             });
@@ -802,6 +811,7 @@ export const generalSteps = (page) => {
         },
         async clickAddAChildAndItsDetails(enterchildName, dob = constants.childDOB, parentsRadioTxt = generalPage.meTxt) {
             await allure.step(`Click to add a child and its details: ${enterchildName} for ${parentsRadioTxt}`, async () => {
+                await page.waitForTimeout(1000);
                 const addChildButton = page.getByRole('button', { name: generalPage.addChildTxt, exact: true });
                 await clickElement(addChildButton)
 
@@ -1110,17 +1120,16 @@ export const generalSteps = (page) => {
                 await expect(input).not.toHaveValue('');
             });
         },
-        async fillInputByLabel(labelText, value, guardianType = "") {
+        async fillInputByLabel(labelText, value, index = 0) {
             await allure.step(`Enter your ${labelText}: ${value}`, async () => {
-                const index = guardianType === 'Primary' ? 1 : 1
                 const locator = page.locator('label', { hasText: labelText })
-                    .locator(generalPage.inputTxtByLabelXpath).nth(index - 1);
+                    .locator(generalPage.inputTxtByLabelXpath).nth(index);
                 await expect(locator).toBeVisible();
                 await locator.fill(value);
             });
         },
-        async clearInputByLabel(labelText, value, guardianType = "") {
-            await allure.step(`Clear your ${labelText}: ${value}`, async () => {
+        async clearInputByLabel(labelText, guardianType = "") {
+            await allure.step(`Clear your ${labelText}`, async () => {
                 const index = guardianType === 'Primary' ? 1 : 1
                 const locator = page.locator('label', { hasText: labelText })
                     .locator(generalPage.inputTxtByLabelXpath).nth(index - 1);
@@ -1150,31 +1159,30 @@ export const generalSteps = (page) => {
                 await locator.fill(value);
             });
         },
-        async selectFromDropdownByGuardian(enterValue, selectValue, guardianType = "") {
-            const index = guardianType === 'Primary' ? 1 : 1;
+        async selectFromDropdownByGuardian(enterValue, selectValue, index = 0) {
             await allure.step(`Select ${enterValue} from dropdown with placeholder ${selectValue}`, async () => {
-                const dropdownLocator = page.getByPlaceholder(getLocator(selectValue)).nth(index - 1);
+                const dropdownLocator = page.getByPlaceholder(getLocator(selectValue)).nth(index);
                 await expect(dropdownLocator).toBeVisible();
                 await dropdownLocator.click();
                 await dropdownLocator.type(enterValue, { delay: 50 });
                 const dropdownContainer = page.locator(generalPage.dropdownXpath);
-                const selectFromDropDown = dropdownContainer.locator(generalPage.selectStateFromDropdown(selectValue));
+                const selectFromDropDown = dropdownContainer.locator(generalPage.selectStateFromDropdown(selectValue)).nth(index);
                 await clickElement(selectFromDropDown);
             });
         },
         async createAndAssignContact(data, guardianType) {
             await allure.step(`Add a ${guardianType === "Primary" ? guardianType : 'Backup'} guardian`, async () => {
-                await this.addContactGuardianButton(guardianType)
-                await this.fillInputByLabel(generalPage.firstName, data.firstName, guardianType);
-                await this.fillInputByLabel(generalPage.lastName, data.lastName, guardianType);
-                await this.fillInputByLabel(generalPage.email, data.email, guardianType);
-                await this.fillInputByLabel(generalPage.phone, data.phone, guardianType);
-                await this.fillInputByLabel(generalPage.addressLine1, data.addressLine1, guardianType);
-                await this.fillInputByLabel(generalPage.addressLine2, data.addressLine2, guardianType);
-                await this.fillInputByLabel(generalPage.city, data.city, guardianType);
-                await this.selectFromDropdownByGuardian(data.state.substring(0, 5), data.state, guardianType);
-                await this.fillInputByLabel(generalPage.zipCode, data.zipCode, guardianType);
-                await this.selectFromDropdownByGuardian(data.country.substring(0, 7), data.country, guardianType);
+                await this.addContactGuardianButton(guardianType);
+                await this.fillInputByLabel(generalPage.firstName, data.firstName);
+                await this.fillInputByLabel(generalPage.lastName, data.lastName);
+                await this.fillInputByLabel(generalPage.email, data.email);
+                await this.fillInputByLabel(generalPage.phone, data.phone);
+                await this.fillInputByLabel(generalPage.addressLine1, data.addressLine1);
+                await this.fillInputByLabel(generalPage.addressLine2, data.addressLine2);
+                await this.fillInputByLabel(generalPage.city, data.city);
+                await this.selectFromDropdownByGuardian(data.state.substring(0, 5), data.state);
+                await this.fillInputByLabel(generalPage.zipCode, data.zipCode);
+                await this.selectFromDropdownByGuardian(data.country.substring(0, 7), data.country);
                 await this.clickOnAddContactButtonByIndex(guardianType);
                 await this.clickGuardianToAssignToChildByIndex(`${data.firstName} ${data.lastName}`, guardianType);
                 await this.clickOnAddContactButtonByIndex(guardianType);
@@ -1192,23 +1200,23 @@ export const generalSteps = (page) => {
                 await this.verifyErrorIsVisible(generalPage.cityRequiredError);
                 await this.verifyErrorIsVisible(generalPage.stateRequiredError);
                 await this.verifyErrorIsVisible(generalPage.zipCodeRequiredError);
-                await this.fillInputByLabel(generalPage.firstName, data.firstName, guardianType);
-                await this.fillInputByLabel(generalPage.lastName, data.lastName, guardianType);
-                await this.fillInputByLabel(generalPage.email, data.invalidEmail, guardianType);
-                await this.fillInputByLabel(generalPage.zipCode, data.invalidZipcode, guardianType);
+                await this.fillInputByLabel(generalPage.firstName, data.firstName);
+                await this.fillInputByLabel(generalPage.lastName, data.lastName);
+                await this.fillInputByLabel(generalPage.email, data.invalidEmail);
+                await this.fillInputByLabel(generalPage.zipCode, data.invalidZipcode);
                 await this.clickOnAddContactButtonByIndex(guardianType);
                 await this.verifyErrorIsVisible(generalPage.emailFormatError);
                 await this.verifyErrorIsVisible(generalPage.zipCodeDigitError);
-                await this.fillInputByLabel(generalPage.firstName, data.firstName, guardianType);
-                await this.fillInputByLabel(generalPage.lastName, data.lastName, guardianType);
-                await this.fillInputByLabel(generalPage.email, data.email, guardianType);
-                await this.fillInputByLabel(generalPage.phone, data.phone, guardianType);
-                await this.fillInputByLabel(generalPage.addressLine1, data.addressLine1, guardianType);
-                await this.fillInputByLabel(generalPage.addressLine2, data.addressLine2, guardianType);
-                await this.fillInputByLabel(generalPage.city, data.city, guardianType);
-                await this.selectFromDropdownByGuardian(data.state.substring(0, 5), data.state, guardianType);
-                await this.fillInputByLabel(generalPage.zipCode, data.zipCode, guardianType);
-                await this.selectFromDropdownByGuardian(data.country.substring(0, 7), data.country, guardianType);
+                await this.fillInputByLabel(generalPage.firstName, data.firstName);
+                await this.fillInputByLabel(generalPage.lastName, data.lastName);
+                await this.fillInputByLabel(generalPage.email, data.email);
+                await this.fillInputByLabel(generalPage.phone, data.phone);
+                await this.fillInputByLabel(generalPage.addressLine1, data.addressLine1);
+                await this.fillInputByLabel(generalPage.addressLine2, data.addressLine2);
+                await this.fillInputByLabel(generalPage.city, data.city);
+                await this.selectFromDropdownByGuardian(data.state.substring(0, 5), data.state);
+                await this.fillInputByLabel(generalPage.zipCode, data.zipCode);
+                await this.selectFromDropdownByGuardian(data.country.substring(0, 7), data.country);
                 await this.clickOnAddContactButtonByIndex(guardianType);
                 await this.clickGuardianToAssignToChildByIndex(`${data.firstName} ${data.lastName}`, guardianType);
                 await this.clickOnAddContactButtonByIndex(guardianType);
@@ -1216,13 +1224,13 @@ export const generalSteps = (page) => {
         },
         async addPropertyData(data, guardianType) {
             await allure.step(`Add a Property Data for ${guardianType === "Primary" ? guardianType : 'Backup'} guardian`, async () => {
-                await this.fillInputByLabel(generalPage.addressLine1, data.addressLine1, guardianType);
-                await this.fillInputByLabel(generalPage.addressLine2Property, data.addressLine2, guardianType);
-                await this.fillInputByLabel(generalPage.city, data.city, guardianType);
-                await this.selectFromDropdownByGuardian(data.state.substring(0, 5), data.state, guardianType);
-                await this.fillInputByLabel(generalPage.zipPostalCode, data.zipCode, guardianType);
-                await this.selectFromDropdownByGuardian(data.country.substring(0.7), data.country, guardianType);
-                await this.fillInputByLabel(generalPage.approximateValue, data.propertyPrice, guardianType);
+                await this.fillInputByLabel(generalPage.addressLine1, data.addressLine1);
+                await this.fillInputByLabel(generalPage.addressLine2Property, data.addressLine2);
+                await this.fillInputByLabel(generalPage.city, data.city);
+                await this.selectFromDropdownByGuardian(data.state.substring(0, 5), data.state);
+                await this.fillInputByLabel(generalPage.zipPostalCode, data.zipCode);
+                await this.selectFromDropdownByGuardian(data.country.substring(0.7), data.country);
+                await this.fillInputByLabel(generalPage.approximateValue, data.propertyPrice);
                 await this.clickOnAddPropertyPopupButton();
             });
         },
@@ -1235,16 +1243,16 @@ export const generalSteps = (page) => {
                 await this.verifyErrorIsVisible(generalPage.zipCodeRequiredError);
                 await this.verifyErrorIsVisible(generalPage.addressLine1RequiredError);
                 await this.verifyErrorIsVisible(generalPage.addressLine1RequiredError);
-                await this.fillInputByLabel(generalPage.zipPostalCode, data.invalidZipCode, guardianType);
+                await this.fillInputByLabel(generalPage.zipPostalCode, data.invalidZipCode);
                 await this.clickOnAddPropertyPopupButton();
                 await this.verifyErrorIsVisible(generalPage.zipCodeDigitError);
-                await this.fillInputByLabel(generalPage.addressLine1, data.addressLine1, guardianType);
-                await this.fillInputByLabel(generalPage.addressLine2Property, data.addressLine2, guardianType);
-                await this.fillInputByLabel(generalPage.city, data.city, guardianType);
-                await this.selectFromDropdownByGuardian(data.state.substring(0, 5), data.state, guardianType);
-                await this.fillInputByLabel(generalPage.zipPostalCode, data.zipCode, guardianType);
-                await this.selectFromDropdownByGuardian(data.country.substring(0.7), data.country, guardianType);
-                await this.fillInputByLabel(generalPage.approximateValue, data.propertyPrice, guardianType);
+                await this.fillInputByLabel(generalPage.addressLine1, data.addressLine1);
+                await this.fillInputByLabel(generalPage.addressLine2Property, data.addressLine2);
+                await this.fillInputByLabel(generalPage.city, data.city);
+                await this.selectFromDropdownByGuardian(data.state.substring(0, 5), data.state);
+                await this.fillInputByLabel(generalPage.zipPostalCode, data.zipCode);
+                await this.selectFromDropdownByGuardian(data.country.substring(0.7), data.country);
+                await this.fillInputByLabel(generalPage.approximateValue, data.propertyPrice);
                 await this.clickOnAddPropertyPopupButton();
             });
         },
@@ -1255,7 +1263,5 @@ export const generalSteps = (page) => {
                 await clickElement(childLocator);
             });
         },
-
-        /** complete functions */
     };
 };

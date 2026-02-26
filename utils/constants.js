@@ -66,6 +66,19 @@ export const constants = {
         country: "United States",
         propertyPrice: "350000"
     },
+    scarletData: {
+        firstName: "Scarlett",
+        lastName: "Anderson",
+        email: "scarlett.anderson@gmail.com",
+        phone: "+13105551278",
+        addressLine1: "350 5th Avenue",
+        addressLine2: "Suite 2100",
+        city: "New York",
+        state: "New York",
+        zipCode: "10118",
+        country: "United States",
+        propertyPrice: "350000"
+    },
     propertyData: {
         addressLine1: "1111 Brickell Avenue",
         addressLine2: "Suite 2100",
@@ -372,6 +385,7 @@ export const constants = {
     businessType: "Solo Proprietorship",
     businessOwnershipValue: "75000",
     legacyContactFullname: "Edison Thomson",
+    hannahThomson: "Hannah Thomson",
     iName: "Emily Thomson",
     iEmail: "emily.thomson@gmail.com",
     invalidEmail: "ambreen@.com",

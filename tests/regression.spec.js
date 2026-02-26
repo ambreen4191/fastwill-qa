@@ -353,7 +353,7 @@ describe('Regression Tests', () => {
     });
     test('TC_014 - Will Creation – Arrangement Section – Verify Arrangement section validation behavior, disabled states, contact modal validations, and conditional dependency handling', async ({ page }) => {
         const email = getRandomEmail();
-        const smokeStep = smokeSteps(page)
+        const smokeStep = smokeSteps(page);
         const regressionStep = regressionSteps(page);
 
         await smokeStep.signupIndividualTrustUsers(constants, email);
@@ -418,7 +418,7 @@ describe('Regression Tests', () => {
     });
     test('TC_019 - Basic Section Complete End-to-End Flow – Verify complete Basic section flow from Address → Children → Guardian → Conservator → Pets → Reward → Healthcare', async ({ page }) => {
         const email = getRandomEmail();
-        const smokeStep = smokeSteps(page)
+        const smokeStep = smokeSteps(page);
         const regressionStep = regressionSteps(page);
 
         await smokeStep.signupIndividualWillUsers(constants, email);
@@ -433,6 +433,23 @@ describe('Regression Tests', () => {
 
         await smokeStep.signupIndividualWillUsers(constants, email);
         await regressionStep.individualWillUserNegativeBasicAddressToConservatorSetup(constants);
+
+    });
+    test.only('TC_021 - Will – Asset Section – Verify user can complete full Asset section by selecting YES paths and adding entries successfully', async ({ page }) => {
+        const email = getRandomEmail();
+        const smokeStep = smokeSteps(page);
+        const regressionStep = regressionSteps(page);
+        const generalStep = generalSteps(page);
+
+        await generalStep.openHomePage();
+        await generalStep.clickOnLoginInAnchor();
+        await generalStep.enterUserEmail("ambreeny.qat123+1772124798064@gmail.com");
+        await generalStep.enterUserPassword("Test@123");
+        await generalStep.clickOnLogInButton();
+
+        // await smokeStep.signupIndividualWillUsers(constants, email);
+        // await regressionStep.individualWillUserBasicAddressToConservatorSetup(constants);
+        await regressionStep.individualWillUserAssetSetup(constants, generalPage.howLongbeneficliveAfterPasstoInheritTxt);
 
     });
 
