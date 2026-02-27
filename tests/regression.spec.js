@@ -429,27 +429,30 @@ describe('Regression Tests', () => {
         const email = getRandomEmail();
         const smokeStep = smokeSteps(page)
         const regressionStep = regressionSteps(page);
-        const generalStep = generalSteps(page);
 
         await smokeStep.signupIndividualWillUsers(constants, email);
         await regressionStep.individualWillUserNegativeBasicAddressToConservatorSetup(constants);
 
     });
-    test.only('TC_021 - Will – Asset Section – Verify user can complete full Asset section by selecting YES paths and adding entries successfully', async ({ page }) => {
+    test('TC_021 - Will – Asset Section – Verify user can complete full Asset section by selecting YES paths and adding entries successfully', async ({ page }) => {
+        const email = getRandomEmail();
+        const smokeStep = smokeSteps(page);
+        const regressionStep = regressionSteps(page);
+
+        await smokeStep.signupIndividualWillUsers(constants, email);
+        await regressionStep.individualWillUserNegativeBasicAddressToConservatorSetup(constants);
+        await regressionStep.individualWillUserAssetSetup(constants, generalPage.howLongbeneficliveAfterPasstoInheritTxt);
+
+    });
+    test('TC_022 - Will – Asset Section – Verify validation messages, distribution rules, and required field enforcement', async ({ page }) => {
         const email = getRandomEmail();
         const smokeStep = smokeSteps(page);
         const regressionStep = regressionSteps(page);
         const generalStep = generalSteps(page);
 
-        await generalStep.openHomePage();
-        await generalStep.clickOnLoginInAnchor();
-        await generalStep.enterUserEmail("ambreeny.qat123+1772124798064@gmail.com");
-        await generalStep.enterUserPassword("Test@123");
-        await generalStep.clickOnLogInButton();
-
-        // await smokeStep.signupIndividualWillUsers(constants, email);
-        // await regressionStep.individualWillUserBasicAddressToConservatorSetup(constants);
-        await regressionStep.individualWillUserAssetSetup(constants, generalPage.howLongbeneficliveAfterPasstoInheritTxt);
+        await smokeStep.signupIndividualWillUsers(constants, email);
+        await regressionStep.individualWillUserNegativeBasicAddressToConservatorSetup(constants);
+        await regressionStep.individualWillNegativeUserAssetSetup(constants, generalPage.howLongbeneficliveAfterPasstoInheritTxt);
 
     });
 

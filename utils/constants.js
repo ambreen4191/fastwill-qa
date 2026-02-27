@@ -354,6 +354,8 @@ export const constants = {
     addressLine2: "Apt 4B",
     minusThirty: "-30",
     thirty: "30",
+    hundred: "100",
+    zero: "0",
     hundredThousand: "100000",
     fifty: "50",
     twenty: '20',

@@ -1166,7 +1166,7 @@ export const generalSteps = (page) => {
                 await dropdownLocator.click();
                 await dropdownLocator.type(enterValue, { delay: 50 });
                 const dropdownContainer = page.locator(generalPage.dropdownXpath);
-                const selectFromDropDown = dropdownContainer.locator(generalPage.selectStateFromDropdown(selectValue)).nth(index);
+                const selectFromDropDown = dropdownContainer.locator(generalPage.selectStateFromDropdown(selectValue)).first();
                 await clickElement(selectFromDropDown);
             });
         },
