@@ -455,5 +455,28 @@ describe('Regression Tests', () => {
         await regressionStep.individualWillNegativeUserAssetSetup(constants, generalPage.howLongbeneficliveAfterPasstoInheritTxt);
 
     });
+    test('TC_023 - Arrangement Section Full Flow with Branch Verification – Verify Arrangement section including Yes/No redirection logic and full Select Contact validations', async ({ page }) => {
+        const email = getRandomEmail();
+        const smokeStep = smokeSteps(page);
+        const regressionStep = regressionSteps(page);
+
+        await smokeStep.signupIndividualWillUsers(constants, email);
+        await regressionStep.individualWillUserNegativeBasicAddressToConservatorSetup(constants);
+        await regressionStep.individualWillUserAssetSetup(constants, generalPage.howLongbeneficliveAfterPasstoInheritTxt);
+        await regressionStep.individualWillUserArrangmentSetup(constants);
+
+    });
+    test('TC_024 - Arrangement Section Full Flow with Branch Verification – Verify full Arrangement flow including branching logic, required fields, contact modal validations, dropdown logic and format validations', async ({ page }) => {
+        const email = getRandomEmail();
+        const smokeStep = smokeSteps(page);
+        const regressionStep = regressionSteps(page);
+        const generalStep = generalSteps(page);
+
+        await smokeStep.signupIndividualWillUsers(constants, email);
+        await regressionStep.individualWillUserNegativeBasicAddressToConservatorSetup(constants);
+        await regressionStep.individualWillUserAssetSetup(constants, generalPage.howLongbeneficliveAfterPasstoInheritTxt);
+        await regressionStep.individualWillNegativeUserArrangmentSetup(constants);
+
+    });
 
 });

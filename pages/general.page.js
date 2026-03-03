@@ -257,7 +257,7 @@ export const generalPage = {
     sendInviteTxt: "Send Invite",
     nameLabel: "Name",
     ambreenTestName: "Ambreen Test",
-    ambreenTest123Name: "Ambreen Test 124",
+    ambreenTest123Name: "Ambreen Younas Test",
     oliverBennettName: "Oliver Bennett",
     recommendedBasedOnYourAnsTxt: "Here's what we recommend for you based on your answers",
     passwordResetMailSentSuccessTxt: "We have emailed your password reset link.",
@@ -541,7 +541,7 @@ export const generalPage = {
     datePickerTrustXpath: "//input[contains(@id,'datepicker_') and contains(@id,'_input')]",
     datePickerMonthXpath: "//button[contains(@id,'datepicker_') and contains(@id,'_month_btn')]",
     xpathAddPrimaryGuardianButton: "//div[label[normalize-space()='Primary Guardian']]//button",
-    xpathBackupGuardianButton: "//div[label[normalize-space()='Backup Guardian (optional)']]//button",
+    xpathBackupGuardianButton: "//div[label[normalize-space()='Backup Guardian (optional)'or normalize-space()='Backup Guardian']]//button",
     xpathAddContactPrimaryGuardianButton: "(//h2[normalize-space()='Select Contact']/following-sibling::div/button)[1]",
     xpathAddContactBackupGuardianButton: "(//h2[normalize-space()='Select Contact']/following-sibling::div/button)[2]",
     modelCrossIcon: "//a[contains(@href, 'estate-checklist')]/following-sibling::button[img[@alt='Close']]",
@@ -590,6 +590,7 @@ export const generalPage = {
     editContactButtonXpath: (name) => `//div[div[div[div[span[normalize-space()='${name}']]]]]//button/img`,
     contactPersonXpath: (name) => `//div[div[div[div[span[normalize-space()='${name}']]]]]`,
     contactViewXpath: (category) => `img[alt='${category}'] + span`,
+    summaryBasicNameXpath: (name) => `//div[div[div[h4[normalize-space()='Personal Details']]]]//div[normalize-space()='${name}']`,
 }
 
 export function getLocator(value) {
@@ -601,10 +602,12 @@ export function getLocator(value) {
         case 'Colorado':
         case 'Alaska':
         case 'Washington':
+        case 'Arizona':
         case 'Massachusetts':
         case 'Illinois':
             return generalPage.statPlaceHolderText;
         case 'United States':
+        case 'Other':
             return generalPage.countryPlaceholder;
         case 'Solo Proprietorship':
             return generalPage.businessTypePlaceHolderTxt;

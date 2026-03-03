@@ -120,12 +120,6 @@ describe('Smoke Tests', () => {
         const generalStep = generalSteps(page);
         const smokeStep = smokeSteps(page);
 
-        // await generalStep.openHomePage();
-        // await generalStep.clickOnLoginInAnchor();
-        // await generalStep.enterUserEmail("ambreeny.qat123+1771864452656@gmail.com ");
-        // await generalStep.enterUserPassword("Test@123");
-        // await generalStep.clickOnLogInButton();
-
         await smokeStep.signupCoupleWillUsers(constants, email, constants.marriedStatus);
         await smokeStep.coupleWillUserBasicAddressToConservatorSetup(constants)
         await smokeStep.coupleWillUserAssetSetup(constants, generalPage.howLongbeneficliveAfterPasstoInheritTxt);
@@ -136,7 +130,7 @@ describe('Smoke Tests', () => {
         await generalStep.verifyWithHeadingScreenIsVisible(constants.headingFirstNameTxt);
         await generalStep.clickOnContinueButton();
         await smokeStep.coupleWillSpouseBasicAddressToConservatorSetup(constants);
-        await smokeStep.coupleSpouseWillUserAssetSetup(constants);
+        await smokeStep.coupleSpouseWillUserAssetSetup(constants, generalPage.howLongbeneficliveAfterPasstoInheritTxt);
         await smokeStep.individualWillUserArrangmentSetup(constants);
         await smokeStep.individualWillUserHealthCareSetup(constants);
         await smokeStep.individualWillUserFinanceCareSectionSetup(constants);
@@ -155,7 +149,7 @@ describe('Smoke Tests', () => {
         const generalStep = generalSteps(page);
         const smokeStep = smokeSteps(page);
 
-        await smokeStep.signupCoupleTrustUsers(constants, email, constants.marriedStatus)
+        await smokeStep.signupCoupleTrustUsers(constants, email, constants.marriedStatus);
         await smokeStep.coupleTrustUserBasicAddressToConservatorSetup(constants);
         await smokeStep.coupleWillUserAssetSetup(constants);
         await smokeStep.individualWillUserArrangmentSetup(constants);

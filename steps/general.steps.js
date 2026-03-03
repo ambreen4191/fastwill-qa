@@ -556,7 +556,6 @@ export const generalSteps = (page) => {
                 for (let i = 1; i <= rowCount; i++) {
                     const feeSpan = page.locator(generalPage.recordingFeeRowPriceItemXpath(i));
                     const feeText = await feeSpan.textContent();
-                    console.log(`Fees for the row: ${feeText}`)
                     if (!feeText) continue;
                     const fee = parseFloat(extractNumericString(feeText));
                     if (isNaN(fee)) continue;
@@ -587,7 +586,7 @@ export const generalSteps = (page) => {
         async verifyContactsShowMoreDetailsByXpath(personName, category) {
             await allure.step(`Verify Show more contact for ${personName} that have ${category}`, async () => {
                 const contact = page.locator(generalPage.contactPersonXpath(personName));
-                const detailLocator = await contact.locator(generalPage.contactViewXpath(category));
+                const detailLocator = await contact.locator(generalPage.contactViewXpath(category)).first();
                 await expect(detailLocator).toBeVisible();
             });
         },
@@ -611,6 +610,13 @@ export const generalSteps = (page) => {
             await allure.step(`Verify '${text}' screen is visible`, async () => {
                 await page.waitForLoadState("load");
                 const locator = page.locator(generalPage.assetSectionRow(text));
+                await expect(locator).toBeVisible();
+            });
+        },
+        async verifyWithXpathIsVisible(xpath) {
+            await allure.step(`Verify '${xpath}' screen is visible`, async () => {
+                await page.waitForLoadState("load");
+                const locator = page.locator(xpath);
                 await expect(locator).toBeVisible();
             });
         },
@@ -1163,8 +1169,20 @@ export const generalSteps = (page) => {
             await allure.step(`Select ${enterValue} from dropdown with placeholder ${selectValue}`, async () => {
                 const dropdownLocator = page.getByPlaceholder(getLocator(selectValue)).nth(index);
                 await expect(dropdownLocator).toBeVisible();
+                await dropdownLocator.fill(enterValue);
+                const dropdownContainer = page.locator(generalPage.dropdownXpath);
                 await dropdownLocator.click();
-                await dropdownLocator.type(enterValue, { delay: 50 });
+                const selectFromDropDown = dropdownContainer.locator(generalPage.selectStateFromDropdown(selectValue)).first();
+                await clickElement(selectFromDropDown);
+            });
+        },
+        
+        async selectOtherCountryFromDropdown(enterValue, selectValue, index = 0) {
+            await allure.step(`Select ${enterValue} from dropdown with placeholder ${selectValue}`, async () => {
+                const dropdownLocator = page.getByPlaceholder(getLocator(selectValue)).nth(index);
+                await expect(dropdownLocator).toBeVisible();
+                await dropdownLocator.clear();
+                await dropdownLocator.click();
                 const dropdownContainer = page.locator(generalPage.dropdownXpath);
                 const selectFromDropDown = dropdownContainer.locator(generalPage.selectStateFromDropdown(selectValue)).first();
                 await clickElement(selectFromDropDown);
@@ -1188,7 +1206,7 @@ export const generalSteps = (page) => {
                 await this.clickOnAddContactButtonByIndex(guardianType);
             });
         },
-        async createValidateAndAssignContact(data, guardianType = "Primary") {
+        async createValidateAndAssignContact(data, guardianType = "Primary", otherCountry = '') {
             await allure.step(`Create and validate a ${guardianType === "Primary" ? guardianType : 'Backup'} Contact`, async () => {
                 await this.addContactGuardianButton(guardianType)
                 await this.clickOnAddContactButtonByIndex(guardianType);
@@ -1217,6 +1235,9 @@ export const generalSteps = (page) => {
                 await this.selectFromDropdownByGuardian(data.state.substring(0, 5), data.state);
                 await this.fillInputByLabel(generalPage.zipCode, data.zipCode);
                 await this.selectFromDropdownByGuardian(data.country.substring(0, 7), data.country);
+                if (otherCountry === constants.otherCountry) {
+                    await this.selectOtherCountryFromDropdown(otherCountry.substring(0, 4), otherCountry);
+                }
                 await this.clickOnAddContactButtonByIndex(guardianType);
                 await this.clickGuardianToAssignToChildByIndex(`${data.firstName} ${data.lastName}`, guardianType);
                 await this.clickOnAddContactButtonByIndex(guardianType);

@@ -137,7 +137,7 @@ export const constants = {
         state: "Alabama",
         zipCode: "35203",
         invalidZipcode: "MA32A",
-        country: "United States"
+        country: "United States",
     },
     executorData: {
         firstName: "Michael",
@@ -213,6 +213,20 @@ export const constants = {
         state: "Alabama",
         zipCode: "10018",
         invalidZipcode: "FA444",
+        country: "United States"
+    },
+    nominateGuardianforSelfData: {
+        firstName: "Benjamin",
+        lastName: "Clark",
+        email: "benjamin.clark8721@gmail.com",
+        invalidEmail: "benjamin.clark@.com",
+        phone: "+17205559832",
+        addressLine1: "789 Willow Creek Road",
+        addressLine2: "Suite 45B",
+        city: "Phoenix",
+        state: "Arizona",
+        zipCode: "85001",
+        invalidZipcode: "AZ12X",
         country: "United States"
     },
     backupAgentData: {
@@ -341,7 +355,9 @@ export const constants = {
     newPassword: COMMON.newPassword,
     password: COMMON.password,
     fullName: 'Ambreen Test',
-    ambreenText124Name: "Ambreen Test 124",
+    ambreenText124Name: "Ambreen Younas Test",
+    ambreenEmail: "ambreen.test123@gmail.com",
+    ambreenMobile: "+1255322222",
     congratsMessage: "Congratulations, ",
     enterState: 'Alab',
     selectStateFromDropdown: 'Alabama',
@@ -366,6 +382,7 @@ export const constants = {
     city: "New York",
     zipcode: "10001",
     enterCountery: "United",
+    otherCountry: 'Other',
     selectCountryFromDropdown: "United States",
     birthdayDate: "01/03/2006",
     invalidBirthdayDate: "33/32/2199",
