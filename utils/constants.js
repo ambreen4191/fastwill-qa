@@ -434,4 +434,5 @@ export const constants = {
     guardianNominationTxt: "Do you want to name a guardian for your children?",
     medicalInstrumentDetailTxt: "I appoint my health care agent to make medical decisions on my behalf if I am unable to do so. My agent should make decisions based on my best interests and in accordance with my known values and wishes.",
     organsInstructionTxt: "Kidneys, liver, heart, lungs, pancreas, and corneas for transplant if medically suitable. Any additional tissues deemed appropriate for transplant or medical use at the time of donation.",
+    organsLimitationsTxt: "I consent to donate needed organs but exclude heart and corneas. Donation is permitted for transplant purposes only, not for research."
 }

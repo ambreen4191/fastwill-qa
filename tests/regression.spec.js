@@ -371,7 +371,7 @@ describe('Regression Tests', () => {
         await regressionStep.individualTrustUserNegativeBasicAddressToConservatorSetup(constants);
         await smokeStep.individualTrustUserAssetSetup(constants);
         await regressionStep.individualTrustUserArrangmentSetup(constants);
-        await regressionStep.individualWillUserHealthCareSetup(constants)
+        await regressionStep.individualTrustUserHealthCareSetup(constants)
 
     });
     test('TC_016 - Healthcare Negative Flow – Verify system prevents user from progressing in Healthcare section when required inputs are missing, invalid, or incomplete', async ({ page }) => {
@@ -383,7 +383,7 @@ describe('Regression Tests', () => {
         await regressionStep.individualTrustUserNegativeBasicAddressToConservatorSetup(constants);
         await smokeStep.individualTrustUserAssetSetup(constants);
         await regressionStep.individualTrustUserArrangmentSetup(constants);
-        await regressionStep.individualWillNegativeUserHealthCareSetup(constants)
+        await regressionStep.individualTrustNegativeUserHealthCareSetup(constants)
 
     });
     test('TC_017 - Financial Care – End to End (Positive) – Verify user can complete Financial Care section successfully (covers valid YES and NO scenarios/branches)', async ({ page }) => {
@@ -396,8 +396,8 @@ describe('Regression Tests', () => {
         await regressionStep.individualTrustUserNegativeBasicAddressToConservatorSetup(constants);
         await smokeStep.individualTrustUserAssetSetup(constants);
         await regressionStep.individualTrustUserArrangmentSetup(constants);
-        await regressionStep.individualWillUserHealthCareSetup(constants);
-        await regressionStep.individualWillUserFinanceCareSectionSetup(constants);
+        await regressionStep.individualTrustUserHealthCareSetup(constants);
+        await regressionStep.individualTrustUserFinanceCareSectionSetup(constants);
         await generalStep.clickOnButtonByText(generalPage.viewDashBoardTxt);
 
     });
@@ -411,8 +411,8 @@ describe('Regression Tests', () => {
         await regressionStep.individualTrustUserNegativeBasicAddressToConservatorSetup(constants);
         await smokeStep.individualTrustUserAssetSetup(constants);
         await regressionStep.individualTrustUserArrangmentSetup(constants);
-        await regressionStep.individualWillUserHealthCareSetup(constants);
-        await regressionStep.individualWillUserNegativeFinanceCareSectionSetup(constants);
+        await regressionStep.individualTrustUserHealthCareSetup(constants);
+        await regressionStep.individualTrustUserNegativeFinanceCareSectionSetup(constants);
         await generalStep.clickOnButtonByText(generalPage.viewDashBoardTxt);
 
     });
@@ -476,6 +476,25 @@ describe('Regression Tests', () => {
         await regressionStep.individualWillUserNegativeBasicAddressToConservatorSetup(constants);
         await regressionStep.individualWillUserAssetSetup(constants, generalPage.howLongbeneficliveAfterPasstoInheritTxt);
         await regressionStep.individualWillNegativeUserArrangmentSetup(constants);
+
+    });
+    test.only('TC_025 - Healthcare – Verify user completes the full Healthcare section successfully with all positive scenarios including intro auto-move, primary contact selection, create new contact, edit, delete, reselect, backup contact selection, medical care instructions, permissions, limits, organ donation, authorized persons, expiration, and final redirect to Financial Care', async ({ page }) => {
+        const email = getRandomEmail();
+        const smokeStep = smokeSteps(page);
+        const regressionStep = regressionSteps(page);
+        const generalStep = generalSteps(page);
+
+        // await generalStep.openHomePage();
+        // await generalStep.clickOnLoginInAnchor();
+        // await generalStep.enterUserEmail("ambreeny.qat123+1772658823177@gmail.com");
+        // await generalStep.enterUserPassword("Test@123");
+        // await generalStep.clickOnLogInButton();
+
+        await smokeStep.signupIndividualWillUsers(constants, email);
+        await regressionStep.individualWillUserNegativeBasicAddressToConservatorSetup(constants);
+        await regressionStep.individualWillUserAssetSetup(constants, generalPage.howLongbeneficliveAfterPasstoInheritTxt);
+        await regressionStep.individualWillUserArrangmentSetup(constants);
+        await regressionStep.individualWillUserHealthCareSetup(constants);
 
     });
 

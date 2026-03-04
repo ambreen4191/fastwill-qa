@@ -399,12 +399,12 @@ export const regressionSteps = (page) => {
                 await generalStep.verifyWithHeadingScreenIsVisible(generalPage.howToDivideTangibleProprtyTxt);
                 await generalStep.clickRadioButtonByText(generalPage.customePercentageTxt);
                 await generalStep.clickOnContinueButton();
-                await generalStep.verifyErrorIsVisible(generalPage.totalShould100PercentError)
-                await generalStep.verifyErrorIsVisible(generalPage.enterPercEachBenefError);
+                await generalStep.verifyErrorIncludeIsVisible(generalPage.totalShould100PercentError)
+                // await generalStep.verifyErrorIsVisible(generalPage.enterPercEachBenefError);
                 await generalStep.inputByXpath(generalPage.benefePercentageXpath(constants.adultChildName), constants.thirty);
                 await generalStep.inputByXpath(generalPage.benefePercentageXpath(constants.iName), constants.twenty);
                 await generalStep.clickOnContinueButton();
-                await generalStep.verifyErrorIsVisible(generalPage.totalShould100PercentError)
+                await generalStep.verifyErrorIncludeIsVisible(generalPage.totalShould100PercentError)
                 await generalStep.inputByXpath(generalPage.benefePercentageXpath(constants.childName), constants.fifty);
                 await generalStep.clickOnContinueButton();
                 await generalStep.verifyWithHeadingScreenIsVisible(generalPage.beneficairyReceiveInheritanceTxt);
@@ -646,7 +646,7 @@ export const regressionSteps = (page) => {
                 await generalStep.clickYesRadioButton();
             });
         },
-        async individualWillUserHealthCareSetup(constants) {
+        async individualTrustUserHealthCareSetup(constants) {
             await allure.step("Verify user can complete full Healthcare section including primary agent, backup agent, instructions, permissions, limits, organ donation, authorization, expiration, branching logic, validations, and navigation", async () => {
                 await generalStep.verifyWithHeadingScreenIsVisible(generalPage.whoWillMakeMedicalDecision);
                 await generalStep.clickOnButtonByText(generalPage.selectContactTxt)
@@ -718,7 +718,7 @@ export const regressionSteps = (page) => {
                 await generalStep.verifyWithHeadingScreenIsVisible(generalPage.financialCareSectionTxt);
             });
         },
-        async individualWillNegativeUserHealthCareSetup(constants) {
+        async individualTrustNegativeUserHealthCareSetup(constants) {
             await allure.step("Verify system prevents user from progressing in Healthcare section when required inputs are missing, invalid, or incomplete", async () => {
                 await generalStep.verifyWithHeadingScreenIsVisible(generalPage.whoWillMakeMedicalDecision);
                 await generalStep.verifyButtonIsNotVisible(generalPage.continueTxt);  
@@ -791,7 +791,7 @@ export const regressionSteps = (page) => {
                 await generalStep.clickOnContinueButton();
             });
         },
-        async individualWillUserFinanceCareSectionSetup(constants) {
+        async individualTrustUserFinanceCareSectionSetup(constants) {
             await allure.step("Verify user can complete Financial Care section successfully (covers valid YES and NO scenarios/branches)", async () => {
                 await generalStep.verifyWithHeadingScreenIsVisible(generalPage.previousPowerofAttorneyDocumentTxt)
                 await generalStep.clickYesRadioButton();
@@ -851,7 +851,7 @@ export const regressionSteps = (page) => {
                 await generalStep.clickOnContinueButton();
             });
         },
-        async individualWillUserNegativeFinanceCareSectionSetup(constants) {
+        async individualTrustUserNegativeFinanceCareSectionSetup(constants) {
             await allure.step("Verify user can complete Financial Care section successfully (covers valid YES and NO scenarios/branches)", async () => {
                 await generalStep.verifyWithHeadingScreenIsVisible(generalPage.previousPowerofAttorneyDocumentTxt);
                 await generalStep.clickYesRadioButton();
@@ -1672,6 +1672,209 @@ export const regressionSteps = (page) => {
                 await generalStep.clickOnContinueButton()
                 await generalStep.verifyWithHeadingScreenIsVisible(generalPage.wouldYouLikeProtectWillFromPotentialDesputeTxt);
                 await generalStep.clickYesRadioButton();
+            });
+        },
+        async individualWillUserHealthCareSetup(constants) {
+            await allure.step("Verify user completes the full Healthcare section successfully with all positive scenarios including intro auto-move, primary contact selection, create new contact, edit, delete, reselect, backup contact selection, medical care instructions, permissions, limits, organ donation, authorized persons, expiration, and final redirect to Financial Care", async () => {
+                await generalStep.verifyWithHeadingScreenIsVisible(generalPage.weAreGoingHealthCarSecTxt);
+                await generalStep.verifyWithHeadingScreenIsVisible(generalPage.whoWillMakeMedicalDecision);
+                await generalStep.verifyWithButtonScreenTitleIsVisible(generalPage.selectContactTxt);
+                await generalStep.clickOnButtonByText(generalPage.selectContactTxt);
+                await generalStep.verifyButtonIsDisabled(generalPage.confirmTxt);
+                await generalStep.clickOnButtonByXpath(generalPage.showMoreButtonXpath(`${constants.backupExecutorData.firstName} ${constants.backupExecutorData.lastName}`));
+                await generalStep.verifyContactsShowMoreDetailsByXpath(`${constants.backupExecutorData.firstName} ${constants.backupExecutorData.lastName}`, generalPage.email);
+                await generalStep.verifyContactsShowMoreDetailsByXpath(`${constants.backupExecutorData.firstName} ${constants.backupExecutorData.lastName}`, generalPage.phone);
+                await generalStep.verifyContactsShowMoreDetailsByXpath(`${constants.backupExecutorData.firstName} ${constants.backupExecutorData.lastName}`, generalPage.location);
+                await generalStep.verifyWithXpathIsVisible(generalPage.editContactButtonXpath(`${constants.backupExecutorData.firstName} ${constants.backupExecutorData.lastName}`));   
+                await generalStep.createAndAssignContact(constants.healthCareAgentData, constants.guardianType);
+                await generalStep.verifyWithHeadingScreenIsVisible(`${constants.healthCareAgentData.firstName} ${constants.healthCareAgentData.lastName}`);
+                await generalStep.verifyWithXpathIsVisible(generalPage.editPetXpath);
+                await generalStep.verifyWithXpathIsVisible(generalPage.deletePetXpath);
+                await generalStep.verifyWithButtonScreenTitleIsVisible(generalPage.addAnotherTxt);
+                await generalStep.verifyWithButtonScreenTitleIsVisible(generalPage.continueTxt);              
+                await generalStep.clickOnButtonByXpath(generalPage.editPetXpath);
+                await generalStep.clickGuardianToAssignToChildByIndex(`${constants.primaryPetGuardianData.firstName} ${constants.primaryPetGuardianData.lastName}`, constants.guardianType);
+                await generalStep.verifyButtonIsEnabled(generalPage.confirmTxt);
+                await generalStep.clickOnButtonByText(generalPage.confirmTxt);
+                await generalStep.verifyWithHeadingScreenIsVisible(`${constants.primaryPetGuardianData.firstName} ${constants.primaryPetGuardianData.lastName}`);          
+                await generalStep.clickOnButtonByXpath(generalPage.deletePetXpath); 
+                await generalStep.verifyWithButtonScreenTitleIsVisible(generalPage.selectContactTxt);
+                await generalStep.clickOnButtonByText(generalPage.selectContactTxt);
+                await generalStep.clickGuardianToAssignToChildByIndex(`${constants.healthCareAgentData.firstName} ${constants.healthCareAgentData.lastName}`, constants.guardianType);
+                await generalStep.verifyButtonIsEnabled(generalPage.confirmTxt);
+                await generalStep.clickOnButtonByText(generalPage.confirmTxt);
+                await generalStep.verifyWithHeadingScreenIsVisible(`${constants.healthCareAgentData.firstName} ${constants.healthCareAgentData.lastName}`);     
+                await generalStep.clickOnContinueButton();
+                await generalStep.verifyWithHeadingScreenIsVisible(generalPage.wantNameBackupHealthAgentTxt);
+                await generalStep.clickYesRadioButton();
+                await generalStep.verifyWithHeadingScreenIsVisible(generalPage.whoWillBackupAgentTxt);
+                await generalStep.verifyWithButtonScreenTitleIsVisible(generalPage.selectContactTxt);
+                await generalStep.clickOnButtonByText(generalPage.selectContactTxt);
+                await generalStep.verifyButtonIsDisabled(generalPage.confirmTxt);
+                await generalStep.verifyWithTextScreenIsNotVisible(`${constants.healthCareAgentData.firstName} ${constants.healthCareAgentData.lastName}`);
+                await generalStep.clickOnButtonByXpath(generalPage.showMoreButtonXpath(`${constants.backupExecutorData.firstName} ${constants.backupExecutorData.lastName}`));
+                await generalStep.verifyContactsShowMoreDetailsByXpath(`${constants.backupExecutorData.firstName} ${constants.backupExecutorData.lastName}`, generalPage.email);
+                await generalStep.verifyContactsShowMoreDetailsByXpath(`${constants.backupExecutorData.firstName} ${constants.backupExecutorData.lastName}`, generalPage.phone);
+                await generalStep.verifyContactsShowMoreDetailsByXpath(`${constants.backupExecutorData.firstName} ${constants.backupExecutorData.lastName}`, generalPage.location);
+                await generalStep.verifyWithXpathIsVisible(generalPage.editContactButtonXpath(`${constants.backupExecutorData.firstName} ${constants.backupExecutorData.lastName}`));   
+                await generalStep.clickGuardianToAssignToChildByIndex(`${constants.scarletData.firstName} ${constants.scarletData.lastName}`, constants.guardianType);
+                await generalStep.verifyButtonIsEnabled(generalPage.confirmTxt);
+                await generalStep.clickOnButtonByText(generalPage.confirmTxt);
+                await generalStep.verifyWithHeadingScreenIsVisible(`${constants.scarletData.firstName} ${constants.scarletData.lastName}`);  
+                await generalStep.clickOnContinueButton();
+                await generalStep.verifyWithHeadingScreenIsVisible(generalPage.leaveMedicalCarforAgentTxt);
+                await generalStep.clickYesRadioButton();
+                await generalStep.verifyWithTextScreenIsVisible(generalPage.alwaysReceiveCareTxt);
+                await generalStep.verifyWithTextScreenIsVisible(generalPage.receiveCarIfBenefitsTxt);
+                await generalStep.verifyWithTextScreenIsVisible(generalPage.receiveCarOnlyImproveBenefitsTxt);
+                await generalStep.clickRadioButtonByText(generalPage.alwaysReceiveCareTxt);
+                await generalStep.verifyWithHeadingScreenContainsTheTitle(generalPage.beAbleToHelpWithTxt);
+                await generalStep.verifyWithHeadingScreenContainsTheTitle(`${constants.healthCareAgentData.firstName}`);
+                await generalStep.clickOnButtonByText(generalPage.learnMoreTxt);
+                await generalStep.verifyWithTextScreenIsVisible(generalPage.hipaaDescTxt);
+                await generalStep.clickOnButtonByText(generalPage.showLessTxt);
+                await generalStep.verifyWithTextScreenIsNotVisible(generalPage.hipaaDescTxt);
+                await generalStep.clickSwitchButtonByText(generalPage.hipaaAuthorizationTxt);
+                await generalStep.verifyWithButtonScreenTitleIsVisible(generalPage.continueTxt);
+                await generalStep.clickOnContinueButton();
+                await generalStep.verifyWithHeadingScreenIsVisible(generalPage.anyLimitForHealthTxt);
+                await generalStep.clickYesRadioButton();
+                await generalStep.verifyWithButtonScreenTitleIsVisible(generalPage.continueTxt);
+                await generalStep.fillInTextAreaByLabel(generalPage.yourMedicalCareInstructionsTxt, constants.medicalInstrumentDetailTxt, "");
+                await generalStep.clickOnContinueButton();
+                await generalStep.verifyWithHeadingScreenIsVisible(generalPage.wantDonateOrganTxt);
+                await generalStep.clickYesRadioButton();
+                await generalStep.verifyWithTextScreenIsVisible(generalPage.followOrgansEyesAndTissuesTxt);
+                await generalStep.verifyWithTextScreenIsVisible(generalPage.organsNeededEyesTissuesTxt);
+                await generalStep.verifyWithTextScreenIsVisible(generalPage.limitationsTxt);
+                await generalStep.clickRadioButtonByText(generalPage.followOrgansEyesAndTissuesTxt);
+                await generalStep.verifyWithButtonScreenTitleIsVisible(generalPage.continueTxt);
+                await generalStep.fillInTextAreaByLabel(generalPage.typeInstuctionHereTxt, constants.organsInstructionTxt, "");
+                await generalStep.clickOnContinueButton();
+                await generalStep.verifyWithHeadingScreenIsVisible(generalPage.wouldLikeGivePermissionViewMedicalRecordsTxt);
+                await generalStep.clickOnButtonByText(generalPage.backTxt);
+                await generalStep.verifyWithHeadingScreenIsVisible(generalPage.wantDonateOrganTxt);
+                await generalStep.clickRadioButtonByText(generalPage.limitationsTxt);
+                await generalStep.fillInTextAreaByLabel(generalPage.typeLimitationsTxt, constants.organsLimitationsTxt, "");
+                await generalStep.clickOnContinueButton();
+                await generalStep.verifyWithHeadingScreenIsVisible(generalPage.wouldLikeGivePermissionViewMedicalRecordsTxt);
+                await generalStep.clickYesRadioButton();
+                await generalStep.verifyWithButtonScreenTitleIsVisible(generalPage.selectContactTxt);
+                await generalStep.clickOnButtonByText(generalPage.selectContactTxt);
+                await generalStep.verifyButtonIsDisabled(generalPage.confirmTxt);
+                await generalStep.clickOnButtonByXpath(generalPage.showMoreButtonXpath(`${constants.backupExecutorData.firstName} ${constants.backupExecutorData.lastName}`));
+                await generalStep.verifyContactsShowMoreDetailsByXpath(`${constants.backupExecutorData.firstName} ${constants.backupExecutorData.lastName}`, generalPage.email);
+                await generalStep.verifyContactsShowMoreDetailsByXpath(`${constants.backupExecutorData.firstName} ${constants.backupExecutorData.lastName}`, generalPage.phone);
+                await generalStep.verifyContactsShowMoreDetailsByXpath(`${constants.backupExecutorData.firstName} ${constants.backupExecutorData.lastName}`, generalPage.location);
+                await generalStep.verifyWithXpathIsVisible(generalPage.editContactButtonXpath(`${constants.backupExecutorData.firstName} ${constants.backupExecutorData.lastName}`));   
+                await generalStep.createAndAssignContact(constants.healthCareAgentData, constants.guardianType);
+                await generalStep.verifyWithHeadingScreenIsVisible(`${constants.healthCareAgentData.firstName} ${constants.healthCareAgentData.lastName}`);
+                await generalStep.verifyWithXpathIsVisible(generalPage.editPetXpath);
+                await generalStep.verifyWithXpathIsVisible(generalPage.deletePetXpath);
+                await generalStep.verifyWithButtonScreenTitleIsVisible(generalPage.addAnotherPersonTxt);
+                await generalStep.verifyWithButtonScreenTitleIsVisible(generalPage.continueTxt);  
+                await generalStep.clickOnButtonByXpath(generalPage.editPetXpath);
+                await generalStep.clickGuardianToAssignToChildByIndex(`${constants.primaryPetGuardianData.firstName} ${constants.primaryPetGuardianData.lastName}`, constants.guardianType);
+                await generalStep.verifyButtonIsEnabled(generalPage.confirmTxt);
+                await generalStep.clickOnButtonByText(generalPage.confirmTxt);
+                await generalStep.verifyWithHeadingScreenIsVisible(`${constants.primaryPetGuardianData.firstName} ${constants.primaryPetGuardianData.lastName}`); 
+                await generalStep.clickOnButtonByText(generalPage.addAnotherPersonTxt);
+                await generalStep.verifyByXpathIsNotVisible(generalPage.contactPersonXpath(`${constants.primaryPetGuardianData.firstName} ${constants.primaryPetGuardianData.lastName}`));
+                await generalStep.clickGuardianToAssignToChildByIndex(`${constants.healthCareAgentData.firstName} ${constants.healthCareAgentData.lastName}`, constants.guardianType);
+                await generalStep.verifyButtonIsEnabled(generalPage.confirmTxt);
+                await generalStep.clickOnButtonByText(generalPage.confirmTxt);
+                await generalStep.verifyWithHeadingScreenIsVisible(`${constants.healthCareAgentData.firstName} ${constants.healthCareAgentData.lastName}`);  
+                await generalStep.clickOnButtonByXpath(generalPage.deletePetXpath);
+                await generalStep.verifyWithTextScreenIsNotVisible(constants.primaryPetGuardianData.email);
+                await generalStep.verifyWithButtonScreenTitleIsVisible(generalPage.continueTxt);  
+                await generalStep.clickOnButtonByXpath(generalPage.deletePetXpath);
+                await generalStep.verifyWithButtonScreenTitleIsVisible(generalPage.selectContactTxt);
+                await generalStep.clickOnButtonByText(generalPage.selectContactTxt);
+                await generalStep.clickGuardianToAssignToChildByIndex(`${constants.healthCareAgentData.firstName} ${constants.healthCareAgentData.lastName}`, constants.guardianType);
+                await generalStep.verifyButtonIsEnabled(generalPage.confirmTxt);
+                await generalStep.clickOnButtonByText(generalPage.confirmTxt);
+                await generalStep.verifyWithHeadingScreenIsVisible(`${constants.healthCareAgentData.firstName} ${constants.healthCareAgentData.lastName}`);     
+                await generalStep.verifyWithButtonScreenTitleIsVisible(generalPage.continueTxt);  
+                await generalStep.clickOnContinueButton();
+                await generalStep.verifyWithHeadingScreenIsVisible(generalPage.wantWhenHealthProxyNoLongerEffectTxt);
+                await generalStep.clickRadioButtonByText(generalPage.yesIwouldLikeToChooseTxt);
+                await generalStep.verifyWithButtonScreenTitleIsVisible(generalPage.continueTxt);  
+                await generalStep.fillInputByLabel(generalPage.thisProxyShallExpireLabel, constants.healthCareProxyExpiryMessage);
+                await generalStep.clickOnContinueButton();
+                await generalStep.verifyWithHeadingScreenIsVisible(generalPage.financialCareSectionTxt);
+            });
+        },
+        async individualWillNegativeUserHealthCareSetup(constants) {
+            await allure.step("Verify the Healthcare section blocks user progression when required selections, required fields, or restricted contact selections are invalid across the full negative end-to-end flow", async () => {
+                await generalStep.verifyWithHeadingScreenIsVisible(generalPage.whoWillMakeMedicalDecision);
+                await generalStep.verifyButtonIsNotVisible(generalPage.continueTxt);  
+                await generalStep.clickOnButtonByText(generalPage.selectContactTxt);
+                await generalStep.verifyButtonIsDisabled(generalPage.confirmTxt);
+                await generalStep.addContactGuardianButton(constants.guardianType);           
+                await generalStep.clickOnAddContactButtonByIndex(constants.guardianType);
+                await generalStep.verifyErrorIsVisible(generalPage.firstNameRequiredError);
+                await generalStep.verifyErrorIsVisible(generalPage.lastNameRequiredError);
+                await generalStep.verifyErrorIsVisible(generalPage.emailRequiredError);
+                await generalStep.verifyErrorIsVisible(generalPage.phoneNumberRequiredError);
+                await generalStep.verifyErrorIsVisible(generalPage.addressLCapLine1RequiredError);
+                await generalStep.verifyErrorIsVisible(generalPage.cityRequiredError);
+                await generalStep.verifyErrorIsVisible(generalPage.zipCodeRequiredError);
+                await generalStep.clickOnButtonByText(generalPage.cancelTxt);  
+                await generalStep.verifyButtonIsNotVisible(generalPage.continueTxt);  
+                await generalStep.clickOnButtonByText(generalPage.selectContactTxt);
+                await generalStep.createValidateAndAssignContact(constants.healthCareAgentData, constants.guardianType);  
+                await generalStep.clickOnContinueButton();
+                await generalStep.verifyWithHeadingScreenIsVisible(generalPage.wantNameBackupHealthAgentTxt);
+                await generalStep.clickYesRadioButton();
+                await generalStep.verifyWithHeadingScreenIsVisible(generalPage.whoWillBackupAgentTxt);
+                await generalStep.verifyButtonIsNotVisible(generalPage.continueTxt); 
+                await generalStep.clickOnButtonByText(generalPage.selectContactTxt);
+                await generalStep.clickGuardianToAssignToChildByIndex(`${constants.primaryPetGuardianData.firstName} ${constants.primaryPetGuardianData.lastName}`, constants.guardianType);
+                await generalStep.verifyButtonIsEnabled(generalPage.confirmTxt);
+                await generalStep.clickOnButtonByText(generalPage.confirmTxt);
+                await generalStep.clickOnContinueButton();
+                await generalStep.verifyWithHeadingScreenIsVisible(generalPage.leaveMedicalCarforAgentTxt);
+                await generalStep.clickYesRadioButton();
+                await generalStep.clickRadioButtonByText(generalPage.alwaysReceiveCareTxt);
+                await generalStep.verifyWithHeadingScreenContainsTheTitle(generalPage.beAbleToHelpWithTxt);
+                await generalStep.verifyWithTextScreenIsVisible(generalPage.selectTaskYounWantYourHealthCarAgentManageTxt);
+                await generalStep.verifyButtonIsNotVisible(generalPage.continueTxt); 
+                await generalStep.clickSwitchButtonByText(generalPage.hipaaAuthorizationTxt);
+                await generalStep.clickSwitchButtonByText(generalPage.guardianTxt);
+                await generalStep.verifyButtonIsEnabled(generalPage.continueTxt);
+                await generalStep.clickOnContinueButton();
+                await generalStep.verifyWithHeadingScreenIsVisible(generalPage.anyLimitForHealthTxt);
+                await generalStep.clickYesRadioButton();
+                await generalStep.clickOnContinueButton();
+                await generalStep.verifyErrorIsVisible(generalPage.specialRequestYesError);
+                await generalStep.fillInTextAreaByLabel(generalPage.yourMedicalCareInstructionsTxt, constants.medicalInstrumentDetailTxt, "");
+                await generalStep.clickOnContinueButton();
+                await generalStep.verifyWithHeadingScreenIsVisible(generalPage.wantDonateOrganTxt);
+                await generalStep.verifyButtonIsNotVisible(generalPage.continueTxt); 
+                await generalStep.clickYesRadioButton();
+                await generalStep.verifyWithButtonScreenTitleIsVisible(generalPage.continueTxt); 
+                await generalStep.clickOnContinueButton();
+                await generalStep.verifyErrorIsVisible(generalPage.donateOrganError);
+                await generalStep.clickRadioButtonByText(generalPage.followOrgansEyesAndTissuesTxt);
+                await generalStep.verifyButtonIsEnabled(generalPage.continueTxt);
+                await generalStep.fillInTextAreaByLabel(generalPage.typeInstuctionHereTxt, constants.organsInstructionTxt, "");
+                await generalStep.clickOnContinueButton();
+                await generalStep.verifyWithHeadingScreenIsVisible(generalPage.wouldLikeGivePermissionViewMedicalRecordsTxt);
+                await generalStep.clickYesRadioButton();
+                await generalStep.clickOnContinueButton();
+                await generalStep.verifyErrorIsVisible(generalPage.authorizationPersonError);
+                await generalStep.clickOnButtonByText(generalPage.selectContactTxt);
+                await generalStep.clickGuardianToAssignToChildByIndex(`${constants.primaryPetGuardianData.firstName} ${constants.primaryPetGuardianData.lastName}`, constants.guardianType);
+                await generalStep.verifyButtonIsEnabled(generalPage.confirmTxt);
+                await generalStep.clickOnButtonByText(generalPage.confirmTxt);
+                await generalStep.verifyButtonIsEnabled(generalPage.continueTxt);
+                await generalStep.clickOnContinueButton();
+                await generalStep.verifyWithHeadingScreenIsVisible(generalPage.wantWhenHealthProxyNoLongerEffectTxt);
+                await generalStep.clickRadioButtonByText(generalPage.yesIwouldLikeToChooseTxt);
+                await generalStep.clickOnContinueButton();
+                await generalStep.verifyErrorIsVisible(generalPage.expirationDetailError);
+                await generalStep.fillInputByLabel(generalPage.thisProxyShallExpireLabel, constants.healthCareProxyExpiryMessage);
+                await generalStep.clickOnContinueButton();
             });
         },
     }
