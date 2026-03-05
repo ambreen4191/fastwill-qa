@@ -312,7 +312,7 @@ describe('Regression Tests', () => {
         await generalStep.unCheckedAcceptTermsAndConditions();
 
     });
-    test('TC_010 - Trust Creation – Basic Section (Individual Trust) – Verify complete Individual Trust Basic section flow including address, DOB, children logic, trustee conditional flow, successor trustee, pet nomination, guardian nomination, pet reward funding, and completion logic.', async ({ page }) => {
+    test('TC_010 - Trust Creation (Positive) – Basic Section (Individual Trust) – Verify complete Individual Trust Basic section flow including address, DOB, children logic, trustee conditional flow, successor trustee, pet nomination, guardian nomination, pet reward funding, and completion logic.', async ({ page }) => {
         const email = getRandomEmail();
         const smokeStep = smokeSteps(page)
         const regressionStep = regressionSteps(page);
@@ -321,7 +321,7 @@ describe('Regression Tests', () => {
         await regressionStep.individualTrustUserBasicAddressToConservatorSetup(constants);
 
     });
-    test('TC_011 - Trust Creation – Basic Section (Individual Trust) – Verify system blocks progression and shows proper validation messages when required fields, address details, contact details, trustee details, guardian details, and funding inputs are invalid or incomplete.', async ({ page }) => {
+    test('TC_011 - Trust Creation (Negative) – Basic Section (Individual Trust) – Verify system blocks progression and shows proper validation messages when required fields, address details, contact details, trustee details, guardian details, and funding inputs are invalid or incomplete.', async ({ page }) => {
         const email = getRandomEmail();
         const smokeStep = smokeSteps(page)
         const regressionStep = regressionSteps(page);
@@ -330,7 +330,7 @@ describe('Regression Tests', () => {
         await regressionStep.individualTrustUserNegativeBasicAddressToConservatorSetup(constants);
 
     });
-    test('TC_012 - Will Creation – Assets Section – Ensure user can successfully complete entire Assets flow from Intro screen to Backup Residuary with all conditional scenarios (YES/NO), validations, Add/Edit/Delete, distribution types', async ({ page }) => {
+    test('TC_012 - Trust Creation – Assets Section – Ensure user can successfully complete entire Assets flow from Intro screen to Backup Residuary with all conditional scenarios (YES/NO), validations, Add/Edit/Delete, distribution types', async ({ page }) => {
         const email = getRandomEmail();
         const smokeStep = smokeSteps(page)
         const regressionStep = regressionSteps(page);
@@ -340,7 +340,7 @@ describe('Regression Tests', () => {
         await regressionStep.individualTrustUserAssetSetup(constants);
 
     });
-    test('TC_013 - Will Creation – Arrangements Section – Verify complete Arrangements section end-to-end including Conservator contact modal actions (Create, Select, Edit, Delete, See More) and all conditional flows', async ({ page }) => {
+    test('TC_013 - Trust Creation (Positive) – Arrangements Section – Verify complete Arrangements section end-to-end including Conservator contact modal actions (Create, Select, Edit, Delete, See More) and all conditional flows', async ({ page }) => {
         const email = getRandomEmail();
         const smokeStep = smokeSteps(page)
         const regressionStep = regressionSteps(page);
@@ -351,7 +351,7 @@ describe('Regression Tests', () => {
         await regressionStep.individualTrustUserArrangmentSetup(constants);
 
     });
-    test('TC_014 - Will Creation – Arrangement Section – Verify Arrangement section validation behavior, disabled states, contact modal validations, and conditional dependency handling', async ({ page }) => {
+    test('TC_014 - Trust Creation (Negative) – Arrangement Section – Verify Arrangement section validation behavior, disabled states, contact modal validations, and conditional dependency handling', async ({ page }) => {
         const email = getRandomEmail();
         const smokeStep = smokeSteps(page);
         const regressionStep = regressionSteps(page);
@@ -362,7 +362,7 @@ describe('Regression Tests', () => {
         await regressionStep.individualTrustNegativeUserArrangmentSetup(constants);
 
     });
-    test('TC_015 - Healthcare Complete Flow – Verify user can complete full Healthcare section including primary agent, backup agent, instructions, permissions, limits, organ donation, authorization, expiration, branching logic, validations, and navigation', async ({ page }) => {
+    test('TC_015 - Healthcare Complete Flow (Positive) – Verify user can complete full Healthcare section including primary agent, backup agent, instructions, permissions, limits, organ donation, authorization, expiration, branching logic, validations, and navigation', async ({ page }) => {
         const email = getRandomEmail();
         const smokeStep = smokeSteps(page)
         const regressionStep = regressionSteps(page);
@@ -416,7 +416,7 @@ describe('Regression Tests', () => {
         await generalStep.clickOnButtonByText(generalPage.viewDashBoardTxt);
 
     });
-    test('TC_019 - Basic Section Complete End-to-End Flow – Verify complete Basic section flow from Address → Children → Guardian → Conservator → Pets → Reward → Healthcare', async ({ page }) => {
+    test('TC_019 - Basic Section Complete End-to-End Flow (Positive) – Verify complete Basic section flow from Address → Children → Guardian → Conservator → Pets → Reward → Healthcare', async ({ page }) => {
         const email = getRandomEmail();
         const smokeStep = smokeSteps(page);
         const regressionStep = regressionSteps(page);
@@ -425,7 +425,7 @@ describe('Regression Tests', () => {
         await regressionStep.individualWillUserBasicAddressToConservatorSetup(constants);
 
     });
-    test('TC_020 - Basic Section Complete Validation End-to-End – Verify system prevents progression when required fields missing, invalid, or selections not made throughout full flow', async ({ page }) => {
+    test('TC_020 - Basic Section Complete Validation End-to-End (Negative) – Verify system prevents progression when required fields missing, invalid, or selections not made throughout full flow', async ({ page }) => {
         const email = getRandomEmail();
         const smokeStep = smokeSteps(page)
         const regressionStep = regressionSteps(page);
@@ -434,7 +434,7 @@ describe('Regression Tests', () => {
         await regressionStep.individualWillUserNegativeBasicAddressToConservatorSetup(constants);
 
     });
-    test('TC_021 - Will – Asset Section – Verify user can complete full Asset section by selecting YES paths and adding entries successfully', async ({ page }) => {
+    test('TC_021 - Will – Asset Section (Positive) – Verify user can complete full Asset section by selecting YES paths and adding entries successfully', async ({ page }) => {
         const email = getRandomEmail();
         const smokeStep = smokeSteps(page);
         const regressionStep = regressionSteps(page);
@@ -444,7 +444,7 @@ describe('Regression Tests', () => {
         await regressionStep.individualWillUserAssetSetup(constants, generalPage.howLongbeneficliveAfterPasstoInheritTxt);
 
     });
-    test('TC_022 - Will – Asset Section – Verify validation messages, distribution rules, and required field enforcement', async ({ page }) => {
+    test('TC_022 - Will – Asset Section (Negative) – Verify validation messages, distribution rules, and required field enforcement', async ({ page }) => {
         const email = getRandomEmail();
         const smokeStep = smokeSteps(page);
         const regressionStep = regressionSteps(page);
@@ -455,7 +455,7 @@ describe('Regression Tests', () => {
         await regressionStep.individualWillNegativeUserAssetSetup(constants, generalPage.howLongbeneficliveAfterPasstoInheritTxt);
 
     });
-    test('TC_023 - Arrangement Section Full Flow with Branch Verification – Verify Arrangement section including Yes/No redirection logic and full Select Contact validations', async ({ page }) => {
+    test('TC_023 - Arrangement Section Full Flow with Branch Verification (Positive) – Verify Arrangement section including Yes/No redirection logic and full Select Contact validations', async ({ page }) => {
         const email = getRandomEmail();
         const smokeStep = smokeSteps(page);
         const regressionStep = regressionSteps(page);
@@ -466,7 +466,7 @@ describe('Regression Tests', () => {
         await regressionStep.individualWillUserArrangmentSetup(constants);
 
     });
-    test('TC_024 - Arrangement Section Full Flow with Branch Verification – Verify full Arrangement flow including branching logic, required fields, contact modal validations, dropdown logic and format validations', async ({ page }) => {
+    test('TC_024 - Arrangement Section Full Flow with Branch Verification (Negative) – Verify full Arrangement flow including branching logic, required fields, contact modal validations, dropdown logic and format validations', async ({ page }) => {
         const email = getRandomEmail();
         const smokeStep = smokeSteps(page);
         const regressionStep = regressionSteps(page);
@@ -478,23 +478,58 @@ describe('Regression Tests', () => {
         await regressionStep.individualWillNegativeUserArrangmentSetup(constants);
 
     });
-    test.only('TC_025 - Healthcare – Verify user completes the full Healthcare section successfully with all positive scenarios including intro auto-move, primary contact selection, create new contact, edit, delete, reselect, backup contact selection, medical care instructions, permissions, limits, organ donation, authorized persons, expiration, and final redirect to Financial Care', async ({ page }) => {
+    test('TC_025 - Healthcare (Positive) – Verify user completes the full Healthcare section successfully with all positive scenarios including intro auto-move, primary contact selection, create new contact, edit, delete, reselect, backup contact selection, medical care instructions, permissions, limits, organ donation, authorized persons, expiration, and final redirect to Financial Care', async ({ page }) => {
         const email = getRandomEmail();
         const smokeStep = smokeSteps(page);
         const regressionStep = regressionSteps(page);
-        const generalStep = generalSteps(page);
-
-        // await generalStep.openHomePage();
-        // await generalStep.clickOnLoginInAnchor();
-        // await generalStep.enterUserEmail("ambreeny.qat123+1772658823177@gmail.com");
-        // await generalStep.enterUserPassword("Test@123");
-        // await generalStep.clickOnLogInButton();
 
         await smokeStep.signupIndividualWillUsers(constants, email);
         await regressionStep.individualWillUserNegativeBasicAddressToConservatorSetup(constants);
         await regressionStep.individualWillUserAssetSetup(constants, generalPage.howLongbeneficliveAfterPasstoInheritTxt);
         await regressionStep.individualWillUserArrangmentSetup(constants);
         await regressionStep.individualWillUserHealthCareSetup(constants);
+
+    });
+    test('TC_026 - Healthcare (Negative) – Verify the Healthcare section blocks user progression when required selections, required fields, or restricted contact selections are invalid across the full negative end-to-end flow', async ({ page }) => {
+        const email = getRandomEmail();
+        const smokeStep = smokeSteps(page);
+        const regressionStep = regressionSteps(page);
+
+        await smokeStep.signupIndividualWillUsers(constants, email);
+        await regressionStep.individualWillUserNegativeBasicAddressToConservatorSetup(constants);
+        await regressionStep.individualWillUserAssetSetup(constants, generalPage.howLongbeneficliveAfterPasstoInheritTxt);
+        await regressionStep.individualWillNegativeUserArrangmentSetup(constants);
+        await regressionStep.individualWillNegativeUserHealthCareSetup(constants);
+
+    });
+    test('TC_027 - Financial Care Will – End to End (Positive) – Verify user can complete Financial Care section successfully (covers valid YES and NO scenarios/branches)', async ({ page }) => {
+        const email = getRandomEmail();
+        const smokeStep = smokeSteps(page)
+        const regressionStep = regressionSteps(page);
+        const generalStep = generalSteps(page);
+
+        await smokeStep.signupIndividualWillUsers(constants, email);
+        await regressionStep.individualWillUserNegativeBasicAddressToConservatorSetup(constants);
+        await regressionStep.individualWillUserAssetSetup(constants, generalPage.howLongbeneficliveAfterPasstoInheritTxt);
+        await regressionStep.individualWillUserArrangmentSetup(constants);
+        await regressionStep.individualWillUserHealthCareSetup(constants);
+        await regressionStep.individualTrustUserFinanceCareSectionSetup(constants);
+        await generalStep.clickOnButtonByText(generalPage.viewDashBoardTxt);
+
+    });
+    test.only('TC_028 - Financial Care Will – End to End (Negative) – Verify validations, required selections, and NO-branch sequencing work correctly', async ({ page }) => {
+        const email = getRandomEmail();
+        const smokeStep = smokeSteps(page)
+        const regressionStep = regressionSteps(page);
+        const generalStep = generalSteps(page);
+
+        await smokeStep.signupIndividualWillUsers(constants, email);
+        await regressionStep.individualWillUserNegativeBasicAddressToConservatorSetup(constants);
+        await regressionStep.individualWillUserAssetSetup(constants, generalPage.howLongbeneficliveAfterPasstoInheritTxt);
+        await regressionStep.individualWillNegativeUserArrangmentSetup(constants);
+        await regressionStep.individualWillNegativeUserHealthCareSetup(constants);
+        await regressionStep.individualWillUserNegativeFinanceCareSectionSetup(constants);
+        await generalStep.clickOnButtonByText(generalPage.viewDashBoardTxt);
 
     });
 
