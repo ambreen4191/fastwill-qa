@@ -459,6 +459,7 @@ describe('Regression Tests', () => {
         const email = getRandomEmail();
         const smokeStep = smokeSteps(page);
         const regressionStep = regressionSteps(page);
+        const generalStep = generalSteps(page);
 
         await smokeStep.signupIndividualWillUsers(constants, email);
         await regressionStep.individualWillUserNegativeBasicAddressToConservatorSetup(constants);
@@ -470,7 +471,6 @@ describe('Regression Tests', () => {
         const email = getRandomEmail();
         const smokeStep = smokeSteps(page);
         const regressionStep = regressionSteps(page);
-        const generalStep = generalSteps(page);
 
         await smokeStep.signupIndividualWillUsers(constants, email);
         await regressionStep.individualWillUserNegativeBasicAddressToConservatorSetup(constants);
@@ -494,6 +494,7 @@ describe('Regression Tests', () => {
         const email = getRandomEmail();
         const smokeStep = smokeSteps(page);
         const regressionStep = regressionSteps(page);
+        const generalStep = generalSteps(page);
 
         await smokeStep.signupIndividualWillUsers(constants, email);
         await regressionStep.individualWillUserNegativeBasicAddressToConservatorSetup(constants);
@@ -517,7 +518,7 @@ describe('Regression Tests', () => {
         await generalStep.clickOnButtonByText(generalPage.viewDashBoardTxt);
 
     });
-    test.only('TC_028 - Financial Care Will – End to End (Negative) – Verify validations, required selections, and NO-branch sequencing work correctly', async ({ page }) => {
+    test('TC_028 - Financial Care Will – End to End (Negative) – Verify validations, required selections, and NO-branch sequencing work correctly', async ({ page }) => {
         const email = getRandomEmail();
         const smokeStep = smokeSteps(page)
         const regressionStep = regressionSteps(page);

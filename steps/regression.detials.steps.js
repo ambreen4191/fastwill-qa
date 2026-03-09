@@ -487,14 +487,14 @@ export const regressionSteps = (page) => {
                 await generalStep.clickYesRadioButton();
                 await generalStep.fillInputByLabel(generalPage.howMuchForBondTxt, constants.hundredThousand);
                 await generalStep.clickOnContinueButton();
-                await generalStep.verifyWithHeadingScreenIsVisible(generalPage.wantToMonitorTxt)
-                await generalStep.clickYesRadioButton();
-                await generalStep.verifyWithHeadingScreenIsVisible(generalPage.whoWouldLikeNameasMonitorTxt)
-                await generalStep.clickOnButtonByText(generalPage.selectContactTxt)
-                await generalStep.clickGuardianToAssignToChildByIndex(`${constants.primaryPetGuardianData.firstName} ${constants.primaryPetGuardianData.lastName}`, constants.guardianType);
-                await generalStep.verifyButtonIsEnabled(generalPage.confirmTxt);
-                await generalStep.clickOnButtonByText(generalPage.confirmTxt);
-                await generalStep.clickOnContinueButton();
+                // await generalStep.verifyWithHeadingScreenIsVisible(generalPage.wantToMonitorTxt)
+                // await generalStep.clickYesRadioButton();
+                // await generalStep.verifyWithHeadingScreenIsVisible(generalPage.whoWouldLikeNameasMonitorTxt)
+                // await generalStep.clickOnButtonByText(generalPage.selectContactTxt)
+                // await generalStep.clickGuardianToAssignToChildByIndex(`${constants.primaryPetGuardianData.firstName} ${constants.primaryPetGuardianData.lastName}`, constants.guardianType);
+                // await generalStep.verifyButtonIsEnabled(generalPage.confirmTxt);
+                // await generalStep.clickOnButtonByText(generalPage.confirmTxt);
+                // await generalStep.clickOnContinueButton();
                 await generalStep.verifyWithHeadingScreenIsVisible(generalPage.wantNameConservatorEstateTxt);
                 await generalStep.clickYesRadioButton();
                 await generalStep.clickOnButtonByText(generalPage.selectContactTxt);
@@ -563,16 +563,16 @@ export const regressionSteps = (page) => {
                 await generalStep.verifyErrorIsVisible(generalPage.invalidBondAmountError);
                 await generalStep.fillInputByLabel(generalPage.howMuchForBondTxt, constants.hundredThousand);
                 await generalStep.clickOnContinueButton();
-                await generalStep.verifyWithHeadingScreenIsVisible(generalPage.wantToMonitorTxt);
-                await generalStep.clickYesRadioButton();
-                await generalStep.verifyWithHeadingScreenIsVisible(generalPage.whoWouldLikeNameasMonitorTxt);
-                await generalStep.verifyButtonIsNotVisible(generalPage.continueTxt);
-                await generalStep.clickOnButtonByText(generalPage.selectContactTxt);
-                await generalStep.verifyButtonIsDisabled(generalPage.confirmTxt);
-                await generalStep.createValidateAndAssignContact(constants.monitorData);
-                await generalStep.verifyWithButtonScreenTitleIsVisible(generalPage.continueTxt);
-                await generalStep.verifyButtonIsEnabled(generalPage.continueTxt);
-                await generalStep.clickOnContinueButton();
+                // await generalStep.verifyWithHeadingScreenIsVisible(generalPage.wantToMonitorTxt);
+                // await generalStep.clickYesRadioButton();
+                // await generalStep.verifyWithHeadingScreenIsVisible(generalPage.whoWouldLikeNameasMonitorTxt);
+                // await generalStep.verifyButtonIsNotVisible(generalPage.continueTxt);
+                // await generalStep.clickOnButtonByText(generalPage.selectContactTxt);
+                // await generalStep.verifyButtonIsDisabled(generalPage.confirmTxt);
+                // await generalStep.createValidateAndAssignContact(constants.monitorData);
+                // await generalStep.verifyWithButtonScreenTitleIsVisible(generalPage.continueTxt);
+                // await generalStep.verifyButtonIsEnabled(generalPage.continueTxt);
+                // await generalStep.clickOnContinueButton();
                 await generalStep.verifyWithHeadingScreenIsVisible(generalPage.wantNameConservatorEstateTxt);
                 await generalStep.clickYesRadioButton();
                 await generalStep.clickOnButtonByText(generalPage.selectContactTxt);
@@ -803,7 +803,10 @@ export const regressionSteps = (page) => {
                 await generalStep.verifyContactsShowMoreDetailsByXpath(`${constants.backupExecutorData.firstName} ${constants.backupExecutorData.lastName}`, generalPage.phone);
                 await generalStep.verifyContactsShowMoreDetailsByXpath(`${constants.backupExecutorData.firstName} ${constants.backupExecutorData.lastName}`, generalPage.location);
                 await generalStep.clickOnButtonByXpath(generalPage.editContactButtonXpath(`${constants.backupExecutorData.firstName} ${constants.backupExecutorData.lastName}`));
+                await page.waitForTimeout(500);
                 await generalStep.fillInputByLabel(generalPage.phone, constants.phone);
+                await generalStep.selectFromDropdownByGuardian(constants.backupExecutorData.state.substring(0, 5), constants.backupExecutorData.state);
+                await generalStep.fillInputByLabel(generalPage.zipCode, constants.backupExecutorData.zipCode);
                 await generalStep.clickOnAddContactButtonByIndex(constants.guardianType);
                 await generalStep.clickOnButtonByText(generalPage.selectContactTxt);
                 await generalStep.clickGuardianToAssignToChildByIndex(`${constants.backupExecutorData.firstName} ${constants.backupExecutorData.lastName}`, constants.guardianType);
@@ -848,6 +851,14 @@ export const regressionSteps = (page) => {
                 await generalStep.clickOnContinueButton();
                 await generalStep.verifyErrorIsVisible(generalPage.powerOfAttorneyError);
                 await generalStep.fillInTextAreaByLabel(generalPage.provideEvenOrDateLabel, constants.specialInstruction, "");
+                await generalStep.clickOnContinueButton();
+                await generalStep.verifyWithHeadingScreenIsVisible(generalPage.wantToMonitorTxt);
+                await generalStep.clickYesRadioButton();
+                await generalStep.verifyWithHeadingScreenIsVisible(generalPage.whoWouldLikeNameasMonitorTxt);
+                await generalStep.clickOnButtonByText(generalPage.selectContactTxt)
+                await generalStep.clickGuardianToAssignToChildByIndex(`${constants.primaryPetGuardianData.firstName} ${constants.primaryPetGuardianData.lastName}`, constants.guardianType);
+                await generalStep.verifyButtonIsEnabled(generalPage.confirmTxt);
+                await generalStep.clickOnButtonByText(generalPage.confirmTxt);
                 await generalStep.clickOnContinueButton();
             });
         },
@@ -914,6 +925,12 @@ export const regressionSteps = (page) => {
                 await generalStep.clickRadioButtonByText(generalPage.noTxt);
                 await generalStep.verifyWithHeadingScreenIsVisible(generalPage.pwrAtteroneyExpire);
                 await generalStep.clickRadioButtonByText(generalPage.noTxt);
+                await generalStep.verifyWithHeadingScreenIsVisible(generalPage.wantToMonitorTxt);
+                await generalStep.clickYesRadioButton();
+                await generalStep.verifyWithHeadingScreenIsVisible(generalPage.whoWouldLikeNameasMonitorTxt);
+                await generalStep.clickOnButtonByText(generalPage.selectContactTxt);
+                await generalStep.createValidateAndAssignContact(constants.monitorData, constants.guardianType);
+                await generalStep.clickOnContinueButton();
             });
         },
         async individualWillUserNegativeFinanceCareSectionSetup(constants) {
@@ -979,6 +996,12 @@ export const regressionSteps = (page) => {
                 await generalStep.clickRadioButtonByText(generalPage.noTxt);
                 await generalStep.verifyWithHeadingScreenIsVisible(generalPage.pwrAtteroneyExpire);
                 await generalStep.clickRadioButtonByText(generalPage.noTxt);
+                await generalStep.verifyWithHeadingScreenIsVisible(generalPage.wantToMonitorTxt);
+                await generalStep.clickYesRadioButton();
+                await generalStep.verifyWithHeadingScreenIsVisible(generalPage.whoWouldLikeNameasMonitorTxt);
+                await generalStep.clickOnButtonByText(generalPage.selectContactTxt);
+                await generalStep.createValidateAndAssignContact(constants.monitorData, constants.guardianType);
+                await generalStep.clickOnContinueButton();
             });
         },
         async individualWillUserBasicAddressToConservatorSetup(constants) {
@@ -1247,13 +1270,13 @@ export const regressionSteps = (page) => {
                 await generalStep.fillInputByLabel(generalPage.firstName, constants.scarletData.firstName);
                 await generalStep.fillInputByLabel(generalPage.lastName, constants.scarletData.lastName,);
                 await generalStep.fillInputByLabel(generalPage.email, constants.scarletData.email);
+                await generalStep.selectFromDropdownByGuardian(constants.scarletData.country.substring(0, 7), constants.scarletData.country, 1);
                 await generalStep.fillInputByLabel(generalPage.phone, constants.scarletData.phone,);
                 await generalStep.fillInputByLabel(generalPage.addressLine1, constants.scarletData.addressLine1, 1);
                 await generalStep.fillInputByLabel(generalPage.addressLine2, constants.scarletData.addressLine2, 1);
                 await generalStep.fillInputByLabel(generalPage.city, constants.scarletData.city, 1);
                 await generalStep.selectFromDropdownByGuardian(constants.scarletData.state.substring(0, 5), constants.scarletData.state, 1);
                 await generalStep.fillInputByLabel(generalPage.zipCode, constants.scarletData.zipCode);
-                await generalStep.selectFromDropdownByGuardian(constants.scarletData.country.substring(0, 7), constants.scarletData.country, 1);
                 await generalStep.clickOnAddContactButtonByIndex(constants.guardianType);
                 await generalStep.clickGuardianToAssignToChildByIndex(`${constants.scarletData.firstName} ${constants.scarletData.lastName}`, constants.guardianType);
                 await generalStep.clickOnAddContactButtonByIndex(constants.guardianType);
@@ -1516,7 +1539,10 @@ export const regressionSteps = (page) => {
                 await generalStep.verifyContactsShowMoreDetailsByXpath(`${constants.scarletData.firstName} ${constants.scarletData.lastName}`, generalPage.phone);
                 await generalStep.verifyContactsShowMoreDetailsByXpath(`${constants.scarletData.firstName} ${constants.scarletData.lastName}`, generalPage.location);
                 await generalStep.clickOnButtonByXpath(generalPage.editContactButtonXpath(`${constants.scarletData.firstName} ${constants.scarletData.lastName}`));
+                await page.waitForTimeout(500);
                 await generalStep.fillInputByLabel(generalPage.phone, constants.phone);
+                await generalStep.selectFromDropdownByGuardian(constants.scarletData.state.substring(0, 5), constants.scarletData.state);
+                await generalStep.fillInputByLabel(generalPage.zipCode, constants.scarletData.zipCode);
                 await generalStep.clickOnAddContactButtonByIndex(constants.guardianType);
                 await generalStep.clickOnButtonByText(generalPage.selectContactTxt);
                 await generalStep.clickOnButtonByXpath(generalPage.showMoreButtonXpath(`${constants.scarletData.firstName} ${constants.scarletData.lastName}`));
@@ -1535,42 +1561,46 @@ export const regressionSteps = (page) => {
                 await generalStep.clickOnContinueButton();
                 await generalStep.verifyWithHeadingScreenIsVisible(generalPage.shouldExecutorRequiredBond);
                 await generalStep.clickRadioButtonByText(generalPage.noTxt);
-                await generalStep.verifyWithHeadingScreenIsVisible(generalPage.wantToMonitorTxt);
-                await generalStep.clickOnButtonByText(generalPage.backTxt);
-                await generalStep.verifyWithHeadingScreenIsVisible(generalPage.shouldExecutorRequiredBond);
-                await generalStep.clickYesRadioButton();
-                await generalStep.fillInputByLabel(generalPage.howMuchForBondTxt, constants.hundredThousand);
-                await generalStep.clickOnContinueButton();
-                await generalStep.verifyWithHeadingScreenIsVisible(generalPage.wantToMonitorTxt);
-                await generalStep.clickRadioButtonByText(generalPage.noTxt);
-                await generalStep.verifyWithHeadingScreenIsVisible(generalPage.wantNameConservatorEstateTxt);
-                await generalStep.clickOnButtonByText(generalPage.backTxt);
-                await generalStep.verifyWithHeadingScreenIsVisible(generalPage.wantToMonitorTxt);
-                await generalStep.clickYesRadioButton();
-                await generalStep.verifyWithHeadingScreenIsVisible(generalPage.whoWouldLikeNameasMonitorTxt);
-                await generalStep.clickOnButtonByText(generalPage.selectContactTxt);
-                await generalStep.clickOnButtonByXpath(generalPage.showMoreButtonXpath(`${constants.backupExecutorData.firstName} ${constants.backupExecutorData.lastName}`));
-                await generalStep.verifyContactsShowMoreDetailsByXpath(`${constants.backupExecutorData.firstName} ${constants.backupExecutorData.lastName}`, generalPage.email);
-                await generalStep.verifyContactsShowMoreDetailsByXpath(`${constants.backupExecutorData.firstName} ${constants.backupExecutorData.lastName}`, generalPage.phone);
-                await generalStep.verifyContactsShowMoreDetailsByXpath(`${constants.backupExecutorData.firstName} ${constants.backupExecutorData.lastName}`, generalPage.location);
-                await generalStep.clickOnButtonByXpath(generalPage.editContactButtonXpath(`${constants.backupExecutorData.firstName} ${constants.backupExecutorData.lastName}`));
-                await generalStep.fillInputByLabel(generalPage.phone, constants.phone);
-                await generalStep.clickOnAddContactButtonByIndex(constants.guardianType);
-                await generalStep.clickOnButtonByText(generalPage.selectContactTxt);
-                await generalStep.clickOnButtonByXpath(generalPage.showMoreButtonXpath(`${constants.backupExecutorData.firstName} ${constants.backupExecutorData.lastName}`));
-                await generalStep.verifyContactsShowMoreDetailsByXpath(`${constants.backupExecutorData.firstName} ${constants.backupExecutorData.lastName}`, generalPage.phone);
-                await generalStep.createAndAssignContact(constants.monitorData, constants.guardianType);
-                await generalStep.clickOnButtonByXpath(generalPage.deletePetXpath);
-                await generalStep.verifyWithButtonScreenTitleIsVisible(generalPage.selectContactTxt);
-                await generalStep.clickOnButtonByText(generalPage.selectContactTxt);
-                await generalStep.clickOnButtonByXpath(generalPage.showMoreButtonXpath(`${constants.monitorData.firstName} ${constants.monitorData.lastName}`));
-                await generalStep.verifyContactsShowMoreDetailsByXpath(`${constants.monitorData.firstName} ${constants.monitorData.lastName}`, generalPage.email);
-                await generalStep.verifyContactsShowMoreDetailsByXpath(`${constants.monitorData.firstName} ${constants.monitorData.lastName}`, generalPage.phone);
-                await generalStep.verifyContactsShowMoreDetailsByXpath(`${constants.monitorData.firstName} ${constants.monitorData.lastName}`, generalPage.location);
-                await generalStep.clickGuardianToAssignToChildByIndex(`${constants.monitorData.firstName} ${constants.monitorData.lastName}`, constants.guardianType);
-                await generalStep.verifyButtonIsEnabled(generalPage.confirmTxt);
-                await generalStep.clickOnButtonByText(generalPage.confirmTxt);
-                await generalStep.clickOnContinueButton();
+
+                // removed these ones
+                // await generalStep.verifyWithHeadingScreenIsVisible(generalPage.wantToMonitorTxt);
+                // await generalStep.clickOnButtonByText(generalPage.backTxt);
+                // await generalStep.verifyWithHeadingScreenIsVisible(generalPage.shouldExecutorRequiredBond);
+                // await generalStep.clickYesRadioButton();
+                // await generalStep.fillInputByLabel(generalPage.howMuchForBondTxt, constants.hundredThousand);
+                // await generalStep.clickOnContinueButton();
+                // await generalStep.verifyWithHeadingScreenIsVisible(generalPage.wantToMonitorTxt);
+                // await generalStep.clickRadioButtonByText(generalPage.noTxt);
+                // await generalStep.verifyWithHeadingScreenIsVisible(generalPage.wantNameConservatorEstateTxt);
+                // await generalStep.clickOnButtonByText(generalPage.backTxt);
+                // await generalStep.verifyWithHeadingScreenIsVisible(generalPage.wantToMonitorTxt);
+                // await generalStep.clickYesRadioButton();
+                // await generalStep.verifyWithHeadingScreenIsVisible(generalPage.whoWouldLikeNameasMonitorTxt);
+                // await generalStep.clickOnButtonByText(generalPage.selectContactTxt);
+                // await generalStep.clickOnButtonByXpath(generalPage.showMoreButtonXpath(`${constants.backupExecutorData.firstName} ${constants.backupExecutorData.lastName}`));
+                // await generalStep.verifyContactsShowMoreDetailsByXpath(`${constants.backupExecutorData.firstName} ${constants.backupExecutorData.lastName}`, generalPage.email);
+                // await generalStep.verifyContactsShowMoreDetailsByXpath(`${constants.backupExecutorData.firstName} ${constants.backupExecutorData.lastName}`, generalPage.phone);
+                // await generalStep.verifyContactsShowMoreDetailsByXpath(`${constants.backupExecutorData.firstName} ${constants.backupExecutorData.lastName}`, generalPage.location);
+                // await generalStep.clickOnButtonByXpath(generalPage.editContactButtonXpath(`${constants.backupExecutorData.firstName} ${constants.backupExecutorData.lastName}`));
+                // await generalStep.fillInputByLabel(generalPage.phone, constants.phone);
+                // await generalStep.clickOnAddContactButtonByIndex(constants.guardianType);
+                // await generalStep.clickOnButtonByText(generalPage.selectContactTxt);
+                // await generalStep.clickOnButtonByXpath(generalPage.showMoreButtonXpath(`${constants.backupExecutorData.firstName} ${constants.backupExecutorData.lastName}`));
+                // await generalStep.verifyContactsShowMoreDetailsByXpath(`${constants.backupExecutorData.firstName} ${constants.backupExecutorData.lastName}`, generalPage.phone);
+                // await generalStep.createAndAssignContact(constants.monitorData, constants.guardianType);
+                // await generalStep.clickOnButtonByXpath(generalPage.deletePetXpath);
+                // await generalStep.verifyWithButtonScreenTitleIsVisible(generalPage.selectContactTxt);
+                // await generalStep.clickOnButtonByText(generalPage.selectContactTxt);
+                // await generalStep.clickOnButtonByXpath(generalPage.showMoreButtonXpath(`${constants.monitorData.firstName} ${constants.monitorData.lastName}`));
+                // await generalStep.verifyContactsShowMoreDetailsByXpath(`${constants.monitorData.firstName} ${constants.monitorData.lastName}`, generalPage.email);
+                // await generalStep.verifyContactsShowMoreDetailsByXpath(`${constants.monitorData.firstName} ${constants.monitorData.lastName}`, generalPage.phone);
+                // await generalStep.verifyContactsShowMoreDetailsByXpath(`${constants.monitorData.firstName} ${constants.monitorData.lastName}`, generalPage.location);
+                // await generalStep.clickGuardianToAssignToChildByIndex(`${constants.monitorData.firstName} ${constants.monitorData.lastName}`, constants.guardianType);
+                // await generalStep.verifyButtonIsEnabled(generalPage.confirmTxt);
+                // await generalStep.clickOnButtonByText(generalPage.confirmTxt);
+                // await generalStep.clickOnContinueButton();
+
+
                 await generalStep.verifyWithHeadingScreenIsVisible(generalPage.wantNameConservatorEstateTxt);
                 await generalStep.clickRadioButtonByText(generalPage.noTxt);
                 await generalStep.verifyWithHeadingScreenIsVisible(generalPage.wantNominateGuardianForSelfTxt);
@@ -1605,7 +1635,10 @@ export const regressionSteps = (page) => {
                 await generalStep.verifyContactsShowMoreDetailsByXpath(`${constants.backupExecutorData.firstName} ${constants.backupExecutorData.lastName}`, generalPage.phone);
                 await generalStep.verifyContactsShowMoreDetailsByXpath(`${constants.backupExecutorData.firstName} ${constants.backupExecutorData.lastName}`, generalPage.location);
                 await generalStep.clickOnButtonByXpath(generalPage.editContactButtonXpath(`${constants.backupExecutorData.firstName} ${constants.backupExecutorData.lastName}`));
+                await page.waitForTimeout(500);
                 await generalStep.fillInputByLabel(generalPage.phone, constants.phone);
+                await generalStep.selectFromDropdownByGuardian(constants.backupExecutorData.state.substring(0, 5), constants.backupExecutorData.state);
+                await generalStep.fillInputByLabel(generalPage.zipCode, constants.backupExecutorData.zipCode);
                 await generalStep.clickOnAddContactButtonByIndex(constants.guardianType);
                 await generalStep.clickOnButtonByText(generalPage.selectContactTxt);
                 await generalStep.clickOnButtonByXpath(generalPage.showMoreButtonXpath(`${constants.backupExecutorData.firstName} ${constants.backupExecutorData.lastName}`));
@@ -1661,7 +1694,10 @@ export const regressionSteps = (page) => {
                 await generalStep.verifyContactsShowMoreDetailsByXpath(`${constants.scarletData.firstName} ${constants.scarletData.lastName}`, generalPage.phone);
                 await generalStep.verifyContactsShowMoreDetailsByXpath(`${constants.scarletData.firstName} ${constants.scarletData.lastName}`, generalPage.location);
                 await generalStep.clickOnButtonByXpath(generalPage.editContactButtonXpath(`${constants.scarletData.firstName} ${constants.scarletData.lastName}`));
+                await page.waitForTimeout(500);
                 await generalStep.fillInputByLabel(generalPage.phone, constants.phone);
+                await generalStep.selectFromDropdownByGuardian(constants.backupExecutorData.state.substring(0, 5), constants.backupExecutorData.state);
+                await generalStep.fillInputByLabel(generalPage.zipCode, constants.backupExecutorData.zipCode);
                 await generalStep.clickOnAddContactButtonByIndex(constants.guardianType);
                 await generalStep.clickOnButtonByText(generalPage.selectContactTxt);
                 await generalStep.clickOnButtonByXpath(generalPage.showMoreButtonXpath(`${constants.scarletData.firstName} ${constants.scarletData.lastName}`));
@@ -1680,16 +1716,17 @@ export const regressionSteps = (page) => {
                 await generalStep.verifyErrorIsVisible(generalPage.bondAmounError);
                 await generalStep.fillInputByLabel(generalPage.howMuchForBondTxt, constants.hundredThousand);
                 await generalStep.clickOnContinueButton();
-                await generalStep.verifyWithHeadingScreenIsVisible(generalPage.wantToMonitorTxt);
-                await generalStep.clickRadioButtonByText(generalPage.noTxt);
-                await generalStep.verifyWithHeadingScreenIsVisible(generalPage.wantNameConservatorEstateTxt);
-                await generalStep.clickOnButtonByText(generalPage.backTxt);
-                await generalStep.verifyWithHeadingScreenIsVisible(generalPage.wantToMonitorTxt);
-                await generalStep.clickYesRadioButton();
-                await generalStep.verifyWithHeadingScreenIsVisible(generalPage.whoWouldLikeNameasMonitorTxt);
-                await generalStep.clickOnButtonByText(generalPage.selectContactTxt);
-                await generalStep.createValidateAndAssignContact(constants.monitorData, constants.guardianType);
-                await generalStep.clickOnContinueButton();
+                /** Removed these lines as this section has been removed */
+                // await generalStep.verifyWithHeadingScreenIsVisible(generalPage.wantToMonitorTxt);
+                // await generalStep.clickRadioButtonByText(generalPage.noTxt);
+                // await generalStep.verifyWithHeadingScreenIsVisible(generalPage.wantNameConservatorEstateTxt);
+                // await generalStep.clickOnButtonByText(generalPage.backTxt);
+                // await generalStep.verifyWithHeadingScreenIsVisible(generalPage.wantToMonitorTxt);
+                // await generalStep.clickYesRadioButton();
+                // await generalStep.verifyWithHeadingScreenIsVisible(generalPage.whoWouldLikeNameasMonitorTxt);
+                // await generalStep.clickOnButtonByText(generalPage.selectContactTxt);
+                // await generalStep.createValidateAndAssignContact(constants.monitorData, constants.guardianType);
+                // await generalStep.clickOnContinueButton();
                 await generalStep.verifyWithHeadingScreenIsVisible(generalPage.wantNameConservatorEstateTxt);
                 await generalStep.clickYesRadioButton()
                 await generalStep.verifyWithButtonScreenTitleIsVisible(generalPage.selectContactTxt);

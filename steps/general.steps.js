@@ -1171,12 +1171,13 @@ export const generalSteps = (page) => {
                 await expect(dropdownLocator).toBeVisible();
                 await dropdownLocator.fill(enterValue);
                 const dropdownContainer = page.locator(generalPage.dropdownXpath);
+                await page.waitForTimeout(1000);
                 await dropdownLocator.click();
                 const selectFromDropDown = dropdownContainer.locator(generalPage.selectStateFromDropdown(selectValue)).first();
                 await clickElement(selectFromDropDown);
             });
         },
-        
+
         async selectOtherCountryFromDropdown(enterValue, selectValue, index = 0) {
             await allure.step(`Select ${enterValue} from dropdown with placeholder ${selectValue}`, async () => {
                 const dropdownLocator = page.getByPlaceholder(getLocator(selectValue)).nth(index);
@@ -1194,13 +1195,13 @@ export const generalSteps = (page) => {
                 await this.fillInputByLabel(generalPage.firstName, data.firstName);
                 await this.fillInputByLabel(generalPage.lastName, data.lastName);
                 await this.fillInputByLabel(generalPage.email, data.email);
+                await this.selectFromDropdownByGuardian(data.country.substring(0, 7), data.country);
                 await this.fillInputByLabel(generalPage.phone, data.phone);
                 await this.fillInputByLabel(generalPage.addressLine1, data.addressLine1);
                 await this.fillInputByLabel(generalPage.addressLine2, data.addressLine2);
                 await this.fillInputByLabel(generalPage.city, data.city);
                 await this.selectFromDropdownByGuardian(data.state.substring(0, 5), data.state);
                 await this.fillInputByLabel(generalPage.zipCode, data.zipCode);
-                await this.selectFromDropdownByGuardian(data.country.substring(0, 7), data.country);
                 await this.clickOnAddContactButtonByIndex(guardianType);
                 await this.clickGuardianToAssignToChildByIndex(`${data.firstName} ${data.lastName}`, guardianType);
                 await this.clickOnAddContactButtonByIndex(guardianType);
@@ -1228,16 +1229,20 @@ export const generalSteps = (page) => {
                 await this.fillInputByLabel(generalPage.firstName, data.firstName);
                 await this.fillInputByLabel(generalPage.lastName, data.lastName);
                 await this.fillInputByLabel(generalPage.email, data.email);
+                await this.selectFromDropdownByGuardian(data.country.substring(0, 7), data.country);
+                if (otherCountry === constants.otherCountry) {
+                    await this.selectOtherCountryFromDropdown(otherCountry.substring(0, 4), otherCountry);
+                    await this.fillInputByLabel(generalPage.stateProvinceOptionalTxt, data.state);
+                    await this.fillInputByLabel(generalPage.postalCodeOptionalTxt, data.zipCode);
+                } else {
+                    await this.selectFromDropdownByGuardian(data.state.substring(0, 5), data.state);
+                    await this.fillInputByLabel(generalPage.zipCode, data.zipCode);
+
+                }
                 await this.fillInputByLabel(generalPage.phone, data.phone);
                 await this.fillInputByLabel(generalPage.addressLine1, data.addressLine1);
                 await this.fillInputByLabel(generalPage.addressLine2, data.addressLine2);
                 await this.fillInputByLabel(generalPage.city, data.city);
-                await this.selectFromDropdownByGuardian(data.state.substring(0, 5), data.state);
-                await this.fillInputByLabel(generalPage.zipCode, data.zipCode);
-                await this.selectFromDropdownByGuardian(data.country.substring(0, 7), data.country);
-                if (otherCountry === constants.otherCountry) {
-                    await this.selectOtherCountryFromDropdown(otherCountry.substring(0, 4), otherCountry);
-                }
                 await this.clickOnAddContactButtonByIndex(guardianType);
                 await this.clickGuardianToAssignToChildByIndex(`${data.firstName} ${data.lastName}`, guardianType);
                 await this.clickOnAddContactButtonByIndex(guardianType);

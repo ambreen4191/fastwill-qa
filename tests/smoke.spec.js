@@ -158,7 +158,7 @@ describe('Smoke Tests', () => {
         await generalStep.clickOnContinueButton();
         await generalStep.verifyWithHeadingScreenIsVisible(constants.headingFirstNameTxt);
         await generalStep.clickOnContinueButton();
-        await smokeStep.coupleTrustSpouseUserBasicAddressToConservatorSetup(constants)
+        await smokeStep.coupleTrustSpouseUserBasicAddressToConservatorSetup(constants);
         await smokeStep.coupleSpouseWillUserAssetSetup(constants);
         await smokeStep.individualWillUserArrangmentSetup(constants);
         await smokeStep.individualWillUserHealthCareSetup(constants);

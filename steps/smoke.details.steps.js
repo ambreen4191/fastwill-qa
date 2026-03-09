@@ -691,7 +691,7 @@ export const smokeSteps = (page) => {
                 await generalStep.clickRadioButtonByText(generalPage.valueOfAllAsset);
                 await generalStep.verifyWithHeadingScreenIsVisible(generalPage.provideDetailOfPropertyTxt);
                 await generalStep.clickOnAddPropertyButton();
-                await generalStep.addPropertyData(constants.primaryPetGuardianData);
+                await generalStep.addPropertyData(constants.propertySpouseData);
                 await generalStep.fillInputByLabelAndSelectFromDropdown(generalPage.fullNameLabel, `${constants.primaryPetGuardianData.firstName} ${constants.primaryPetGuardianData.lastName}`, "");
                 await generalStep.clickOnSaveButton();
                 await generalStep.clickOnContinueButton();
@@ -1114,21 +1114,12 @@ export const smokeSteps = (page) => {
             await allure.step("Legacy Contacts – Verify complete Legacy Contacts end-to-end flow", async () => {
                 await generalStep.clickSidBarAnchor(generalPage.legacyContactsTxt);
                 await generalStep.verifyWithTextContainsIsVisible(generalPage.addTrustedLegacyContactaccountTxt);
-                // await generalStep.inputByPlaceholder(generalPage.chooseContactPlaceHolderTxt, `${constants.backupPetGuardianData.firstName} ${constants.backupPetGuardianData.lastName}`);
-                // await generalStep.clickRadioButtonByText(`${constants.backupPetGuardianData.firstName} ${constants.backupPetGuardianData.lastName} (${constants.backupPetGuardianData.email})`);
-                // await generalStep.clickOnButtonByXpath(generalPage.sendInviteBtnXpath);
-                // await generalStep.verifyWithTextScreenIsVisible(generalPage.invitationSentSuccessTxt);
-                // await generalStep.verifyWithTextScreenIsVisible(constants.backupPetGuardianData.email);
                 const legacyEmail = getRandomEmail();
-                // await generalStep.inputByPlaceholder(generalPage.chooseContactPlaceHolderTxt, generalPage.otherEnterManuallyTxt);
-                // await generalStep.clickRadioButtonByText(generalPage.otherEnterManuallyTxt);
                 await generalStep.fillInputByLabel(generalPage.legacyContactFullnameLabel, constants.legacyContactFullname);
                 await generalStep.fillInputByLabel(generalPage.legacyContactEmailLabel, legacyEmail);
                 await generalStep.clickOnButtonByXpath(generalPage.sendInviteBtnXpath);
                 await generalStep.verifyWithTextScreenIsVisible(generalPage.invitationSentSuccessTxt);
                 await generalStep.verifyWithTextScreenIsVisible(legacyEmail);
-                // await generalStep.inputByPlaceholder(generalPage.chooseContactPlaceHolderTxt, generalPage.otherEnterManuallyTxt);
-                // await generalStep.clickRadioButtonByText(generalPage.otherEnterManuallyTxt);
                 await generalStep.fillInputByLabel(generalPage.legacyContactFullnameLabel, constants.legacyContactFullname);
                 await generalStep.fillInputByLabel(generalPage.legacyContactEmailLabel, legacyEmail);
                 await generalStep.clickOnButtonByXpath(generalPage.sendInviteBtnXpath);
@@ -1145,10 +1136,7 @@ export const smokeSteps = (page) => {
                 await generalStep.clickOnButtonByText(generalPage.getStartedNotarizingTxt)
                 await generalStep.verifyWithTextScreenIsVisible(generalPage.advanceCareDirectiveTxt);
                 await generalStep.verifyWithTextScreenIsVisible(generalPage.powerOfAttorneyTxt);
-                // await generalStep.clickRadioButtonByText(generalPage.wouldLiktoPurchase5Each);
-                // await generalStep.verifyWithTextContainsIsVisible(generalPage.twoProfessionalWitnessesTxt)
                 await generalStep.verifyWithTextScreenIsVisible(generalPage.estatePlanDocumenTxt);
-                // await generalStep.verifyWithTextContainsIsVisible(generalPage.notaryWitnessesTxt);
                 await generalStep.enterPaymentCardDetails()
                 await generalStep.verifyConfirmAndPayButtonIsEnabled();
                 await generalStep.clickOnButtonByText(generalPage.confirmAndPayBtnTxt);
@@ -1172,10 +1160,7 @@ export const smokeSteps = (page) => {
                 await generalStep.clickOnButtonByText(generalPage.getStartedNotarizingTxt)
                 await generalStep.verifyWithTextScreenIsVisible(generalPage.advanceCareDirectiveTxt);
                 await generalStep.verifyWithTextScreenIsVisible(generalPage.powerOfAttorneyTxt);
-                // await generalStep.clickRadioButtonByText(generalPage.wouldLiktoPurchase5Each);
-                // await generalStep.verifyWithTextContainsIsVisible(generalPage.twoProfessionalWitnessesTxt)
                 await generalStep.verifyWithTextScreenIsVisible(generalPage.estatePlanDocumenTxt);
-                // await generalStep.verifyWithTextContainsIsVisible(generalPage.notaryWitnessesTxt);
                 await generalStep.enterPaymentCardDetails()
                 await generalStep.verifyConfirmAndPayButtonIsEnabled();
                 await generalStep.clickOnButtonByText(generalPage.confirmAndPayBtnTxt);
@@ -1220,7 +1205,7 @@ export const smokeSteps = (page) => {
                 await generalStep.verifyWithTextContainsIsVisible(generalPage.paymentSuccessDeedTransferTxt);
                 await generalStep.verifyWithTextScreenIsVisible(generalPage.deedTransferConfirmedTxt)
                 await generalStep.clickSidBarAnchor(generalPage.deedTranserTxt);
-                await generalStep.verifyWithTextScreenIsVisibleByIndex(generalPage.preparingDeedCapTxt, 1);
+                await generalStep.verifyWithTextScreenIsVisibleByIndex(generalPage.pendingSubmissionTxt, 1);
 
             });
         },

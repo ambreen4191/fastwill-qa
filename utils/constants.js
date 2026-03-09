@@ -27,6 +27,19 @@ export const constants = {
         country: "United States",
         propertyPrice: "200000"
     },
+    propertySpouseData: {
+        firstName: "Oliver",
+        lastName: "Johnson",
+        email: "oliver.johnson@gmail.com",
+        phone: "+13475551234",
+        addressLine1: "1111 Brickell Avenue",
+        addressLine2: "Apt 7B",
+        city: "Miami",
+        state: "Florida",
+        zipCode: "33131",
+        country: "United States",
+        propertyPrice: "200000"
+    },
     primaryBellaPetGuardianData: {
         firstName: "Ethan",
         lastName: "Marshall",
