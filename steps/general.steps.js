@@ -623,7 +623,7 @@ export const generalSteps = (page) => {
         async verifyByXpathIsNotVisible(xpath) {
             await allure.step(`Verify '${xpath}' screen is not visible`, async () => {
                 await page.waitForLoadState("load");
-                const locator = page.locator(xpath);
+                const locator = page.locator(xpath).first();
                 await expect(locator).not.toBeVisible();
             });
         },

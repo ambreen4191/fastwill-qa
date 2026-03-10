@@ -18,14 +18,30 @@ export const constants = {
         firstName: "Oliver",
         lastName: "Bennett",
         email: "oliver.bennett@gmail.com",
+        invalidEmail: "oliver.bennettgmail.com",
         phone: "+13475551234",
         addressLine1: "1111 Brickell Avenue",
         addressLine2: "Apt 7A",
         city: "Miami",
         state: "Florida",
         zipCode: "33131",
+        invalidZipcode: "FA233",
         country: "United States",
         propertyPrice: "200000"
+    },
+    conservatorData: {
+        firstName: "Alexander",
+        lastName: "Montgomery",
+        email: "alexander.montgomery@gmail.com",
+        invalidEmail: "alexander.montgomery@.com",
+        phone: "+14085551267",
+        addressLine1: "910 Market Street",
+        addressLine2: "Suite 450",
+        city: "San Jose",
+        state: "California",
+        zipCode: "95113",
+        invalidZipcode: "CA9X1",
+        country: "United States"
     },
     propertySpouseData: {
         firstName: "Oliver",
@@ -272,12 +288,14 @@ export const constants = {
         firstName: "Sophia",
         lastName: "Williams",
         email: "sophia.williams@gmail.com",
+        invalidEmail: "sophia.williamsgmail.com",
         phone: "+16465559876",
         addressLine1: "42 East 29th Street",
         addressLine2: "Floor 3",
         city: "Alaska",
         state: "Alaska",
         zipCode: "10016",
+        invalidZipcode: "32A2A",
         country: "United States"
     },
     spouseBackupPetGuardianData: {
@@ -356,6 +374,16 @@ export const constants = {
         invalidEmail: "nathaniel.parker87@.com",
         invalidPhone: "12345",
         invalidZipcode: "ABCDE",
+    },
+    dateOfBirth: {
+        day: "1",
+        month: "03",
+        year: "2003"
+    },
+    spouseDateOfBirth: {
+        day: "21",
+        month: "03",
+        year: "2000"
     },
     phone: "+12398765332",
     silverOakTrust: "Silver Oak Living Trust",
@@ -436,6 +464,7 @@ export const constants = {
     backupRuleTxt: "If the primary guardian is unable to take responsibility, the children should be cared for by a trusted family member or close friend. This person should ensure the children’s safety, continue their education and routines, and act in their best interests until a permanent arrangement is made.",
     thomasEdison: "Thomas Edison",
     thomasEmail: "thomas.edison123@gmail.com",
+    thomasInvalidEmail: "thomas.edison123@.com",
     thomasMobile: "+1233322222",
     assetsTxt: "Assets",
     whatStatYouLivedTxt: "what state do you live in?",

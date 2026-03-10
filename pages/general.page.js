@@ -149,6 +149,7 @@ export const generalPage = {
     doYouHavePetTxt: "Do you have any pets?",
     doYouWantChoosePetGuardianTxt: "Do you want to choose guardians for any of your pets?",
     listOfPetsDescTxt: "Okay, let's list each of your pets you'd like to nominate guardians for:",
+    catTxt: "Cat",
     petGuardianAssignmentTxt: "Who would you like to look after ",
     setAsideMoenyToCaringPersonHelp: "Would you like to set aside some money to help the person caring for your pets?",
     currentAddressPropTxt: "Is your current address one of your properties?",
@@ -524,11 +525,17 @@ export const generalPage = {
     powerOfAttorneyError: "Please provide an event or date for terminating the Power of Attorney.",
     atLeast1DistributorError: "Please add at least one person for distribution.",
     residuaryRequiredError: "The residuary distribution field is required.",
+    invalidSpouseEmailError: "The spouse.email field must be a valid email address.",
+    thisfieldRequiredError: "This field is required.",
+    enterSpouseDOBError: "Please enter your spouse's date of birth.",
     backupResiduaryDistributedError: "Either backup residuary descendents name or backup residuary descendents must be filled.",
     passwordFiledConfirmNotMatchError: "The password field confirmation does not match.",
     parentRatioBtnTxt: (name) => `${name.includes(" ")
         ? name.split(" ")[0]
         : name} and Me`,
+    doYouAndSpouseHaveChildTxt:(name) => `Do you and ${name.includes(" ")
+        ? name.split(" ")[0]
+        : name} have children?`,
     youReferralInviteSentToEmailTxt: (email) => `Your referral invitation has been sent to ${email}.`,
 
     /** ids path */
@@ -580,6 +587,7 @@ export const generalPage = {
     addPropertyBtnXpath: "//div[div[h2[normalize-space()='Add a property' ]]]//button[normalize-space()='Add Property']",
     textAreaXpath: 'xpath=following-sibling::textarea',
     sendInvitepopupXpath: "//button[normalize-space()='Send Invite']",
+    showDatePickerXpath: "//div[.//button[contains(@id,'datepicker')]]/img",
     sendInviteBtnXpath: "//h2[normalize-space()='Contact Information']/following-sibling::div[2]/button",
     totalAmountForCreateAccountXpath: "//div[div[p[normalize-space()='Total']]]//p[contains(normalize-space(), '$')]",
     distrubutorPoupCancelBtnXpath: "//div[button[normalize-space()='Save']]/button[normalize-space()='Cancel']",

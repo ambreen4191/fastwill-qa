@@ -533,5 +533,25 @@ describe('Regression Tests', () => {
         await generalStep.clickOnButtonByText(generalPage.viewDashBoardTxt);
 
     });
+    test('TC_029 - Couple Trust Flow Questionnaire – Basic Section End-to-End (Positive) – Verify that user can successfully complete the full Couple Flow Basic Section with valid data, including address, birthdays, spouse info, children flow, guardian/conservator flow, trust flow, trustee flow, successor trustee flow, pets flow, and complete the questionnaire without any validation or navigation issue.', async ({ page }) => {
+        const email = getRandomEmail();
+        const generalStep = generalSteps(page);
+        const smokeStep = smokeSteps(page);
+        const regressionStep = regressionSteps(page);
+
+        await smokeStep.signupCoupleTrustUsers(constants, email, constants.marriedStatus);
+        await regressionStep.coupleTrustUserBasicAddressToConservatorSetup(constants);
+
+    });
+    test('TC_030 - Couple Trust Flow Questionnaire – Basic Section End-to-End (Negative) Flow – Verify that the system does not allow the user to complete the Couple Flow Basic Section when invalid, incomplete, or restricted data is entered across address, DOB, spouse info, child guardian, conservator, trust name, successor trustee, pet guardian, and pet reward amount screens.', async ({ page }) => {
+        const email = getRandomEmail();
+        const generalStep = generalSteps(page);
+        const smokeStep = smokeSteps(page);
+        const regressionStep = regressionSteps(page);
+
+        await smokeStep.signupCoupleTrustUsers(constants, email, constants.marriedStatus);
+        await regressionStep.coupleTrustUserNegativeBasicAddressToConservatorSetup(constants);
+
+    });
 
 });
