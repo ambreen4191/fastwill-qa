@@ -487,14 +487,6 @@ export const regressionSteps = (page) => {
                 await generalStep.clickYesRadioButton();
                 await generalStep.fillInputByLabel(generalPage.howMuchForBondTxt, constants.hundredThousand);
                 await generalStep.clickOnContinueButton();
-                // await generalStep.verifyWithHeadingScreenIsVisible(generalPage.wantToMonitorTxt)
-                // await generalStep.clickYesRadioButton();
-                // await generalStep.verifyWithHeadingScreenIsVisible(generalPage.whoWouldLikeNameasMonitorTxt)
-                // await generalStep.clickOnButtonByText(generalPage.selectContactTxt)
-                // await generalStep.clickGuardianToAssignToChildByIndex(`${constants.primaryPetGuardianData.firstName} ${constants.primaryPetGuardianData.lastName}`, constants.guardianType);
-                // await generalStep.verifyButtonIsEnabled(generalPage.confirmTxt);
-                // await generalStep.clickOnButtonByText(generalPage.confirmTxt);
-                // await generalStep.clickOnContinueButton();
                 await generalStep.verifyWithHeadingScreenIsVisible(generalPage.wantNameConservatorEstateTxt);
                 await generalStep.clickYesRadioButton();
                 await generalStep.clickOnButtonByText(generalPage.selectContactTxt);
