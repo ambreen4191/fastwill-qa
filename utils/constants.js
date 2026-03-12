@@ -420,6 +420,7 @@ export const constants = {
     twentySeven: "27",
     fourtyNine: "49",
     twentyNine: "29",
+    eighty: "80",
     city: "New York",
     zipcode: "10001",
     enterCountery: "United",

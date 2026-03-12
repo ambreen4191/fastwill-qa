@@ -371,7 +371,7 @@ describe('Regression Tests', () => {
         await regressionStep.individualTrustUserNegativeBasicAddressToConservatorSetup(constants);
         await smokeStep.individualTrustUserAssetSetup(constants);
         await regressionStep.individualTrustUserArrangmentSetup(constants);
-        await regressionStep.individualTrustUserHealthCareSetup(constants)
+        await regressionStep.individualTrustUserHealthCareSetup(constants);
 
     });
     test('TC_016 - Healthcare Negative Flow – Verify system prevents user from progressing in Healthcare section when required inputs are missing, invalid, or incomplete', async ({ page }) => {
@@ -383,7 +383,7 @@ describe('Regression Tests', () => {
         await regressionStep.individualTrustUserNegativeBasicAddressToConservatorSetup(constants);
         await smokeStep.individualTrustUserAssetSetup(constants);
         await regressionStep.individualTrustUserArrangmentSetup(constants);
-        await regressionStep.individualTrustNegativeUserHealthCareSetup(constants)
+        await regressionStep.individualTrustNegativeUserHealthCareSetup(constants);
 
     });
     test('TC_017 - Financial Care – End to End (Positive) – Verify user can complete Financial Care section successfully (covers valid YES and NO scenarios/branches)', async ({ page }) => {
@@ -551,6 +551,85 @@ describe('Regression Tests', () => {
 
         await smokeStep.signupCoupleTrustUsers(constants, email, constants.marriedStatus);
         await regressionStep.coupleTrustUserNegativeBasicAddressToConservatorSetup(constants);
+
+    });
+    test('TC_031 - Couple Trust Creation – Assets Section (Positive + Negative) Flow – Ensure user can successfully complete entire Assets flow from Intro screen to Backup Residuary with all conditional scenarios (YES/NO), validations, Add/Edit/Delete, distribution types', async ({ page }) => {
+        const email = getRandomEmail();
+        const generalStep = generalSteps(page);
+        const smokeStep = smokeSteps(page);
+        const regressionStep = regressionSteps(page);
+
+
+        await smokeStep.signupCoupleTrustUsers(constants, email, constants.marriedStatus);
+        await regressionStep.coupleTrustUserBasicAddressToConservatorSetup(constants);
+        await regressionStep.coupleTrustUserAssetSetup(constants);
+
+    });
+    test('TC_032 - Couple Trust Creation – Arrangements Section (Positive) Flow – Verify complete Arrangements section end-to-end including Conservator contact modal actions (Create, Select, Edit, Delete, See More) and all conditional flows', async ({ page }) => {
+        const email = getRandomEmail();
+        const generalStep = generalSteps(page);
+        const smokeStep = smokeSteps(page);
+        const regressionStep = regressionSteps(page);
+
+        await smokeStep.signupCoupleTrustUsers(constants, email, constants.marriedStatus);
+        await regressionStep.coupleTrustUserBasicAddressToConservatorSetup(constants);
+        await regressionStep.coupleTrustUserAssetSetup(constants);
+        await regressionStep.coupleTrustUserArrangmentSetup(constants);
+
+    });
+    test('TC_033 - Couple Trust Creation – Arrangements Section (Negative) Flow – Verify Arrangement section validation behavior, disabled states, contact modal validations, and conditional dependency handling', async ({ page }) => {
+        const email = getRandomEmail();
+        const generalStep = generalSteps(page);
+        const smokeStep = smokeSteps(page);
+        const regressionStep = regressionSteps(page);
+
+        await smokeStep.signupCoupleTrustUsers(constants, email, constants.marriedStatus);
+        await regressionStep.coupleTrustUserNegativeBasicAddressToConservatorSetup(constants);
+        await regressionStep.coupleTrustUserAssetSetup(constants, generalPage.selectSpouseOrAddPersonError);
+        await regressionStep.coupleTrustNegativeUserArrangmentSetup(constants);
+
+    });
+    test('TC_034 - Couple Trust Creation – Healthcare Complete (Positive) Flow – Verify user can complete full Healthcare section including primary agent, backup agent, instructions, permissions, limits, organ donation, authorization, expiration, branching logic, validations, and navigation', async ({ page }) => {
+        const email = getRandomEmail();
+        const generalStep = generalSteps(page);
+        const smokeStep = smokeSteps(page);
+        const regressionStep = regressionSteps(page);
+
+        await smokeStep.signupCoupleTrustUsers(constants, email, constants.marriedStatus);
+        await regressionStep.coupleTrustUserBasicAddressToConservatorSetup(constants);
+        await regressionStep.coupleTrustUserAssetSetup(constants);
+        await regressionStep.coupleTrustUserArrangmentSetup(constants);
+        await regressionStep.coupleTrustUserHealthCareSetup(constants);
+
+    });
+    test('TC_035 - Couple Trust Creation – Healthcare Section (Negative) Flow – Verify system prevents user from progressing in Healthcare section when required inputs are missing, invalid, or incomplete', async ({ page }) => {
+        const email = getRandomEmail();
+        const generalStep = generalSteps(page);
+        const smokeStep = smokeSteps(page);
+        const regressionStep = regressionSteps(page);
+
+        await smokeStep.signupCoupleTrustUsers(constants, email, constants.marriedStatus);
+        await regressionStep.coupleTrustUserNegativeBasicAddressToConservatorSetup(constants);
+        await regressionStep.coupleTrustUserAssetSetup(constants, generalPage.selectSpouseOrAddPersonError);
+        await regressionStep.coupleTrustNegativeUserArrangmentSetup(constants);
+        await regressionStep.coupleTrustNegativeUserHealthCareSetup(constants);
+
+    });
+    test('TC_036 - Couple Trust Creation – Financial Care – End to End (Positive) Flow – Verify user can complete Financial Care section successfully (covers valid YES and NO scenarios/branches)', async ({ page }) => {
+        const email = getRandomEmail();
+        const generalStep = generalSteps(page);
+        const smokeStep = smokeSteps(page);
+        const regressionStep = regressionSteps(page);
+
+        await smokeStep.signupCoupleTrustUsers(constants, email, constants.marriedStatus);
+        await regressionStep.coupleTrustUserBasicAddressToConservatorSetup(constants);
+        await regressionStep.coupleTrustUserAssetSetup(constants);
+        await regressionStep.coupleTrustUserArrangmentSetup(constants);
+        await regressionStep.coupleTrustUserHealthCareSetup(constants);
+        await regressionStep.coupleTrustUserFinanceCareSectionSetup(constants);
+        await generalStep.clickOnContinueButton();
+        await generalStep.verifyWithHeadingScreenIsVisible(constants.headingFirstNameTxt);
+        await generalStep.clickOnContinueButton();
 
     });
 
