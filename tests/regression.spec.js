@@ -632,5 +632,19 @@ describe('Regression Tests', () => {
         await generalStep.clickOnContinueButton();
 
     });
+    test('TC_037 - Couple Trust Creation – Financial Care – End to End (Negative) Flow – Verify validations, required selections, and NO-branch sequencing work correctly', async ({ page }) => {
+        const email = getRandomEmail();
+        const generalStep = generalSteps(page);
+        const smokeStep = smokeSteps(page);
+        const regressionStep = regressionSteps(page);
+
+        await smokeStep.signupCoupleTrustUsers(constants, email, constants.marriedStatus);
+        await regressionStep.coupleTrustUserNegativeBasicAddressToConservatorSetup(constants);
+        await regressionStep.coupleTrustUserAssetSetup(constants, generalPage.selectSpouseOrAddPersonError);
+        await regressionStep.coupleTrustNegativeUserArrangmentSetup(constants);
+        await regressionStep.coupleTrustNegativeUserHealthCareSetup(constants);
+        await regressionStep.coupleTrustUserNegativeFinanceCareSectionSetup(constants);
+
+    });
 
 });
