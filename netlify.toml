@@ -1,0 +1,6 @@
+[build]
+  publish = "allure-report"
+
+[build.environment]
+  NODE_VERSION = "22"
+

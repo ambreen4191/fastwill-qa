@@ -1,22 +1,24 @@
 {
-  "name": "fastwill-qa",
+  "name": "playwright-bootstrap",
+  "version": "1.0.0",
+  "private": true,
+  "description": "A production-minded Playwright test automation starter.",
   "scripts": {
-    "test": "playwright test --headed",
-    "test:headless": "playwright test",
-    "test:regression": "playwright test regression.spec.js --headed",
-    "test:smoke": "playwright test smoke.spec.js --headed",
-    "test:headed": "playwright test --headed",
+    "test": "playwright test",
     "test:ui": "playwright test --ui",
-    "allure:generate": "allure generate allure-results --clean -o allure-report",
-    "allure:open": "allure open allure-report",
-    "report:deploy": "npm run allure:generate && netlify deploy --prod"
+    "test:headed": "playwright test --headed",
+    "test:debug": "playwright test --debug",
+    "test:smoke": "playwright test --grep @smoke",
+    "report:playwright": "playwright show-report",
+    "report:allure": "allure generate allure-results --clean -o allure-report && allure open allure-report",
+    "report:allure:generate": "allure generate allure-results --clean -o allure-report",
+    "deploy": "npm run report:allure:generate && netlify deploy --prod --no-build --dir=allure-report"
   },
   "devDependencies": {
     "@playwright/test": "^1.57.0",
-    "allure-commandline": "^2.36.0",
-    "allure-playwright": "^3.4.4"
-  },
-  "dependencies": {
-    "gmail-tester": "^1.4.0"
+    "allure-commandline": "^2.35.1",
+    "allure-playwright": "^3.4.1",
+    "dotenv": "^17.2.3",
+    "netlify-cli": "^23.11.1"
   }
 }
