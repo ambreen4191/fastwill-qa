@@ -21,6 +21,15 @@ class HomePage extends BasePage {
   async startPlan() {
     await this.click(this.locators.startTodayButton);
   }
+
+  async openPageAndStartPlan(path) {
+    await this.open(path);
+    await this.startPlan();
+  }
+
+  async clickLogo() {
+    await this.click(this.locators.logoLink);
+  }
 }
 
 module.exports = { HomePage };

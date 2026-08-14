@@ -2,7 +2,7 @@ const { allure } = require('allure-playwright');
 const { expect, test } = require('../fixtures/test');
 
 test.describe('Authentication', () => {
-  test('login screen exposes the expected account entry points @smoke', async ({ loginPage }) => {
+  test('T012 - Login screen exposes the expected account entry points', async ({ loginPage }) => {
     await allure.step('Open the login page', async () => {
       await loginPage.open();
     });
@@ -19,7 +19,7 @@ test.describe('Authentication', () => {
     });
   });
 
-  test('login form blocks empty credentials @smoke', async ({ loginPage }) => {
+  test('T013 - Login form blocks empty credentials', async ({ loginPage }) => {
     await allure.step('Open the login page', async () => {
       await loginPage.open();
     });
@@ -34,7 +34,7 @@ test.describe('Authentication', () => {
     });
   });
 
-  test('login form blocks invalid email address @smoke', async ({ loginPage }) => {
+  test('T014 - Login form blocks invalid email address', async ({ loginPage }) => {
     await allure.step('Open the login page', async () => {
       await loginPage.open();
     });

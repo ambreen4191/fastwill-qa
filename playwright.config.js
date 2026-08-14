@@ -3,10 +3,13 @@ const { defineConfig, devices } = require('@playwright/test');
 
 module.exports = defineConfig({
   testDir: './tests/specs',
-  fullyParallel: true,
+  fullyParallel: false,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 0,
   workers: process.env.CI ? 1 : undefined,
+  expect: {
+    timeout: 15_000,
+  },
   reporter: [['html', { open: 'never' }], ['allure-playwright', { resultsDir: 'allure-results', detail: true, suiteTitle: false }]],
   use: {
     baseURL: process.env.BASE_URL || 'https://staging.fastwill.com',
