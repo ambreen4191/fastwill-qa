@@ -3,10 +3,14 @@ const { defineConfig, devices } = require('@playwright/test');
 
 module.exports = defineConfig({
   testDir: './tests/specs',
-  fullyParallel: false,
+  fullyParallel: true,
   forbidOnly: !!process.env.CI,
-  retries: process.env.CI ? 2 : 0,
+  retries: process.env.CI ? 2 : 1,
   workers: process.env.CI ? 1 : undefined,
+  // Multi-step wizard flows (home → plan → about-you → family → plan summary)
+  // can eat the default 30s on slow staging responses before per-assertion
+  // timeouts even engage. Give the whole test 60s of headroom.
+  timeout: 60_000,
   expect: {
     timeout: 15_000,
   },

@@ -12,7 +12,7 @@
     "report:playwright": "playwright show-report",
     "report:allure": "allure generate allure-results --clean -o allure-report && allure open allure-report",
     "report:allure:generate": "allure generate allure-results --clean -o allure-report",
-    "deploy": "npm run report:allure:generate && netlify deploy --prod --no-build --dir=allure-report"
+    "report:deploy": "npm run report:allure:generate && netlify deploy --prod --no-build --dir=allure-report"
   },
   "devDependencies": {
     "@playwright/test": "^1.57.0",

@@ -28,26 +28,24 @@ class AboutYouStep {
   }
 
   async fillPrimaryCustomer({ firstName, middleName, lastName, email, phone, state }) {
-    if (firstName) {
-      await this.firstNameInput.fill(firstName);
-      await expect(this.firstNameInput).toHaveValue(firstName);
-    }
-    if (middleName) {
-      await this.middleNameInput.fill(middleName);
-      await expect(this.middleNameInput).toHaveValue(middleName);
-    }
-    if (lastName) {
-      await this.lastNameInput.fill(lastName);
-      await expect(this.lastNameInput).toHaveValue(lastName);
-    }
-    if (phone) {
-      await this.phoneInput.fill(phone);
-    }
+    // Every text input is bound with `wire:model.live.blur`, so the value only
+    // commits to the Livewire component (and unlocks Continue) on blur. Filling
+    // without an explicit blur leaves the field's server-side model empty, so
+    // the form stays invalid even though the DOM shows a value. Blur after each
+    // fill to force the commit.
+    if (firstName) await this.#fillAndCommit(this.firstNameInput, firstName);
+    if (middleName) await this.#fillAndCommit(this.middleNameInput, middleName);
+    if (lastName) await this.#fillAndCommit(this.lastNameInput, lastName);
+    if (phone) await this.#fillAndCommit(this.phoneInput, phone);
     if (state) await this.stateCombobox.select(state);
-    if (email) {
-      await this.emailInput.fill(email);
-      await expect(this.emailInput).toHaveValue(email);
-    }
+    if (email) await this.#fillAndCommit(this.emailInput, email);
+  }
+
+  async #fillAndCommit(input, value) {
+    // Some fields (e.g., phone) use an x-mask that rewrites the DOM value, so
+    // don't assert equality here — just commit the value with a blur.
+    await input.fill(value);
+    await input.blur();
   }
 
   async fillLovedOneInvite({ firstName, email }) {

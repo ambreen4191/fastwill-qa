@@ -1,6 +1,7 @@
 const { BasePage } = require('../BasePage');
 const { AboutYouStep } = require('./steps/AboutYouStep');
 const { FamilyStep } = require('./steps/FamilyStep');
+const { PlanSummaryStep } = require('./steps/PlanSummaryStep');
 const { PlanSelectionStep } = require('./steps/PlanSelectionStep');
 
 class WillCreationWizard extends BasePage {
@@ -9,6 +10,8 @@ class WillCreationWizard extends BasePage {
     this.planSelection = new PlanSelectionStep(page);
     this.aboutYou = new AboutYouStep(page);
     this.family = new FamilyStep(page);
+    this.planSummary = new PlanSummaryStep(page);
+    this.acceptCookiesButton = page.getByRole('button', { name: 'Accept Cookies' });
   }
 
   async open() {
@@ -17,7 +20,9 @@ class WillCreationWizard extends BasePage {
 
   async openFromHome(homePage, path = '/') {
     await homePage.open(path);
+    await this.dismissCookieBanner();
     await homePage.startPlan();
+    await this.dismissCookieBanner();
   }
 
   async openAboutYouFromHome(homePage, customerType = 'Individual', packageName = 'Will') {
@@ -26,6 +31,10 @@ class WillCreationWizard extends BasePage {
     // Wait for the About You step to finish loading before interacting with it,
     // otherwise a Continue click can race the Livewire step transition.
     await this.aboutYou.expectLoaded();
+  }
+
+  async dismissCookieBanner() {
+    await this.acceptCookiesButton.click({ timeout: 3_000 }).catch(() => {});
   }
 }
 
