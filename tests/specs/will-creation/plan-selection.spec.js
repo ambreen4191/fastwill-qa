@@ -128,4 +128,28 @@ test.describe('Will creation - Plan Selection', () => {
       await willCreationWizard.planSelection.expectWillPackageDetails();
     });
   });
+
+  test('T023 - Switching package on Plan Selection updates the displayed package details', async ({ homePage, willCreationWizard }) => {
+    // Selecting Will vs Trust swaps the summary card in place (heading and
+    // price). This verifies the plan card is bound to the selected package,
+    // not statically rendered.
+    await allure.step('Open the plan selection step', async () => {
+      await willCreationWizard.openFromHome(homePage);
+      await willCreationWizard.planSelection.expectLoaded();
+    });
+
+    await allure.step('Select the Will package and confirm Will details are shown', async () => {
+      await willCreationWizard.planSelection.choosePackage('Will');
+      await willCreationWizard.planSelection.expectPackageSelected('Will');
+      await expect(willCreationWizard.planSelection.willPackageHeading).toBeVisible();
+      await expect(willCreationWizard.planSelection.trustPackageHeading).not.toBeVisible();
+    });
+
+    await allure.step('Switch to the Trust package and confirm Trust details replace the Will card', async () => {
+      await willCreationWizard.planSelection.choosePackage('Trust');
+      await willCreationWizard.planSelection.expectPackageSelected('Trust');
+      await expect(willCreationWizard.planSelection.trustPackageHeading).toBeVisible();
+      await expect(willCreationWizard.planSelection.willPackageHeading).not.toBeVisible();
+    });
+  });
 });

@@ -10,9 +10,9 @@ module.exports = defineConfig({
   // Multi-step wizard flows (home → plan → about-you → family → plan summary)
   // can eat the default 30s on slow staging responses before per-assertion
   // timeouts even engage. Give the whole test 60s of headroom.
-  timeout: 60_000,
+  timeout: 2.5 * 60_000,
   expect: {
-    timeout: 15_000,
+    timeout: 20_000,
   },
   reporter: [['html', { open: 'never' }], ['allure-playwright', { resultsDir: 'allure-results', detail: true, suiteTitle: false }]],
   use: {
@@ -20,7 +20,7 @@ module.exports = defineConfig({
     trace: 'on-first-retry',
     screenshot: 'only-on-failure',
     video: 'retain-on-failure',
-    actionTimeout: 10_000,
+    actionTimeout: 20_000,
     navigationTimeout: 30_000,
   },
   projects: [

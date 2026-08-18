@@ -4,11 +4,22 @@ class StateCombobox {
     this.input = page.locator('input[name=state]');
     this.option = (state) =>
       page.locator('[data-testid^="state-option-"]').filter({ hasText: state });
+    this.noResults = page.getByText('No state found');
     this.acceptCookiesButton = page.getByRole('button', { name: 'Accept Cookies' });
   }
 
   async search(stateSearchText) {
+    await this.input.click();
     await this.input.fill(stateSearchText);
+  }
+
+  async selectViaKeyboard(state) {
+    // Open the dropdown, filter to the target, then use ArrowDown + Enter to
+    // pick the highlighted option instead of clicking it.
+    await this.search(state);
+    await this.dismissCookieBanner();
+    await this.input.press('ArrowDown');
+    await this.input.press('Enter');
   }
 
   async dismissCookieBanner() {

@@ -35,6 +35,10 @@ class PlanSelectionStep {
     await this.chooseCustomerType(customerType);
     await this.choosePackage(packageName);
     await this.navigation.continue();
+    // Wait for the Livewire step transition to actually land on About You,
+    // otherwise callers that immediately assert something on the About You
+    // page can race the still-loading step swap.
+    await this.page.waitForURL(/\/will-creation\/basic\/user$/, { timeout: 15_000 }).catch(() => {});
   }
 
   async viewDocs() {

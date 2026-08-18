@@ -11,7 +11,7 @@ async function openFamilyFromHome(homePage, willCreationWizard, customerType = '
 }
 
 test.describe('Will creation - Your Family', () => {
-  test('T035 - Family page loads after valid About You details', async ({ homePage, willCreationWizard, page }) => {
+  test('T040 - Family page loads after valid About You details', async ({ homePage, willCreationWizard, page }) => {
     await allure.step('Open the Family page after valid About You details', async () => {
       await openFamilyFromHome(homePage, willCreationWizard, 'Individual', 'Will');
     });
@@ -22,7 +22,7 @@ test.describe('Will creation - Your Family', () => {
     });
   });
 
-  test('T036 - Individual flow shows all marital status options', async ({ homePage, willCreationWizard }) => {
+  test('T041 - Individual flow shows all marital status options', async ({ homePage, willCreationWizard }) => {
     await allure.step('Open the Family page for an Individual Will', async () => {
       await openFamilyFromHome(homePage, willCreationWizard, 'Individual', 'Will');
     });
@@ -32,7 +32,7 @@ test.describe('Will creation - Your Family', () => {
     });
   });
 
-  test('T037 - Couple flow shows only Married and Civil Union marital options', async ({ homePage, willCreationWizard }) => {
+  test('T042 - Couple flow shows only Married and Civil Union marital options', async ({ homePage, willCreationWizard }) => {
     await allure.step('Open the Family page for a Couple Will', async () => {
       await openFamilyFromHome(homePage, willCreationWizard, 'Couple', 'Will');
     });
@@ -42,7 +42,7 @@ test.describe('Will creation - Your Family', () => {
     });
   });
 
-  test('T038 - Family page requires marital status', async ({ homePage, willCreationWizard, page }) => {
+  test('T043 - Family page requires marital status', async ({ homePage, willCreationWizard, page }) => {
     await allure.step('Open the Family page', async () => {
       await openFamilyFromHome(homePage, willCreationWizard, 'Individual', 'Will');
     });
@@ -59,7 +59,7 @@ test.describe('Will creation - Your Family', () => {
     });
   });
 
-  test('T039 - Family page requires dependents selection', async ({ homePage, willCreationWizard, page }) => {
+  test('T044 - Family page requires dependents selection', async ({ homePage, willCreationWizard, page }) => {
     await allure.step('Open the Family page', async () => {
       await openFamilyFromHome(homePage, willCreationWizard, 'Individual', 'Will');
     });
@@ -76,7 +76,7 @@ test.describe('Will creation - Your Family', () => {
     });
   });
 
-  test('T040 - Family page requires at least one inheritance choice', async ({ homePage, willCreationWizard, page }) => {
+  test('T045 - Family page requires at least one inheritance choice', async ({ homePage, willCreationWizard, page }) => {
     await allure.step('Open the Family page', async () => {
       await openFamilyFromHome(homePage, willCreationWizard, 'Individual', 'Will');
     });
@@ -93,7 +93,7 @@ test.describe('Will creation - Your Family', () => {
     });
   });
 
-  test('T041 - Customer can select Single marital status', async ({ homePage, willCreationWizard }) => {
+  test('T046 - Customer can select Single marital status', async ({ homePage, willCreationWizard }) => {
     await allure.step('Open the Family page', async () => {
       await openFamilyFromHome(homePage, willCreationWizard, 'Individual', 'Will');
     });
@@ -107,7 +107,7 @@ test.describe('Will creation - Your Family', () => {
     });
   });
 
-  test('T042 - Customer can select Yes for dependents', async ({ homePage, willCreationWizard }) => {
+  test('T047 - Customer can select Yes for dependents', async ({ homePage, willCreationWizard }) => {
     await allure.step('Open the Family page', async () => {
       await openFamilyFromHome(homePage, willCreationWizard, 'Individual', 'Will');
     });
@@ -121,7 +121,7 @@ test.describe('Will creation - Your Family', () => {
     });
   });
 
-  test('T043 - Customer can select No for dependents', async ({ homePage, willCreationWizard }) => {
+  test('T048 - Customer can select No for dependents', async ({ homePage, willCreationWizard }) => {
     await allure.step('Open the Family page', async () => {
       await openFamilyFromHome(homePage, willCreationWizard, 'Individual', 'Will');
     });
@@ -135,7 +135,7 @@ test.describe('Will creation - Your Family', () => {
     });
   });
 
-  test('T044 - Customer can select Children as inheritance choice', async ({ homePage, willCreationWizard }) => {
+  test('T049 - Customer can select Children as inheritance choice', async ({ homePage, willCreationWizard }) => {
     await allure.step('Open the Family page', async () => {
       await openFamilyFromHome(homePage, willCreationWizard, 'Individual', 'Will');
     });
@@ -149,7 +149,7 @@ test.describe('Will creation - Your Family', () => {
     });
   });
 
-  test('T045 - Customer can select multiple inheritance choices', async ({ homePage, willCreationWizard }) => {
+  test('T050 - Customer can select multiple inheritance choices', async ({ homePage, willCreationWizard }) => {
     await allure.step('Open the Family page', async () => {
       await openFamilyFromHome(homePage, willCreationWizard, 'Individual', 'Will');
     });
@@ -165,7 +165,7 @@ test.describe('Will creation - Your Family', () => {
     });
   });
 
-  test('T046 - Couple flow includes Spouse inheritance option', async ({ homePage, willCreationWizard }) => {
+  test('T051 - Couple flow includes Spouse inheritance option', async ({ homePage, willCreationWizard }) => {
     await allure.step('Open the Family page for a Couple Will', async () => {
       await openFamilyFromHome(homePage, willCreationWizard, 'Couple', 'Will');
     });
@@ -175,7 +175,7 @@ test.describe('Will creation - Your Family', () => {
     });
   });
 
-  test('T047 - Individual flow does not show Spouse inheritance option', async ({ homePage, willCreationWizard }) => {
+  test('T052 - Individual flow does not show Spouse inheritance option', async ({ homePage, willCreationWizard }) => {
     await allure.step('Open the Family page for an Individual Will', async () => {
       await openFamilyFromHome(homePage, willCreationWizard, 'Individual', 'Will');
     });
@@ -185,7 +185,7 @@ test.describe('Will creation - Your Family', () => {
     });
   });
 
-  test('T048 - Back button returns customer to About You step', async ({ homePage, willCreationWizard, page }) => {
+  test('T053 - Back button returns customer to About You step', async ({ homePage, willCreationWizard, page }) => {
     await allure.step('Open the Family page', async () => {
       await openFamilyFromHome(homePage, willCreationWizard, 'Individual', 'Will');
     });
@@ -200,7 +200,7 @@ test.describe('Will creation - Your Family', () => {
     });
   });
 
-  test('T049 - Valid family details continue to Plan Summary', async ({ homePage, willCreationWizard, page }) => {
+  test('T054 - Valid family details continue to Plan Summary', async ({ homePage, willCreationWizard, page }) => {
     await allure.step('Open the Family page', async () => {
       await openFamilyFromHome(homePage, willCreationWizard, 'Individual', 'Will');
     });
@@ -217,6 +217,45 @@ test.describe('Will creation - Your Family', () => {
     await allure.step('Confirm the customer moves to Plan Summary', async () => {
       await expect(page).toHaveURL(/\/will-creation\/basic\/cart$/);
       await willCreationWizard.planSummary.expectLoaded();
+    });
+  });
+
+  test('T055 - Marital status is single-select — selecting a new option deselects the previous one', async ({ homePage, willCreationWizard }) => {
+    await allure.step('Open the Family page', async () => {
+      await openFamilyFromHome(homePage, willCreationWizard, 'Individual', 'Will');
+    });
+
+    await allure.step('Select Single then switch to Married', async () => {
+      await willCreationWizard.family.chooseMaritalStatus('Single');
+      await willCreationWizard.family.expectButtonSelected(willCreationWizard.family.singleButton);
+      await willCreationWizard.family.chooseMaritalStatus('Married');
+    });
+
+    await allure.step('Confirm only Married is selected and Single is deselected', async () => {
+      await willCreationWizard.family.expectButtonSelected(willCreationWizard.family.marriedButton);
+      await expect(willCreationWizard.family.singleButton).not.toHaveAttribute('aria-pressed', 'true');
+    });
+  });
+
+  test('T056 - Inheritance choices are multi-select and each can be toggled off', async ({ homePage, willCreationWizard }) => {
+    await allure.step('Open the Family page', async () => {
+      await openFamilyFromHome(homePage, willCreationWizard, 'Individual', 'Will');
+    });
+
+    await allure.step('Select Children and Charity as inheritance choices', async () => {
+      await willCreationWizard.family.chooseInheritanceChoice('Children');
+      await willCreationWizard.family.chooseInheritanceChoice('Charity');
+      await willCreationWizard.family.expectButtonSelected(willCreationWizard.family.childrenInheritanceButton);
+      await willCreationWizard.family.expectButtonSelected(willCreationWizard.family.charityInheritanceButton);
+    });
+
+    await allure.step('Toggle Children off by clicking it again', async () => {
+      await willCreationWizard.family.chooseInheritanceChoice('Children');
+    });
+
+    await allure.step('Confirm Children is no longer selected but Charity still is', async () => {
+      await expect(willCreationWizard.family.childrenInheritanceButton).not.toHaveAttribute('aria-pressed', 'true');
+      await willCreationWizard.family.expectButtonSelected(willCreationWizard.family.charityInheritanceButton);
     });
   });
 });

@@ -20,6 +20,7 @@ class AboutYouStep {
     this.requiredStateMessage = page.getByText('Please select your state.');
     this.invalidEmailMessage = page.getByText('The user.email field must be a valid email address.');
     this.invalidPhoneMessage = page.getByText('The phone number format is invalid. Please enter a valid phone number.');
+    this.alreadyRegisteredMessage = page.getByText('This email address is already registered.');
     // Scope required-field errors to the specific input so a message for one
     // field can't accidentally satisfy an assertion about another.
     this.firstNameError = this.firstNameInput.locator('xpath=..').getByRole('alert');

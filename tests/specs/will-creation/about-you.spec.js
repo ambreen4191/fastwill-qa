@@ -1,9 +1,9 @@
 const { allure } = require('allure-playwright');
 const { expect, test } = require('../../fixtures/test');
-const { primaryCustomer } = require('../../data/users');
+const { primaryCustomer, uniqueEmail } = require('../../data/users');
 
 test.describe('Will creation - About You', () => {
-  test('T023 - About You page requires first name', async ({ homePage, willCreationWizard, page }) => {
+  test('T024 - About You page requires first name', async ({ homePage, willCreationWizard, page }) => {
     await allure.step('Open the About You page', async () => {
       await willCreationWizard.openAboutYouFromHome(homePage, 'Individual', 'Will');
     });
@@ -23,7 +23,7 @@ test.describe('Will creation - About You', () => {
     });
   });
 
-  test('T024 - About You page requires last name', async ({ homePage, willCreationWizard, page }) => {
+  test('T025 - About You page requires last name', async ({ homePage, willCreationWizard, page }) => {
     await allure.step('Open the About You page', async () => {
       await willCreationWizard.openAboutYouFromHome(homePage, 'Individual', 'Will');
     });
@@ -43,7 +43,7 @@ test.describe('Will creation - About You', () => {
     });
   });
 
-  test('T025 - About You page requires email', async ({ homePage, willCreationWizard, page }) => {
+  test('T026 - About You page requires email', async ({ homePage, willCreationWizard, page }) => {
     await allure.step('Open the About You page', async () => {
       await willCreationWizard.openAboutYouFromHome(homePage, 'Individual', 'Will');
     });
@@ -63,7 +63,7 @@ test.describe('Will creation - About You', () => {
     });
   });
 
-  test('T026 - About You page requires state', async ({ homePage, willCreationWizard, page }) => {
+  test('T027 - About You page requires state', async ({ homePage, willCreationWizard, page }) => {
     await allure.step('Open the About You page', async () => {
       await willCreationWizard.openAboutYouFromHome(homePage, 'Individual', 'Will');
     });
@@ -83,7 +83,7 @@ test.describe('Will creation - About You', () => {
     });
   });
 
-  test('T027 - About You page blocks invalid email address', async ({ homePage, willCreationWizard }) => {
+  test('T028 - About You page blocks invalid email address', async ({ homePage, willCreationWizard }) => {
     await allure.step('Open the About You page', async () => {
       await willCreationWizard.openAboutYouFromHome(homePage, 'Individual', 'Will');
     });
@@ -99,7 +99,7 @@ test.describe('Will creation - About You', () => {
     });
   });
 
-  test('T028 - About You page continues to Your Family after valid details', async ({ homePage, willCreationWizard, page }) => {
+  test('T029 - About You page continues to Your Family after valid details', async ({ homePage, willCreationWizard, page }) => {
     await allure.step('Open the About You page', async () => {
       await willCreationWizard.openAboutYouFromHome(homePage, 'Individual', 'Will');
     });
@@ -115,7 +115,7 @@ test.describe('Will creation - About You', () => {
     });
   });
 
-  test('T029 - Back button returns customer to plan selection step', async ({ homePage, willCreationWizard, page }) => {
+  test('T030 - Back button returns customer to plan selection step', async ({ homePage, willCreationWizard, page }) => {
     await allure.step('Open the About You page', async () => {
       await willCreationWizard.openAboutYouFromHome(homePage, 'Individual', 'Will');
     });
@@ -130,7 +130,7 @@ test.describe('Will creation - About You', () => {
     });
   });
 
-  test('T030 - Back button preserves previously selected customer/package choices', async ({ homePage, willCreationWizard }) => {
+  test('T031 - Back button preserves previously selected customer/package choices', async ({ homePage, willCreationWizard }) => {
     await allure.step('Open About You after choosing Couple Trust', async () => {
       await willCreationWizard.openAboutYouFromHome(homePage, 'Couple', 'Trust');
     });
@@ -147,7 +147,7 @@ test.describe('Will creation - About You', () => {
     });
   });
 
-  test('T031 - Middle name is optional and valid details continue successfully', async ({ homePage, willCreationWizard, page }) => {
+  test('T032 - Middle name is optional and valid details continue successfully', async ({ homePage, willCreationWizard, page }) => {
     await allure.step('Open the About You page', async () => {
       await willCreationWizard.openAboutYouFromHome(homePage, 'Individual', 'Will');
     });
@@ -163,7 +163,7 @@ test.describe('Will creation - About You', () => {
     });
   });
 
-  test('T032 - Phone number is optional and valid details continue successfully without phone', async ({ homePage, willCreationWizard, page }) => {
+  test('T033 - Phone number is optional and valid details continue successfully without phone', async ({ homePage, willCreationWizard, page }) => {
     await allure.step('Open the About You page', async () => {
       await willCreationWizard.openAboutYouFromHome(homePage, 'Individual', 'Will');
     });
@@ -179,7 +179,7 @@ test.describe('Will creation - About You', () => {
     });
   });
 
-  test('T033 - Invalid phone number shows phone format validation', async ({ homePage, willCreationWizard, page }) => {
+  test('T034 - Invalid phone number shows phone format validation', async ({ homePage, willCreationWizard, page }) => {
     await allure.step('Open the About You page', async () => {
       await willCreationWizard.openAboutYouFromHome(homePage, 'Individual', 'Will');
     });
@@ -195,7 +195,7 @@ test.describe('Will creation - About You', () => {
     });
   });
 
-  test('T034 - State search filters and selects the intended state', async ({ homePage, willCreationWizard }) => {
+  test('T035 - State search filters and selects the intended state', async ({ homePage, willCreationWizard }) => {
     await allure.step('Open the About You page', async () => {
       await willCreationWizard.openAboutYouFromHome(homePage, 'Individual', 'Will');
     });
@@ -211,6 +211,89 @@ test.describe('Will creation - About You', () => {
 
     await allure.step('Confirm California is selected', async () => {
       await expect(willCreationWizard.aboutYou.stateInput).toHaveValue('California');
+    });
+  });
+
+  test('T036 - About You blocks continuing when the email is already registered', async ({ homePage, willCreationWizard, page }) => {
+    // Uses a fixed email that has been previously registered on staging. The
+    // app should refuse to advance and surface the "already registered" alert.
+    const registeredEmail = 'patricia.miller@example.com';
+
+    await allure.step('Open the About You page', async () => {
+      await willCreationWizard.openAboutYouFromHome(homePage, 'Individual', 'Will');
+    });
+
+    await allure.step('Enter details with a previously registered email', async () => {
+      await willCreationWizard.aboutYou.fillPrimaryCustomer(primaryCustomer({ email: registeredEmail }));
+      await willCreationWizard.aboutYou.continue();
+    });
+
+    await allure.step('Confirm the customer stays on About You with the already-registered alert', async () => {
+      await expect(willCreationWizard.aboutYou.alreadyRegisteredMessage).toBeVisible();
+      await expect(page).toHaveURL(/\/will-creation\/basic\/user$/);
+    });
+  });
+
+  test('T037 - State combobox shows the "No state found" empty state for an unmatched query', async ({ homePage, willCreationWizard }) => {
+    await allure.step('Open the About You page', async () => {
+      await willCreationWizard.openAboutYouFromHome(homePage, 'Individual', 'Will');
+    });
+
+    await allure.step('Search for a value that matches no state', async () => {
+      await willCreationWizard.aboutYou.stateCombobox.search('zzzzzz');
+    });
+
+    await allure.step('Confirm the No state found empty state is shown', async () => {
+      await expect(willCreationWizard.aboutYou.stateCombobox.noResults).toBeVisible();
+    });
+  });
+
+  test('T038 - State combobox closes the search dropdown when Escape is pressed', async ({ homePage, willCreationWizard }) => {
+    // The Alpine combobox only wires a keyboard handler for Escape (no arrow
+    // navigation), so this verifies the one keyboard interaction the app
+    // actually supports: pressing Escape dismisses the open dropdown.
+    await allure.step('Open the About You page', async () => {
+      await willCreationWizard.openAboutYouFromHome(homePage, 'Individual', 'Will');
+    });
+
+    await allure.step('Open the state dropdown by typing a search term', async () => {
+      await willCreationWizard.aboutYou.stateCombobox.search('Cal');
+      await expect(
+        willCreationWizard.aboutYou.stateCombobox.option('California').first()
+      ).toBeVisible();
+    });
+
+    await allure.step('Press Escape and confirm the dropdown closes without selecting a state', async () => {
+      await willCreationWizard.aboutYou.stateInput.press('Escape');
+      await expect(
+        willCreationWizard.aboutYou.stateCombobox.option('California').first()
+      ).not.toBeVisible();
+      await expect(willCreationWizard.aboutYou.stateInput).toHaveValue('');
+    });
+  });
+
+  test('T039 - Back and forward through About You preserves previously entered name and email', async ({ homePage, willCreationWizard }) => {
+    const details = primaryCustomer();
+
+    await allure.step('Open the About You page', async () => {
+      await willCreationWizard.openAboutYouFromHome(homePage, 'Individual', 'Will');
+    });
+
+    await allure.step('Enter valid customer details', async () => {
+      await willCreationWizard.aboutYou.fillPrimaryCustomer(details);
+    });
+
+    await allure.step('Go back to plan selection then return via Continue', async () => {
+      await willCreationWizard.aboutYou.back();
+      await willCreationWizard.planSelection.expectLoaded();
+      await willCreationWizard.planSelection.navigation.continue();
+      await willCreationWizard.aboutYou.expectLoaded();
+    });
+
+    await allure.step('Confirm previously entered name and email are preserved', async () => {
+      await expect(willCreationWizard.aboutYou.firstNameInput).toHaveValue(details.firstName);
+      await expect(willCreationWizard.aboutYou.lastNameInput).toHaveValue(details.lastName);
+      await expect(willCreationWizard.aboutYou.emailInput).toHaveValue(details.email);
     });
   });
 });
